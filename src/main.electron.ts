@@ -23,7 +23,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') { app.quit(); }
 });
 
-
 const installExtensions = async () => {
   if (process.env.NODE_ENV === 'development') {
     // tslint:disable-next-line global-require

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all -pr server:dev watch:main",
+    "start": "rimraf ./dist/* && npm-run-all -pr server:dev watch:main",
     "build": "npm-run-all -pr build:main build:dev",
     "build:main": "cross-env NODE_ENV=development webpack --config ./config/webpack.electron.ts --progress --profile --colors",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./config/webpack.dev.ts --progress --profile --colors",

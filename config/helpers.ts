@@ -20,4 +20,8 @@ export function isWebpackDevServer() {
   return process.argv[1] && !! (/webpack-dev-server/.exec(process.argv[1]));
 }
 
+export function delay(time: number) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
 export let root = path.join.bind(path, ROOT);

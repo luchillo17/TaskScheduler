@@ -21,6 +21,7 @@ import { spawn } from 'child_process';
 // Custom imports
 import {
   root,
+  delay,
   isWebpackDevServer,
  } from './helpers';
 
@@ -96,10 +97,10 @@ export let config: Configuration = {
     historyApiFallback: true,
     contentBase: root('dist'),
     // publicPath: '/',
-    setup() {
+    async setup() {
       console.log('Start hot: ', process.env.START_HOT);
       if (process.env.START_HOT) {
-        // await delay(0);
+        await delay(3000);
         spawn('npm', ['run', 'start-hot'], {
           shell: true,
           env: process.env,

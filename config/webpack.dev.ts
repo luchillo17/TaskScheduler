@@ -21,7 +21,6 @@ import { spawn } from 'child_process';
 // Custom imports
 import {
   root,
-  delay,
   isWebpackDevServer,
  } from './helpers';
 
@@ -33,13 +32,15 @@ const METADATA = {
 
 // App Configuration ------------------------------------
 export let config: Configuration = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   entry: {
-    'main.browser': './src/main.browser.ts',
+    main: './src/main.browser.ts',
   },
   output: {
     path: root('dist'),
-    filename: '[name].js',
+    filename: '[name].bundle.js',
+    sourceMapFilename: '[file].map',
+    chunkFilename: '[id].chunk.js',
     publicPath: isWebpackDevServer() ? '/' : './',
   },
   resolve: {

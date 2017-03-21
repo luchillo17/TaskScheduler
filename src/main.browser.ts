@@ -5,4 +5,3 @@
 
   body.innerHTML = 'Hello world!';
 })()
-

@@ -95,10 +95,10 @@ export let config: Configuration = {
     historyApiFallback: true,
     contentBase: root('dist'),
     // publicPath: '/',
-    async setup() {
+    setup() {
       console.log('Start hot: ', process.env.START_HOT);
       if (process.env.START_HOT) {
-        await delay(0);
+        // await delay(0);
         spawn('npm', ['run', 'start-hot'], {
           shell: true,
           env: process.env,

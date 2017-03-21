@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
   // tslint:disable
   require('electron-debug')(); // global-require
   const path = require('path');
-  const p = path.join(__dirname, '..', 'app', 'node_modules');
+  const p = path.join(__dirname, '..', 'node_modules');
   require('module').globalPaths.push(p);
   // tslint:enable
 }
@@ -23,14 +23,12 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') { app.quit(); }
 });
 
-
 const installExtensions = async () => {
   if (process.env.NODE_ENV === 'development') {
     // tslint:disable-next-line global-require
     const installer = require('electron-devtools-installer');
 
     const extensions = [
-      'REACT_DEVELOPER_TOOLS',
       'REDUX_DEVTOOLS'
     ];
 
@@ -54,7 +52,7 @@ app.on('ready', async () => {
     height: 728
   });
 
-  mainWindow.loadURL(`http://localhost:3000/dist/index.html`);
+  mainWindow.loadURL(mainBrowserUrl);
 
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {

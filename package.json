@@ -11,6 +11,7 @@
     "build:dev": "cross-env NODE_ENV=development webpack --config ./config/webpack.dev.ts --progress --profile --colors",
     "server:dev": "cross-env NODE_ENV=development START_HOT=1 webpack-dev-server --config ./config/webpack.dev.ts --progress --profile --colors",
     "watch:test": "npm run test -- --auto-watch --no-single-run",
+    "watch:test:debug": "npm run watch:test -- --browsers CustomElectron",
     "watch:main": "cross-env START_HOT=1 npm run build:main -- --watch",
     "watch:main:prod": "npm run build:main -- --watch",
     "watch:renderer": "cross-env START_HOT=1 npm run build:dev -- --watch",

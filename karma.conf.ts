@@ -107,7 +107,7 @@ export default (config) => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['CustomElectron'],
+    browsers: ['Electron'],
     // DEV: `useIframe: false` is for launching a new window instead of using an iframe
     //   In Electron, iframes don't get `nodeIntegration` priveleges yet windows do
     client: {

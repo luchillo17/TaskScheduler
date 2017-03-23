@@ -1,8 +1,5 @@
 // @flow
 import { app, BrowserWindow } from 'electron';
-// import MenuBuilder from './menu';
-
-let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   // tslint:disable-next-line
@@ -19,53 +16,82 @@ if (process.env.NODE_ENV === 'development') {
   // tslint:enable
 }
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { app.quit(); }
-});
+export class Main {
+  private static application: Electron.App;
+  private static browserWindow: Electron.BrowserWindow;
 
-const installExtensions = async () => {
-  if (process.env.NODE_ENV === 'development') {
-    // tslint:disable-next-line global-require
-    const installer = require('electron-devtools-installer');
-
-    const extensions = [
-      'REDUX_DEVTOOLS'
-    ];
-
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-
-    // TODO: Use async iteration statement.
-    //       Waiting on https://github.com/tc39/proposal-async-iteration
-    //       Promises will fail silently, which isn't what we want in development
-    return Promise
-      .all(extensions.map((name) => installer.default(installer[name], forceDownload)))
-      .catch(console.log);
-  }
-};
-
-app.on('ready', async () => {
-  await installExtensions();
-
-  mainWindow = new BrowserWindow({
-    show: false,
-    width: 1024,
-    height: 728
-  });
-
-  mainWindow.loadURL(mainBrowserUrl);
-
-  mainWindow.webContents.on('did-finish-load', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+  public static init() {
+    try {
+      Main.application = app;
+      Main.application.on('window-all-closed', Main.onWindowAllClosed);
+      Main.application.on('ready', Main.onAppReady);
+    } catch (error) {
+      console.error('Main error: ', error);
     }
-    mainWindow.show();
-    mainWindow.focus();
-  });
+  }
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  private static async onAppReady() {
+    try {
+      await Main.installExtensions();
 
-  // const menuBuilder = new MenuBuilder(mainWindow);
-  // menuBuilder.buildMenu();
-});
+      Main.browserWindow = new BrowserWindow({
+        show: false,
+        width: 1024,
+        height: 728
+      });
+
+      Main.browserWindow.loadURL(mainBrowserUrl);
+
+      Main.browserWindow.webContents.on('did-finish-load', Main.onWindowDidFinishLoad);
+      Main.browserWindow.on('closed', Main.onWindowClosed);
+    } catch (error) {
+      console.error('OnReady error: ', error);
+    }
+  }
+
+  private static onWindowAllClosed() {
+    if (process.platform !== 'darwin')
+      Main.application.quit();
+  }
+
+  private static onWindowDidFinishLoad() {
+    if (!Main.browserWindow) {
+      throw new Error('"browserWindow" is not defined');
+    }
+    Main.browserWindow.show();
+    Main.browserWindow.focus();
+  }
+
+  private static onWindowClosed() {
+    Main.browserWindow = null;
+  }
+
+  private static async installExtensions() {
+    if (process.env.NODE_ENV === 'development') {
+      try {
+
+      } catch (error) {
+
+      }
+      // tslint:disable-next-line global-require
+      const installer = require('electron-devtools-installer');
+
+      const extensions = [
+        'REDUX_DEVTOOLS'
+      ];
+
+      const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+
+      // TODO: Use async iteration statement.
+      //       Waiting on https://github.com/tc39/proposal-async-iteration
+      //       Promises will fail silently, which isn't what we want in development
+      return Promise
+        .all(extensions.map((name) => installer.default(installer[name], forceDownload)))
+        .catch(console.log);
+    }
+  }
+}
+
+Main.init();
+
+export default Main;

@@ -5,15 +5,13 @@ import {
 
 // Webpack packages
 import {
-  HotModuleReplacementPlugin,
+  // HotModuleReplacementPlugin,
   LoaderOptionsPlugin,
   DefinePlugin,
 } from 'webpack';
+import * as webpackMerge from 'webpack-merge';
 
 // Plugins
-import { CheckerPlugin } from 'awesome-typescript-loader';
-import * as WebpackBuildNotifier from 'webpack-build-notifier';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 
 // Node imports
 import { spawn } from 'child_process';
@@ -22,8 +20,11 @@ import { spawn } from 'child_process';
 import {
   root,
   delay,
+  hasProcessFlag,
   isWebpackDevServer,
  } from './helpers';
+
+import commonConfig from './webpack.common'; // the settings that are common to prod and dev
 
 const METADATA = {
   title: 'Electron webpack',
@@ -31,96 +32,61 @@ const METADATA = {
   isDevServer: isWebpackDevServer()
 };
 
+/**
+ * Webpack Constants
+ */
+const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
+const HMR = hasProcessFlag('hot');
+
 // App Configuration ------------------------------------
-export let config: Configuration = {
-  devtool: 'cheap-module-source-map',
-  entry: {
-    main: './src/main.browser.ts',
-  },
-  output: {
-    path: root('dist'),
-    filename: '[name].bundle.js',
-    sourceMapFilename: '[file].map',
-    chunkFilename: '[id].chunk.js',
-    publicPath: isWebpackDevServer() ? '/' : './',
-  },
-  resolve: {
-    extensions: ['.ts', '.js', '.json'],
-    modules: [root('src'), root('node_modules')]
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: [
-          {
-            loader: 'awesome-typescript-loader',
-            // options: {
-            //   configFileName: 'tsconfig.webpack.json',
-            // },
-          },
-        ],
-        exclude: [/\.(spec|e2e)\.ts$/],
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
-      }
+export let config = (options): Configuration => {
+  return webpackMerge(commonConfig({ env: 'development' }), {
+    devtool: 'cheap-module-source-map',
+    output: {
+      path: root('dist'),
+      filename: '[name].bundle.js',
+      sourceMapFilename: '[file].map',
+      chunkFilename: '[id].chunk.js',
+      publicPath: isWebpackDevServer() ? '/' : './',
+    },
+    // module: {
+    //   rules: [
+    //   ],
+    // },
+    plugins: [
+      new LoaderOptionsPlugin({
+        debug: true,
+      }),
+      new DefinePlugin({
+        'ENV': JSON.stringify(ENV),
+        HMR,
+        'process.env.ENV': JSON.stringify(ENV),
+        'process.env.NODE_ENV': JSON.stringify(ENV),
+      }),
     ],
-  },
-  plugins: [
-    new CheckerPlugin(),
-    new LoaderOptionsPlugin({
-      debug: true,
-      options: {
-        context: root('src'),
-        output: {
-          path: root('dist'),
-        },
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      metadata: METADATA,
-      chunksSortMode: 'dependency',
-    }),
-    new WebpackBuildNotifier({
-      title: 'Electron Renderer',
-      // logo: 'public/dist/img/favicon.ico',
-    }),
-  ],
-  target: 'electron-renderer',
-  devServer: {
-    port: '3000',
-    host: 'localhost',
-    inline: true,
-    historyApiFallback: true,
-    contentBase: root('dist'),
-    // publicPath: '/',
-    async setup() {
-      console.log('Start hot: ', process.env.START_HOT);
-      if (process.env.START_HOT) {
-        await delay(3000);
-        spawn('npm', ['run', 'start-hot'], {
-          shell: true,
-          env: process.env,
-          stdio: 'inherit',
-        })
-          .on('close', code => process.exit(code))
-          .on('error', spawnError => console.error(spawnError));
+    target: 'electron-renderer',
+    devServer: {
+      port: '3000',
+      host: 'localhost',
+      inline: true,
+      historyApiFallback: true,
+      contentBase: root('dist'),
+      // publicPath: '/',
+      async setup() {
+        console.log('Start hot: ', process.env.START_HOT);
+        if (process.env.START_HOT) {
+          await delay(3000);
+          spawn('npm', ['run', 'start-hot'], {
+            shell: true,
+            env: process.env,
+            stdio: 'inherit',
+          })
+            .on('close', code => process.exit(code))
+            .on('error', spawnError => console.error(spawnError));
+        }
       }
-    }
-  },
-  node: {
-    __dirname: false,
-    __filename: false,
-    global: true,
-    crypto: 'empty',
-    process: true,
-    module: false,
-    clearImmediate: false,
-    setImmediate: false,
-  },
+    },
+  });
 };
 
 export default config;

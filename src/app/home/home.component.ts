@@ -5,7 +5,6 @@ import {
 
 import { AppState } from '../app.service';
 import { Title } from './title';
-import { XLargeDirective } from './x-large';
 
 @Component({
   // The selector is what angular internally uses

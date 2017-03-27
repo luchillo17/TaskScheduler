@@ -46,8 +46,7 @@ export let config = (options): Configuration => {
   return {
     entry: {
       polyfills: './src/polyfills.browser.ts',
-      main: AOT ? './src/main.browser.aot.ts' :
-                  './src/main.browser.ts'
+      main: './src/main.browser.ts'
     },
     resolve: {
       extensions: ['.ts', '.js', '.json'],
@@ -144,10 +143,9 @@ export let config = (options): Configuration => {
         root('node_modules/@angular/core/src/facade/math.js')
       ),
       new AotPlugin({
-        "mainPath": "src/main.browser.ts",
-        "exclude": [],
-        "tsConfigPath": "tsconfig.webpack.json",
-        "skipCodeGeneration": true
+        mainPath: root('src', 'main.browser.ts'),
+        tsConfigPath: "tsconfig.json",
+        skipCodeGeneration: !AOT,
       }),
       new WebpackBuildNotifier({
         title: 'Electron Renderer',

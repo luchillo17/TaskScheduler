@@ -6,7 +6,7 @@
   "author": "Carlos Esteban Lopez Jaramillo",
   "license": "MIT",
   "scripts": {
-    "build:aot:prod": "npm run clean:dist && npm run clean:aot && webpack --config config/webpack.prod.js  --progress --profile --bail",
+    "build:aot:prod": "npm run clean:dist && npm run clean:aot && webpack --config config/webpack.prod.ts  --progress --profile --bail",
     "build:aot": "npm run build:aot:prod",
     "build:dev": "webpack --config config/webpack.dev.ts --progress --profile --colors",
     "build:main": "cross-env NODE_ENV=development webpack --config ./config/webpack.electron.ts --progress --profile --colors",
@@ -23,7 +23,7 @@
     "server:dev": "cross-env START_HOT=1 webpack-dev-server --config config/webpack.dev.ts --progress --profile --colors",
     "server:prod": "electron dist/main.js",
     "server": "npm run server:dev",
-    "start:hmr": "npm run server:dev:hmr",
+    "start:hmr": "npm-run-all -pr server:dev:hmr watch:main",
     "start": "npm-run-all -pr server:dev watch:main",
     "test": "npm run lint && karma start",
     "tslint": "tslint",

@@ -12,6 +12,9 @@ import {
 import * as webpackMerge from 'webpack-merge';
 
 // Plugins
+import { DllBundlesPlugin } from 'webpack-dll-bundles-plugin';
+import * as AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin';
+import * as NamedModulesPlugin from 'webpack/lib/NamedModulesPlugin';
 
 // Node imports
 import { spawn } from 'child_process';
@@ -25,6 +28,8 @@ import {
  } from './helpers';
 
 import commonConfig from './webpack.common'; // the settings that are common to prod and dev
+
+const webpackMergeDll = webpackMerge.strategy({plugins: 'replace'});
 
 const METADATA = {
   title: 'Electron webpack',
@@ -48,6 +53,8 @@ export let config = (options): Configuration => {
       sourceMapFilename: '[file].map',
       chunkFilename: '[id].chunk.js',
       publicPath: isWebpackDevServer() ? '/' : './',
+      library: 'ac_[name]',
+      libraryTarget: 'var',
     },
     // module: {
     //   rules: [
@@ -63,6 +70,42 @@ export let config = (options): Configuration => {
         'process.env.ENV': JSON.stringify(ENV),
         'process.env.NODE_ENV': JSON.stringify(ENV),
       }),
+      new DllBundlesPlugin({
+        bundles: {
+          polyfills: [
+            'core-js',
+            {
+              name: 'zone.js',
+              path: 'zone.js/dist/zone.js'
+            },
+            {
+              name: 'zone.js',
+              path: 'zone.js/dist/long-stack-trace-zone.js'
+            },
+          ],
+          vendor: [
+            '@angular/platform-browser',
+            '@angular/platform-browser-dynamic',
+            '@angular/core',
+            '@angular/common',
+            '@angular/forms',
+            '@angular/http',
+            '@angular/router',
+            '@angularclass/hmr',
+            'rxjs',
+          ]
+        },
+        dllDir: root('dll'),
+        webpackConfig: webpackMergeDll(commonConfig({env: ENV}), {
+          devtool: 'cheap-module-source-map',
+          plugins: []
+        })
+      }),
+      new AddAssetHtmlPlugin([
+        { filepath: root(`dll/${DllBundlesPlugin.resolveFile('polyfills')}`) },
+        { filepath: root(`dll/${DllBundlesPlugin.resolveFile('vendor')}`) },
+      ] as any),
+      new NamedModulesPlugin(),
     ],
     target: 'electron-renderer',
     devServer: {
@@ -71,6 +114,10 @@ export let config = (options): Configuration => {
       inline: true,
       historyApiFallback: true,
       contentBase: root('dist'),
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
+      },
       // publicPath: '/',
       async setup() {
         console.log('Start hot: ', process.env.START_HOT);

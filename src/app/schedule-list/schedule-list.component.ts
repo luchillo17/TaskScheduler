@@ -3,6 +3,8 @@ import {
   OnInit
 } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { AppState } from '../app.service';
 
 @Component({
@@ -15,19 +17,30 @@ import { AppState } from '../app.service';
 export class ScheduleListComponent implements OnInit {
   // Set our default values
   public localState = { value: '' };
+  public scheduleLists = [];
   // TypeScript public modifiers
   constructor(
     public appState: AppState,
-  ) {}
-
-  public ngOnInit() {
-    console.log('hello `ScheduleListComponent` component');
-    // this.title.getData().subscribe(data => this.data = data);
+    private store: Store<RXState>,
+  ) {
   }
 
-  public submitState(value: string) {
-    console.log('submitState', value);
-    this.appState.set('value', value);
-    this.localState.value = '';
+  public ngOnInit() {
+    this.store.select<ScheduleList[]>('scheduleLists')
+      .subscribe((scheduleLists) => {
+        console.log('scheduleLists: ', scheduleLists);
+        this.scheduleLists = scheduleLists
+      })
+  }
+
+  public createItem() {
+    this.store.dispatch({
+      type: 'ADD_LIST',
+      payload: {
+        name: `List${new Date().getTime()}`,
+        active: true,
+        taskSchedules: [],
+      } as ScheduleList
+    })
   }
 }

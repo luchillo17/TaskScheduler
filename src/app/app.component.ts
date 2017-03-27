@@ -6,6 +6,8 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { AppState } from './app.service';
 
 /*
@@ -46,16 +48,7 @@ import { AppState } from './app.service';
       <router-outlet></router-outlet>
     </main>
 
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
+    <pre class="app-state">this.appState = {{ appState | json }}</pre>
   `
 })
 export class AppComponent implements OnInit {
@@ -63,12 +56,19 @@ export class AppComponent implements OnInit {
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
 
+  public appState: RXState;
+
   constructor(
-    public appState: AppState
-  ) {}
+    private state: Store<RXState>,
+  ) {
+    this.state.subscribe((state) => {
+      console.log('Current state: ', state);
+      this.appState = state;
+    })
+  }
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+    console.log('Initial App State', this.appState);
   }
 
 }

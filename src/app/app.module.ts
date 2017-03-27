@@ -15,6 +15,8 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
+import { Store, provideStore } from '@ngrx/store';
+
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -23,7 +25,11 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
+import {
+  AppState,
+  InternalStateType
+} from './app.service';
+
 import { ScheduleListComponent } from './schedule-list';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';

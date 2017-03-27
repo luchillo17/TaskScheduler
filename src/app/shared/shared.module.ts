@@ -4,6 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { AppReducers } from './store.reducers';
+
 // Components
 
 @NgModule({
@@ -11,7 +16,9 @@ import { HttpModule }    from '@angular/http';
     CommonModule,
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    StoreModule.provideStore(AppReducers),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
   ],
   declarations: [
   ],

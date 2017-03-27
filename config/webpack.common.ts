@@ -43,6 +43,7 @@ const METADATA = {
 
 // App Configuration ------------------------------------
 export let config = (options): Configuration => {
+  let isProd = options.env === 'production';
   return {
     entry: {
       polyfills: './src/polyfills.browser.ts',
@@ -56,7 +57,16 @@ export let config = (options): Configuration => {
       rules: [
         {
           test: /\.ts$/,
-          use: '@ngtools/webpack',
+          use: [
+            {
+              loader: '@angularclass/hmr-loader',
+              options: {
+                pretty: !isProd,
+                prod: isProd
+              }
+            },
+            '@ngtools/webpack',
+          ],
           exclude: [/\.(spec|e2e)\.ts$/],
         },
         {

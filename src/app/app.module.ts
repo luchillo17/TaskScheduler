@@ -24,7 +24,7 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
+import { ScheduleListComponent } from './schedule-list';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';
 
@@ -50,7 +50,7 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    HomeComponent,
+    ScheduleListComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules

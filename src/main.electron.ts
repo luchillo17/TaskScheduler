@@ -76,9 +76,13 @@ export class Main {
       // tslint:disable-next-line global-require
       const installer = require('electron-devtools-installer');
 
-      const extensions = [
-        'REDUX_DEVTOOLS'
+      const supportedExtensions = [
+        'REDUX_DEVTOOLS',
       ];
+
+      const chromeExtensionsById = [
+        'elgalmkoelokbchhkhacckoklkejnhcd',
+      ]
 
       const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
 
@@ -86,7 +90,10 @@ export class Main {
       //       Waiting on https://github.com/tc39/proposal-async-iteration
       //       Promises will fail silently, which isn't what we want in development
       return Promise
-        .all(extensions.map((name) => installer.default(installer[name], forceDownload)))
+        .all([
+          ...supportedExtensions.map((name) => installer.default(installer[name], forceDownload)),
+          ...chromeExtensionsById.map((id) => installer.default(id, forceDownload))
+        ])
         .catch(console.log);
     }
   }

@@ -5,8 +5,6 @@ import {
 
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../app.service';
-
 @Component({
   selector: 'schedule-list',
   providers: [
@@ -20,7 +18,6 @@ export class ScheduleListComponent implements OnInit {
   public scheduleLists = [];
   // TypeScript public modifiers
   constructor(
-    public appState: AppState,
     private store: Store<RXState>,
   ) {
   }

@@ -47,28 +47,15 @@ import { AppState } from './app.service';
     <main>
       <router-outlet></router-outlet>
     </main>
-
-    <pre class="app-state">this.appState = {{ appState | json }}</pre>
   `
 })
 export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
-  public url = 'https://twitter.com/AngularClass';
 
-  public appState: RXState;
-
-  constructor(
-    private state: Store<RXState>,
-  ) {
-    this.state.subscribe((state) => {
-      console.log('Current state: ', state);
-      this.appState = state;
-    })
-  }
+  constructor() {}
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState);
   }
 
 }

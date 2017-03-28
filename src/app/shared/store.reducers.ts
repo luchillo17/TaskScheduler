@@ -1,6 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 
-const scheduleLists: ActionReducer<ScheduleList[]> = (state = [], action) => {
+const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = [], action) => {
   switch (action.type) {
     case 'SHOW_ALL':
       return state;
@@ -16,5 +16,5 @@ const scheduleLists: ActionReducer<ScheduleList[]> = (state = [], action) => {
 }
 
 export const AppReducers = {
-  scheduleLists,
+  scheduleLists: scheduleListsReducer,
 };

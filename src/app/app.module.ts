@@ -16,6 +16,9 @@ import {
 } from '@angular/router';
 
 import { Store, provideStore } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+import 'rxjs/add/operator/take';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -61,7 +64,14 @@ type StoreType = {
   ],
   imports: [ // import Angular's modules
     SharedModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    StoreDevtoolsModule.instrumentStore({
+      monitor: useLogMonitor({
+        visible: true,
+        position: 'right'
+      })
+    }),
+    StoreLogMonitorModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -72,7 +82,7 @@ export class AppModule {
 
   constructor(
     public appRef: ApplicationRef,
-    public appState: AppState
+    public store: Store<any>,
   ) {}
 
   public hmrOnInit(store: StoreType) {
@@ -81,7 +91,12 @@ export class AppModule {
     }
     console.log('HMR store', JSON.stringify(store, null, 2));
     // set state
-    this.appState._state = store.state;
+    if (store.state) {
+      this.store.dispatch({
+        type: 'SET_ROOT_STATE',
+        payload: store.state,
+      });
+    }
     // set input values
     if ('restoreInputValues' in store) {
       let restoreInputValues = store.restoreInputValues;
@@ -89,15 +104,13 @@ export class AppModule {
     }
 
     this.appRef.tick();
-    delete store.state;
-    delete store.restoreInputValues;
+    Object.keys(store).forEach(prop => delete store[prop]);
   }
 
   public hmrOnDestroy(store: StoreType) {
     const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
     // save state
-    const state = this.appState._state;
-    store.state = state;
+    this.store.take(1).subscribe(s => store.state = s);
     // recreate root elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
     // save input values

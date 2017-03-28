@@ -1,1 +1,25 @@
-/*styles for home content only*/
+#schedule-list-container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: stretch;
+  align-items: stretch;
+}
+#schedule-list-panel, #schedule-queue-panel {
+  flex: 1 0 200px;
+}
+#schedule-list-panel {
+  ul {
+    padding-left: 10px;
+    list-style-type: none;
+  }
+}
+
+#schedule-item-panel {
+  flex: 10 0 200px
+}
+
+#schedule-queue-panel {
+
+}

@@ -1,14 +1,30 @@
-<div>
-  <h1 class="sample-content">Lista de calendarios</h1>
+<h1 class="sample-content">Lista de calendarios</h1>
 
-  <hr>
+<hr>
 
-  <pre>{{ scheduleLists | json }}</pre>
-
-  <hr>
-
-  <button (click)='createItem()'>
-    addItem
-  </button>
-
+<div id="schedule-list-container">
+  <div id="schedule-list-panel">
+    <h2>Lista calendarios</h2>
+    <ul>
+      <li *ngFor="let scheduleList of scheduleLists">
+        Nombre: {{ scheduleList.name }}<br>
+        Activo: {{ scheduleList.active }}
+      </li>
+    </ul>
+  </div>
+  <div id="schedule-item-panel">
+    <h2>Lista tareas</h2>
+  </div>
+  <div id="schedule-queue-panel">
+    <h2>Cola tareas</h2>
+  </div>
 </div>
+
+<pre>{{ scheduleLists | json }}</pre>
+
+<hr>
+
+<button (click)='createItem()'>
+  addItem
+</button>
+

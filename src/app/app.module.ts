@@ -79,11 +79,6 @@ export class AppModule {
     this.setStateToDB();
   }
 
-  @HostListener('document.body:beforeunload')
-  public onClose($event) {
-    console.log('Saving state to DB 2');
-  }
-
   constructor(
     public appRef: ApplicationRef,
     public store: Store<any>,
@@ -97,9 +92,19 @@ export class AppModule {
       });
     }
 
-    // store
-    //   .debounceTime(3500)
-    //   .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+    store
+      .debounceTime(3500)
+      .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+
+    // window.onbeforeunload = ($event) => {
+    //   console.log('onBeforeUnload')
+    //   return false;
+    // };
+
+    // Save state before reload, close
+    window.addEventListener('beforeunload', ($event) => {
+      this.setStateToDB()
+    });
   }
 
   public setStateToDB() {

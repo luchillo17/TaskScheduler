@@ -18,7 +18,7 @@ import { compose} from '@ngrx/core/compose'
 
 import { AppReducers } from './store.reducers';
 
-function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
+export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action ) {
     if (action.type === 'SET_ROOT_STATE') {
       return action.payload

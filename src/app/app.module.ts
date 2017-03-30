@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   NgModule,
-  ApplicationRef
+  ApplicationRef,
+  HostListener,
 } from '@angular/core';
 import {
   removeNgStyles,
@@ -72,6 +73,17 @@ type StoreType = {
 })
 export class AppModule {
 
+  @HostListener('window:beforeunload')
+  public onBeforeUnload($event) {
+    console.log('Saving state to DB');
+    this.setStateToDB();
+  }
+
+  @HostListener('document.body:beforeunload')
+  public onClose($event) {
+    console.log('Saving state to DB 2');
+  }
+
   constructor(
     public appRef: ApplicationRef,
     public store: Store<any>,
@@ -85,9 +97,15 @@ export class AppModule {
       });
     }
 
-    store
-      .debounceTime(3500)
-      .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+    // store
+    //   .debounceTime(3500)
+    //   .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+  }
+
+  public setStateToDB() {
+    this.store.take(1).subscribe((state) => {
+      localStorage.setItem('state', JSON.stringify(state));
+    });
   }
 
   public hmrOnInit(store: StoreType) {

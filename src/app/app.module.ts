@@ -16,6 +16,7 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/debounceTime';
@@ -72,6 +73,7 @@ type StoreType = {
   ]
 })
 export class AppModule {
+  private storeSubscription: Subscription;
 
   @HostListener('window:beforeunload')
   public onBeforeUnload($event) {
@@ -92,7 +94,7 @@ export class AppModule {
       });
     }
 
-    store
+    this.storeSubscription = store
       .debounceTime(3500)
       .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
 
@@ -105,6 +107,10 @@ export class AppModule {
     window.addEventListener('beforeunload', ($event) => {
       this.setStateToDB()
     });
+  }
+
+  public onDestroy() {
+    this.storeSubscription.unsubscribe();
   }
 
   public setStateToDB() {

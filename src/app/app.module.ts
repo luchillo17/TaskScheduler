@@ -17,6 +17,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/debounceTime';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -74,7 +75,20 @@ export class AppModule {
   constructor(
     public appRef: ApplicationRef,
     public store: Store<any>,
-  ) {}
+  ) {
+    let state = localStorage.getItem('state');
+
+    if (state) {
+      store.dispatch({
+        type: 'SET_ROOT_STATE',
+        payload: JSON.parse(state),
+      });
+    }
+
+    store
+      .debounceTime(3500)
+      .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+  }
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {

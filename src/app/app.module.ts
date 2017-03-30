@@ -15,9 +15,7 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
-import { Store, provideStore } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/take';
 
 /*
@@ -37,7 +35,7 @@ import { ScheduleListComponent } from './schedule-list';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';
 
-// import '../styles/styles.scss';
+import '../styles/core.scss';
 // import '../styles/headings.css';
 
 // Application wide providers
@@ -65,13 +63,6 @@ type StoreType = {
   imports: [ // import Angular's modules
     SharedModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-    StoreDevtoolsModule.instrumentStore({
-      monitor: useLogMonitor({
-        visible: true,
-        position: 'right'
-      })
-    }),
-    StoreLogMonitorModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

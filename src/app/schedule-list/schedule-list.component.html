@@ -5,12 +5,22 @@
 <div id="schedule-list-container">
   <div id="schedule-list-panel">
     <h2>Lista calendarios</h2>
-    <ul>
-      <li *ngFor="let scheduleList of scheduleLists">
-        Nombre: {{ scheduleList.name }}<br>
-        Activo: {{ scheduleList.active }}
-      </li>
-    </ul>
+    <md-list>
+      <md-list-item *ngFor="let scheduleList of scheduleLists">
+        <h3 md-line>
+          Nombre:
+        </h3>
+        <div md-line>
+          {{ scheduleList.name }}<br>
+        </div>
+        <h3 md-line>
+          Activo:
+        </h3>
+        <div md-line>
+          {{ scheduleList.active }}
+        </div>
+      </md-list-item>
+    </md-list>
   </div>
   <div id="schedule-item-panel">
     <h2>Lista tareas</h2>

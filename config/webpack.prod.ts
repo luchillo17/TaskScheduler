@@ -123,7 +123,21 @@ module.exports = function (env) {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'css-loader!sass-loader'
+            use: [
+              'css-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  root: root('src'),
+                  sourceMap: true,
+                  outputStyle: 'expanded',
+                  includePaths: [
+                    root('node_modules'),
+                    root('src'),
+                  ],
+                },
+              },
+            ]
           }),
           include: [root('src', 'styles')]
         },

@@ -7,17 +7,17 @@
   align-items: stretch;
 }
 #schedule-list-panel, #schedule-queue-panel {
-  flex: 1 0 200px;
+  flex: 1 1 200px;
 }
 #schedule-list-panel {
-  ul {
+  md-list-item div {
     padding-left: 10px;
-    list-style-type: none;
+    // list-style-type: none;
   }
 }
 
 #schedule-item-panel {
-  flex: 10 0 200px
+  flex: 10 1 200px
 }
 
 #schedule-queue-panel {

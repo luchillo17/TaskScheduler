@@ -65,7 +65,7 @@ export let config = (options): Configuration => {
          */
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ['style-loader', 'css-loader', 'resolve-url-loader'],
           include: [root('src', 'styles')]
         },
 
@@ -76,7 +76,23 @@ export let config = (options): Configuration => {
          */
         {
           test: /\.scss$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: [
+            'style-loader',
+            'css-loader',
+            'resolve-url-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                root: root('src'),
+                sourceMap: true,
+                outputStyle: 'expanded',
+                includePaths: [
+                  root('node_modules'),
+                  root('src'),
+                ],
+              },
+            },
+          ],
           include: [root('src', 'styles')]
         },
       ],

@@ -71,12 +71,28 @@ export let config = (options): Configuration => {
         },
         {
           test: /\.css$/,
-          use: ['to-string-loader', 'css-loader'],
+          use: ['to-string-loader', 'css-loader', 'resolve-url-loader'],
           exclude: [root('src', 'styles')]
         },
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          use: [
+            'to-string-loader',
+            'css-loader',
+            'resolve-url-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                root: root('src'),
+                sourceMap: true,
+                outputStyle: 'expanded',
+                includePaths: [
+                  root('node_modules'),
+                  root('src'),
+                ],
+              },
+            },
+          ],
           exclude: [root('src', 'styles')]
         },
         {

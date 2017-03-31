@@ -1,0 +1,40 @@
+<h1 class="sample-content">Lista de calendarios</h1>
+
+<hr>
+
+<div id="schedule-list-container">
+  <div id="schedule-list-panel">
+    <h2>Lista calendarios</h2>
+    <md-list>
+      <md-list-item *ngFor="let scheduleList of scheduleLists">
+        <h3 md-line>
+          Nombre:
+        </h3>
+        <div md-line>
+          {{ scheduleList.name }}<br>
+        </div>
+        <h3 md-line>
+          Activo:
+        </h3>
+        <div md-line>
+          {{ scheduleList.active }}
+        </div>
+      </md-list-item>
+    </md-list>
+  </div>
+  <div id="schedule-item-panel">
+    <h2>Lista tareas</h2>
+  </div>
+  <div id="schedule-queue-panel">
+    <h2>Cola tareas</h2>
+  </div>
+</div>
+
+<pre>{{ scheduleLists | json }}</pre>
+
+<hr>
+
+<button (click)='createItem()'>
+  addItem
+</button>
+

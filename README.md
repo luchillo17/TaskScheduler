@@ -14,5 +14,12 @@ It will create the `main.js` file for the main Electron process, start the `webp
 
 ## Todo
 
-* [ ] Add base Angular 2 project and config.
-* [ ] Add HMR for Angular 2.
+* [X] ~~*Add base Angular 2 project and config.*~~
+* [X] ~~*Add HMR for Angular 2.*~~
+* [X] ~~*Add `@ngrx/store`.*~~
+* [X] ~~*Add `Redux-DevTools` to Electron for debugging Redux state and history.*~~
+* [X] ~~*Set persistence for store state, use observable to sync with localStore, and `beforeunload` event for window close or reloads.*~~
+* [ ] Use `localForage` instead of `localStorage` for better compatibility and fallback support.
+* [ ] Add support for `primeng` widgets.
+* [ ] Add support for `@angular/material` widgets.
+* [ ] Add support for `AgGrid` community version (maybe).

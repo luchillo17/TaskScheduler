@@ -1,25 +1,61 @@
-#schedule-list-container {
+:host {
+  flex: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: stretch;
+  justify-content: flex-start;
+}
+
+#schedule-list-container,
+#schedule-list-container > div,
+#schedule-list-container p-datalist,
+#schedule-list-container p-datalist /deep/ > div,
+{
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  justify-content: center;
-  align-content: stretch;
   align-items: stretch;
+  align-content: stretch;
+  justify-content: center;
 }
-#schedule-list-panel, #schedule-queue-panel {
-  flex: 1 1 200px;
-}
-#schedule-list-panel {
-  md-list-item div {
-    padding-left: 10px;
-    // list-style-type: none;
+
+#schedule-list-container {
+  flex: 1;
+
+  > div,
+  p-datalist,
+  p-datalist /deep/ > div,
+  p-datalist /deep/ > div > .ui-datalist-content {
+    flex: 1;
   }
-}
 
-#schedule-item-panel {
-  flex: 10 1 200px
-}
+  p-datalist /deep/ {
+    > div {
+      flex-direction: column;
+    }
+  }
 
-#schedule-queue-panel {
+  #schedule-list-panel, #schedule-queue-panel {
+    flex: 1 1 200px;
+  }
 
+  // #schedule-list-panel {}
+
+  #schedule-item-panel {
+    flex: 10 1 200px
+  }
+
+  // #schedule-queue-panel {}
+
+  .schedule-list-container {
+    padding: 10px;
+    &.selected {
+      background: #808080;
+    }
+    &:hover {
+      background: #808080;
+    }
+  }
 }

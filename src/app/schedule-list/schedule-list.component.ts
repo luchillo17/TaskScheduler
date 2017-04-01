@@ -1,6 +1,7 @@
 import {
+  OnInit,
   Component,
-  OnInit
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -10,12 +11,18 @@ import { Store } from '@ngrx/store';
   providers: [
   ],
   styleUrls: [ './schedule-list.component.scss' ],
-  templateUrl: './schedule-list.component.html'
+  templateUrl: './schedule-list.component.html',
+  // encapsulation: ViewEncapsulation.None,
 })
 export class ScheduleListComponent implements OnInit {
   // Set our default values
   public localState = { value: '' };
+
+  public selectedList = -1;
+
   public scheduleLists = [];
+  public taskLists = [];
+  public taskQueue = [];
   // TypeScript public modifiers
   constructor(
     private store: Store<RXState>,
@@ -28,6 +35,11 @@ export class ScheduleListComponent implements OnInit {
         console.log('scheduleLists: ', scheduleLists);
         this.scheduleLists = scheduleLists
       })
+  }
+
+  public setSelectedList(index: number) {
+    this.selectedList = index;
+    console.log('Selected index: ', index);
   }
 
   public createItem() {

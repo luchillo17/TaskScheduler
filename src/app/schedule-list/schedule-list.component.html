@@ -1,38 +1,42 @@
-<h1 class="sample-content">Lista de calendarios</h1>
-
-<hr>
+<md-toolbar color="primary">
+  Lista de calendarios
+</md-toolbar>
 
 <div id="schedule-list-container">
   <div id="schedule-list-panel">
-    <h2>Lista calendarios</h2>
-    <md-list>
-      <md-list-item *ngFor="let scheduleList of scheduleLists">
-        <h3 md-line>
-          Nombre:
-        </h3>
-        <div md-line>
-          {{ scheduleList.name }}<br>
+    <p-dataList [value]='scheduleLists'>
+      <p-header>Lista calendarios</p-header>
+      <ng-template
+        let-scheduleList
+        let-i='index'
+        pTemplate="item"
+      >
+        <div
+          class="schedule-list-container"
+          [ngClass]="{selected: selectedList === i}"
+          (click)='setSelectedList(i)'
+        >
+          <div class="name">
+            <b>Nombre:</b> {{ scheduleList.name }}
+          </div>
+          <div class="isListActive">
+            <b>Activo:</b> {{ scheduleList.active }}
+          </div>
         </div>
-        <h3 md-line>
-          Activo:
-        </h3>
-        <div md-line>
-          {{ scheduleList.active }}
-        </div>
-      </md-list-item>
-    </md-list>
+      </ng-template>
+    </p-dataList>
   </div>
   <div id="schedule-item-panel">
-    <h2>Lista tareas</h2>
+    <p-dataList [value]='taskLists'>
+      <p-header>Lista tareas</p-header>
+    </p-dataList>
   </div>
   <div id="schedule-queue-panel">
-    <h2>Cola tareas</h2>
+    <p-dataList [value]='taskQueue'>
+      <p-header>Cola tareas</p-header>
+    </p-dataList>
   </div>
 </div>
-
-<pre>{{ scheduleLists | json }}</pre>
-
-<hr>
 
 <button (click)='createItem()'>
   addItem

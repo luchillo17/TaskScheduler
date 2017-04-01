@@ -1,10 +1,23 @@
-// @import '~primeui/themes/afterdark/theme';
-// @import '~primeui/primeui-ng-all.min';
+@import '~normalize.css/normalize';
+@import '~primeui/themes/cruze/theme';
+@import '~primeui/primeui-ng-all.min';
 
-@import '~@angular/material/core/theming/prebuilt/indigo-pink';
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
 // @import '~@angular/material/core/theming/all-theme';
 // @include mat-core();
 // $primary: mat-palette($mat-orange, 800);
 // $accent: mat-palette($mat-light-blue, 600, A100, A400);
 // $theme: mat-light-theme($primary, $accent);
 // @include angular-material-theme($theme);
+
+* {
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+html, body{
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}

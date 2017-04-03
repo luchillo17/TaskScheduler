@@ -4,13 +4,21 @@ declare var ENV;
 
 declare var mainBrowserUrl: string;
 
+interface ListsState {
+  selectedScheduleList: string;
+  selectedTaskScedule:  string;
+}
+
 interface ScheduleList {
+  id: string;
   name: String;
-  active: Boolean;
-  taskSchedules: TaskSchedule[];
+  active?: Boolean;
+  taskScheduleIds?: string[];
 }
 
 interface TaskSchedule {
+  id: string;
+  scheduleListId: string
   start?: Date;
   end?: Date;
 
@@ -22,7 +30,7 @@ interface TaskSchedule {
   dayOfWeek: String;
   active: String;
 
-  tasks?: Task[];
+  taskIds?: String[];
 }
 
 interface Task {
@@ -30,5 +38,7 @@ interface Task {
 }
 
 interface RXState {
-  scheduleLists: ScheduleList[];
+  listsState:         ListsState;
+  scheduleLists:      ScheduleList[];
+  newListDialogState: boolean;
 }

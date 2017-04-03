@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
@@ -23,8 +22,6 @@ export class ScheduleListComponent implements OnInit {
 
   public selectedListId = "";
 
-  public newListDialogState: Observable<boolean>;
-
   public scheduleLists = [];
   public taskLists = [];
   public taskQueue = [];
@@ -35,8 +32,6 @@ export class ScheduleListComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.newListDialogState = this.store.select<boolean>('newListDialogState')
-
     this.store.select<ScheduleList[]>('scheduleLists')
       .subscribe((scheduleLists) => {
         this.scheduleLists = scheduleLists
@@ -55,9 +50,13 @@ export class ScheduleListComponent implements OnInit {
     });
   }
 
-  public toogleNewListDialog(isShow: boolean) {
+  public createItem() {
     this.store.dispatch({
-      type: isShow ? 'SHOW_NEW_LIST_DIALOG' : 'HIDE_NEW_LIST_DIALOG',
+      type: 'ADD_LIST',
+      payload: {
+        id: uuidV1(),
+        name: `List${new Date().getTime()}`,
+      } as ScheduleList,
     })
   }
 }

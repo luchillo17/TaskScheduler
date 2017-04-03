@@ -110,7 +110,7 @@ export let config = (options): Configuration => {
         },
         {
           test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
-          use: 'file-loader'
+          use: 'url-loader?limit=100000'
         },
       ],
     },
@@ -143,7 +143,7 @@ export let config = (options): Configuration => {
         title: METADATA.title,
         metadata: METADATA,
         chunksSortMode: 'dependency',
-      }),
+      } as any),
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'defer'
       }),

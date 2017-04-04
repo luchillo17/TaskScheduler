@@ -4,6 +4,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
@@ -26,10 +28,21 @@ export class ScheduleListComponent implements AfterViewInit {
   public taskLists = [];
   public taskQueue = [];
 
+  // NewListDialog
+  public newListDialogForm: FormGroup;
+
   public isValid = false;
   constructor(
     private store: Store<RXState>,
-  ) {}
+    private fb: FormBuilder,
+  ) {
+    this.newListDialogForm = this.fb.group({
+      id: [{ value: uuidV1() }, Validators.required],
+      name: ['', [Validators.required, , Validators.minLength(4)]],
+      active: [true, Validators.required],
+    });
+    global['newListDialogForm'] = this.newListDialogForm;
+  }
 
   public ngAfterViewInit() {
     this.newListDialogState = this.store.select<boolean>('newListDialogState')
@@ -53,13 +66,22 @@ export class ScheduleListComponent implements AfterViewInit {
   }
 
   public sendNewListDialog() {
-    if (!this.isValid) {
+    if (this.newListDialogForm.invalid) {
       return;
     }
+    this.store.dispatch({
+      type: 'ADD_LIST',
+      payload: this.newListDialogForm.value as ScheduleList,
+    });
     this.toogleNewListDialog(false);
   }
 
   public toogleNewListDialog(isShow: boolean) {
+    this.newListDialogForm.reset({
+      id: { value: uuidV1() },
+      name: '',
+      active: true,
+    })
     this.store.dispatch({
       type: isShow ? 'SHOW_NEW_LIST_DIALOG' : 'HIDE_NEW_LIST_DIALOG',
     })

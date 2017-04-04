@@ -56,23 +56,68 @@
   [dismissableMask]='false'
   [visible]="newListDialogState | async"
   (visibleChange)="toogleNewListDialog($event)">
+  <form class="ui-g" [formGroup]='newListDialogForm'>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Id</label>
+      <input
+        type="text"
+        class="ui-g-8"
+        pInputText
+        disabled
+        formControlName='id'
+      >
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Nombre</label>
+      <input
+        type="text"
+        class="ui-g-8"
+        pInputText
+        formControlName='name'
+      >
+      <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+        *ngIf="
+          newListDialogForm.controls['name'].invalid &&
+          newListDialogForm.controls['name'].dirty
+        "
+      >
+        <div *ngIf="newListDialogForm.controls['name'].hasError('required'); else newListNameErrorLength">
+          <i class="fa fa-close"></i>
+          Nobre es requerido
+        </div>
+        <ng-template #newListNameErrorLength>
+          <i class="fa fa-close"></i>
+          Nobre minimo 4 caracteres
+        </ng-template>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Activo</label>
+      <p-toggleButton
+        class="ui-g-8"
+        formControlName='active'
+      ></p-toggleButton>
+    </div>
+  </form>
 
-  <p-inputSwitch [(ngModel)]="isValid"></p-inputSwitch>
   <p-footer>
-    <button pButton
-      label='Crear'
-      type="button"
-      icon='fa-check'
-      class="ui-button-success"
-      (click)="sendNewListDialog()"
-    ></button>
-    <button pButton
-      label='Cancelar'
-      type="button"
-      icon='fa-times'
-      class="ui-button-danger"
-      (click)="toogleNewListDialog(false)"
-    ></button>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button pButton
+        label='Cancelar'
+        type="button"
+        icon='fa-times'
+        class="ui-button-danger"
+        (click)="toogleNewListDialog(false)"
+      ></button>
+      <button pButton
+        label='Crear'
+        type="button"
+        icon='fa-check'
+        class="ui-button-success"
+        [disabled]="newListDialogForm.invalid"
+        (click)="sendNewListDialog()"
+      ></button>
+    </div>
   </p-footer>
 </p-dialog>
 

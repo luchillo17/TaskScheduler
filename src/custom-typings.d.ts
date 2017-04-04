@@ -13,7 +13,7 @@ interface ScheduleList {
   id: string;
   name: String;
   active?: Boolean;
-  taskScheduleIds?: string[];
+  // taskScheduleIds?: string[];
 }
 
 interface TaskSchedule {

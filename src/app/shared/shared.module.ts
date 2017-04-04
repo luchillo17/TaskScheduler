@@ -1,9 +1,10 @@
 import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
-import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
+import { FormsModule }   from '@angular/forms';
+import { CommonModule }  from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   StoreModule,
@@ -21,6 +22,7 @@ import {
   DialogModule,
   DataListModule,
   InputSwitchModule,
+  ToggleButtonModule,
 } from 'primeng/primeng';
 
 import { AppReducers } from './store.reducers';
@@ -39,10 +41,11 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
 // Components
 @NgModule({
   imports:      [
+    HttpModule,
+    FormsModule,
     CommonModule,
     BrowserModule,
-    FormsModule,
-    HttpModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
 
     StoreModule.provideStore(rootReducer),
@@ -54,10 +57,11 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
   declarations: [
   ],
   exports:      [
+    HttpModule,
+    FormsModule,
     CommonModule,
     BrowserModule,
-    FormsModule,
-    HttpModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
 
     MaterialModule,
@@ -66,6 +70,7 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     DialogModule,
     DataListModule,
     InputSwitchModule,
+    ToggleButtonModule
   ]
 })
 export class SharedModule {}

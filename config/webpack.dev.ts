@@ -144,9 +144,9 @@ export let config = (options): Configuration => {
       ] as any),
       new NamedModulesPlugin(),
     ],
-    target: 'electron-renderer',
+    target: process.env.START_BROWSER ? 'web' : 'electron-renderer',
     devServer: {
-      port: '3000',
+      port: process.env.START_BROWSER ? '8080': '3000',
       host: 'localhost',
       inline: true,
       historyApiFallback: true,

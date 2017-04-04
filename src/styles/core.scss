@@ -1,8 +1,10 @@
 @import '~normalize.css/normalize';
-@import '~primeui/themes/cruze/theme';
-@import '~primeui/primeui-ng-all.min';
-
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+@import '~primeng/resources/themes/darkness/theme';
+@import '~primeng/resources/primeng.min.css';
+// @import '~primeui/primeui-ng-all.min';
+
 
 // @import '~@angular/material/core/theming/all-theme';
 // @include mat-core();

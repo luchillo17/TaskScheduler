@@ -50,18 +50,29 @@
 </button>
 
 <p-dialog
+  header='Nueva lista de calendarios'
   [modal]='true'
   [closable]='true'
-  [dismissableMask]='true'
+  [dismissableMask]='false'
   [visible]="newListDialogState | async"
-  (visibleChanged)="toogleNewListDialog($event)">
+  (visibleChange)="toogleNewListDialog($event)">
 
-  <!--<p-header>
-    Header content here
-  </p-header>-->
-  Content
+  <p-inputSwitch [(ngModel)]="isValid"></p-inputSwitch>
   <p-footer>
-    Footer content here
+    <button pButton
+      label='Crear'
+      type="button"
+      icon='fa-check'
+      class="ui-button-success"
+      (click)="sendNewListDialog()"
+    ></button>
+    <button pButton
+      label='Cancelar'
+      type="button"
+      icon='fa-times'
+      class="ui-button-danger"
+      (click)="toogleNewListDialog(false)"
+    ></button>
   </p-footer>
 </p-dialog>
 

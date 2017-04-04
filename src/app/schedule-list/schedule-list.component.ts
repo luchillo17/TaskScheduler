@@ -1,5 +1,5 @@
 import {
-  OnInit,
+  AfterViewInit,
   Component,
   ViewEncapsulation,
 } from '@angular/core';
@@ -17,10 +17,7 @@ import { v1 as uuidV1 } from 'uuid';
   templateUrl: './schedule-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class ScheduleListComponent implements OnInit {
-  // Set our default values
-  public localState = { value: '' };
-
+export class ScheduleListComponent implements AfterViewInit {
   public selectedListId = "";
 
   public newListDialogState: Observable<boolean>;
@@ -28,13 +25,13 @@ export class ScheduleListComponent implements OnInit {
   public scheduleLists = [];
   public taskLists = [];
   public taskQueue = [];
-  // TypeScript public modifiers
+
+  public isValid = false;
   constructor(
     private store: Store<RXState>,
-  ) {
-  }
+  ) {}
 
-  public ngOnInit() {
+  public ngAfterViewInit() {
     this.newListDialogState = this.store.select<boolean>('newListDialogState')
 
     this.store.select<ScheduleList[]>('scheduleLists')
@@ -53,6 +50,13 @@ export class ScheduleListComponent implements OnInit {
       type: 'SHOW_LIST',
       payload: scheduleList.id,
     });
+  }
+
+  public sendNewListDialog() {
+    if (!this.isValid) {
+      return;
+    }
+    this.toogleNewListDialog(false);
   }
 
   public toogleNewListDialog(isShow: boolean) {

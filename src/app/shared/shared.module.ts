@@ -15,8 +15,13 @@ import { RouterStoreModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
-import { DataListModule, DialogModule } from 'primeng/primeng';
 import { MaterialModule } from '@angular/material';
+import {
+  ButtonModule,
+  DialogModule,
+  DataListModule,
+  InputSwitchModule,
+} from 'primeng/primeng';
 
 import { AppReducers } from './store.reducers';
 
@@ -56,8 +61,11 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     BrowserAnimationsModule,
 
     MaterialModule,
-    DataListModule,
+
+    ButtonModule,
     DialogModule,
+    DataListModule,
+    InputSwitchModule,
   ]
 })
 export class SharedModule {}

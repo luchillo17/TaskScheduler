@@ -19,12 +19,14 @@ export const listsStateReducer: ActionReducer<ListsState> = (state = initialList
   }
 }
 
-export const newListDialogStateReducer: ActionReducer<boolean> = (state = false, action) => {
+const initialListDialogState = { show: false, type: 'NEW' }
+
+export const listDialogStateReducer: ActionReducer<ListDialogState> = (state = initialListDialogState, action) => {
   switch (action.type) {
-    case 'SHOW_NEW_LIST_DIALOG':
-      return true;
-    case 'HIDE_NEW_LIST_DIALOG':
-      return false;
+    case 'SHOW_LIST_DIALOG':
+      return Object.assign({}, state, { show: true, type: action.payload, });
+    case 'HIDE_LIST_DIALOG':
+      return Object.assign({}, state, { show: false });
     default:
       return state;
   }
@@ -45,11 +47,24 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = init
     taskScheduleIds: [],
   } as ScheduleList;
 
+  let selectedSceduleList: ScheduleList;
+
   switch (action.type) {
     case 'ADD_LIST':
       return [
           ...state,
           Object.assign({}, defaults, action.payload),
+      ];
+    case 'UPDATE_LIST':
+      selectedSceduleList = action.payload
+      return [
+          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
+          selectedSceduleList,
+      ];
+    case 'DELETE_LIST':
+      selectedSceduleList = action.payload
+      return [
+          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
       ];
 
     default:
@@ -60,5 +75,5 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = init
 export const AppReducers = {
   listsState:      listsStateReducer,
   scheduleLists:   scheduleListsReducer,
-  newListDialogState: newListDialogStateReducer,
+  listDialogState: listDialogStateReducer,
 };

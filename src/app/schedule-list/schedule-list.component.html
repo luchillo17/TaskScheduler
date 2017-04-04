@@ -31,6 +31,16 @@
           </ng-template>
         </div>
       </ng-template>
+      <p-footer>
+        <button pButton
+          (click)="openListDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+        <button pButton
+          [disabled]="selectedListId === ''"
+          (click)="openListDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+        <button pButton
+          [disabled]="selectedListId === ''"
+          (click)="openListDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+      </p-footer>
     </p-dataList>
   </div>
   <div id="schedule-item-panel">
@@ -45,18 +55,19 @@
   </div>
 </div>
 
-<button (click)='toogleNewListDialog(true)'>
+<button (click)='showNewListDialog(true)'>
   addItem
 </button>
 
+<!-- NewListDialog from here down-->
 <p-dialog
   header='Nueva lista de calendarios'
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'
-  [visible]="newListDialogState | async"
-  (visibleChange)="toogleNewListDialog($event)">
-  <form class="ui-g" [formGroup]='newListDialogForm'>
+  [visible]="listDialogState.show && listDialogState.type !== 'DELETE'"
+  (visibleChange)="toogleListDialog($event)">
+  <form class="ui-g" [formGroup]='listDialogForm'>
     <div class="ui-g-12">
       <label class="ui-g-4">Id</label>
       <input
@@ -77,11 +88,11 @@
       >
       <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
         *ngIf="
-          newListDialogForm.controls['name'].invalid &&
-          newListDialogForm.controls['name'].dirty
+          listDialogForm.controls['name'].invalid &&
+          listDialogForm.controls['name'].dirty
         "
       >
-        <div *ngIf="newListDialogForm.controls['name'].hasError('required'); else newListNameErrorLength">
+        <div *ngIf="listDialogForm.controls['name'].hasError('required'); else newListNameErrorLength">
           <i class="fa fa-close"></i>
           Nobre es requerido
         </div>
@@ -107,15 +118,15 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toogleNewListDialog(false)"
+        (click)="toogleListDialog(false)"
       ></button>
       <button pButton
-        label='Crear'
+        label='Guardar'
         type="button"
         icon='fa-check'
         class="ui-button-success"
-        [disabled]="newListDialogForm.invalid"
-        (click)="sendNewListDialog()"
+        [disabled]="listDialogForm.invalid"
+        (click)="saveListDialog()"
       ></button>
     </div>
   </p-footer>

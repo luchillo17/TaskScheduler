@@ -9,6 +9,11 @@ interface ListsState {
   selectedTaskScedule:  string;
 }
 
+interface ListDialogState {
+  show: boolean;
+  type: string;
+}
+
 interface ScheduleList {
   id: string;
   name: String;

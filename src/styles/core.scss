@@ -24,9 +24,10 @@ html, body{
 }
 
 p-datalist,
-p-datalist > div
+p-datalist > div,
+p-dialog > div
 {
-  display: flex;
+  display: flex!important;
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: stretch;
@@ -40,7 +41,7 @@ p-datalist > div > .ui-datalist-content {
   flex: 1;
 }
 
-p-datalist {
+p-dialog, p-datalist {
   > div {
     flex-direction: column;
   }

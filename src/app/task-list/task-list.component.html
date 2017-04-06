@@ -41,6 +41,7 @@
 <p-dialog
   header='Nueva agenda de tareas'
   width='800'
+  height='600'
   responsive='true'
   [modal]='true'
   [closable]='true'
@@ -64,7 +65,7 @@
         class="ui-g-8"
         pInputText
         disabled
-        formControlName='id'>
+        formControlName='scheduleListId'>
     </div>
     <div class="ui-g-12">
       <label class="ui-g-4">Nombre:</label>
@@ -111,21 +112,21 @@
     </p-fieldset>
     <p-fieldset legend='Reglas de frecuencia'>
       <!-- Time inputs -->
-      <div class="ui-g-6">
+      <div class = "ui-g-6">
         <div class="ui-g-12">
-          <label class="ui-g-4">Segundo (Opcional):</label>
+          <label class="ui-g-12">Segundo (Opcional):</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             disabled
             formControlName='second'>
         </div>
         <div class="ui-g-12">
-          <label class="ui-g-4">Minuto:</label>
+          <label class="ui-g-12">Minuto:</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             formControlName='minute'>
           <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
@@ -140,10 +141,10 @@
           </div>
         </div>
         <div class="ui-g-12">
-          <label class="ui-g-4">Hora:</label>
+          <label class="ui-g-12">Hora:</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             formControlName='hour'>
           <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
@@ -162,10 +163,10 @@
       <!-- Date inputs -->
       <div class="ui-g-6">
         <div class="ui-g-12">
-          <label class="ui-g-4">Día de mes:</label>
+          <label class="ui-g-12">Día de mes:</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             formControlName='dayOfMonth'>
           <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
@@ -180,10 +181,10 @@
           </div>
         </div>
         <div class="ui-g-12">
-          <label class="ui-g-4">Mes:</label>
+          <label class="ui-g-12">Mes:</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             formControlName='month'>
           <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
@@ -198,10 +199,10 @@
           </div>
         </div>
         <div class="ui-g-12">
-          <label class="ui-g-4">Día de semana:</label>
+          <label class="ui-g-12">Día de semana:</label>
           <input
             type="text"
-            class="ui-g-8"
+            class="ui-g-12"
             pInputText
             formControlName='dayOfWeek'>
           <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"

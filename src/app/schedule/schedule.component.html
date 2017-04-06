@@ -1,0 +1,18 @@
+<md-toolbar color="primary">
+  Calendarios y tareas
+</md-toolbar>
+
+<div id="schedule-list-container">
+  <schedule-list></schedule-list>
+
+  <task-list></task-list>
+
+  <div id="schedule-queue-panel">
+    <p-dataList [value]='taskQueue'>
+      <p-header>Cola tareas</p-header>
+    </p-dataList>
+  </div>
+</div>
+
+
+

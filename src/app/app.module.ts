@@ -34,7 +34,11 @@ import {
   InternalStateType
 } from './app.service';
 
-import { ScheduleListComponent } from './schedule-list';
+import {
+  ScheduleComponent,
+  ScheduleListComponent,
+  TaskListComponent,
+} from './';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';
 
@@ -60,7 +64,9 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
+    ScheduleComponent,
     ScheduleListComponent,
+    TaskListComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules

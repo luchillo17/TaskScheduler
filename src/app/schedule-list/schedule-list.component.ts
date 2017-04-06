@@ -13,8 +13,9 @@ import { v1 as uuidV1 } from 'uuid';
 
 @Component({
   selector: 'schedule-list',
-  providers: [
-  ],
+  host: {
+    id: 'schedule-list-panel',
+  },
   styleUrls: [ './schedule-list.component.scss' ],
   templateUrl: './schedule-list.component.html',
   // encapsulation: ViewEncapsulation.None,
@@ -22,16 +23,13 @@ import { v1 as uuidV1 } from 'uuid';
 export class ScheduleListComponent implements AfterViewInit {
   public selectedListId = "";
 
-  public listDialogState: ListDialogState = { show: false, type: 'NEW' };
+  public listDialogState: DialogState = { show: false, type: 'NEW' };
 
   public scheduleLists: ScheduleList[] = [];
-  public taskLists: TaskSchedule[] = [];
-  public taskQueue: Task[] = [];
 
   // NewListDialog
   public listDialogForm: FormGroup;
 
-  public isValid = false;
   constructor(
     private store: Store<RXState>,
     private fb: FormBuilder,
@@ -57,7 +55,7 @@ export class ScheduleListComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.store
-      .select<ListDialogState>('listDialogState')
+      .select<DialogState>('listDialogState')
       .subscribe((listDialogState) => {
         this.listDialogState = listDialogState
       })

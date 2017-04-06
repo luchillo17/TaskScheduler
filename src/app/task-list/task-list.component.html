@@ -1,0 +1,242 @@
+<p-dataList [value]='taskSchedules'>
+  <p-header>Calendario tareas</p-header>
+  <ng-template
+    let-taskSchedule
+    let-i='index'
+    pTemplate="item"
+  >
+    <div
+      class="task-schedule-container"
+      [ngClass]="{selected: selectedTaskScheduleId === taskSchedule.id}"
+      (click)='setSelectedTaskSchedule(taskSchedule)'
+    >
+      <div *ngIf="taskSchedule.id !== ''; else showAll">
+        <div class="name">
+          <b>Nombre:</b> {{ taskSchedule.name }}
+        </div>
+        <div class="isListActive">
+          <b>Activo:</b> {{ taskSchedule.active }}
+        </div>
+      </div>
+      <ng-template #showAll>
+        <div class="name">
+          <b>{{ taskSchedule.name }}</b>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+  <p-footer>
+    <button pButton
+      (click)="openTaskScheduleDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+    <button pButton
+      [disabled]="selectedTaskScheduleId === ''"
+      (click)="openTaskScheduleDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
+      [disabled]="selectedTaskScheduleId === ''"
+      (click)="openTaskScheduleDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+  </p-footer>
+</p-dataList>
+
+<!-- NewListDialog from here down-->
+<p-dialog
+  header='Nueva agenda de tareas'
+  width='800'
+  responsive='true'
+  [modal]='true'
+  [closable]='true'
+  [dismissableMask]='false'
+  [visible]="taskScheduleDialogState.show && taskScheduleDialogState.type !== 'DELETE'"
+  (visibleChange)="toogleTaskScheduleDialog($event)">
+  <form class="ui-g" [formGroup]='taskScheduleForm'>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Id:</label>
+      <input
+        type="text"
+        class="ui-g-8"
+        pInputText
+        disabled
+        formControlName='id'>
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Id lista calendario:</label>
+      <input
+        type="text"
+        class="ui-g-8"
+        pInputText
+        disabled
+        formControlName='id'>
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Nombre:</label>
+      <input
+        type="text"
+        class="ui-g-8"
+        pInputText
+        formControlName='name'>
+      <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+        *ngIf="
+          taskScheduleForm.controls['name'].invalid &&
+          taskScheduleForm.controls['name'].dirty
+        ">
+        <div *ngIf="taskScheduleForm.controls['name'].hasError('required'); else newListNameErrorLength">
+          <i class="fa fa-close"></i>
+          Nobre es requerido
+        </div>
+        <ng-template #newListNameErrorLength>
+          <i class="fa fa-close"></i>
+          Nobre minimo 4 caracteres
+        </ng-template>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Activo:</label>
+      <p-toggleButton
+        class="ui-g-8"
+        formControlName='active'
+      ></p-toggleButton>
+    </div>
+    <div class="ui-g-12">
+      <label class="ui-g-4">Usar rango de fecha:</label>
+      <p-toggleButton
+        class="ui-g-8"
+        formControlName='useDateRange'
+      ></p-toggleButton>
+    </div>
+    <p-fieldset *ngIf="taskScheduleForm.controls['useDateRange'].value === true" class="ui-g-12">
+      <p-header>Rango de fecha:</p-header>
+      <div class="ui-g-6">Desde: </div>
+      <p-calendar class="ui-g-6" formControlName='start' showTime='true' showIcon='true'></p-calendar>
+      <div class="ui-g-6">Hasta:</div>
+      <p-calendar class="ui-g-6" formControlName='end' showTime='true' showIcon='true'></p-calendar>
+    </p-fieldset>
+    <p-fieldset legend='Reglas de frecuencia'>
+      <!-- Time inputs -->
+      <div class="ui-g-6">
+        <div class="ui-g-12">
+          <label class="ui-g-4">Segundo (Opcional):</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            disabled
+            formControlName='second'>
+        </div>
+        <div class="ui-g-12">
+          <label class="ui-g-4">Minuto:</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            formControlName='minute'>
+          <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+            *ngIf="
+              taskScheduleForm.controls['minute'].invalid &&
+              taskScheduleForm.controls['minute'].dirty
+            ">
+            <div *ngIf="taskScheduleForm.controls['minute'].hasError('required')">
+              <i class="fa fa-close"></i>
+              Minuto es requerido
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <label class="ui-g-4">Hora:</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            formControlName='hour'>
+          <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+            *ngIf="
+              taskScheduleForm.controls['hour'].invalid &&
+              taskScheduleForm.controls['hour'].dirty
+            ">
+            <div *ngIf="taskScheduleForm.controls['hour'].hasError('required')">
+              <i class="fa fa-close"></i>
+              Hora es requerido
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date inputs -->
+      <div class="ui-g-6">
+        <div class="ui-g-12">
+          <label class="ui-g-4">Día de mes:</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            formControlName='dayOfMonth'>
+          <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+            *ngIf="
+              taskScheduleForm.controls['dayOfMonth'].invalid &&
+              taskScheduleForm.controls['dayOfMonth'].dirty
+            ">
+            <div *ngIf="taskScheduleForm.controls['dayOfMonth'].hasError('required')">
+              <i class="fa fa-close"></i>
+              Día del mes es requerido
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <label class="ui-g-4">Mes:</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            formControlName='month'>
+          <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+            *ngIf="
+              taskScheduleForm.controls['month'].invalid &&
+              taskScheduleForm.controls['month'].dirty
+            ">
+            <div *ngIf="taskScheduleForm.controls['month'].hasError('required')">
+              <i class="fa fa-close"></i>
+              Mes es requerido
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <label class="ui-g-4">Día de semana:</label>
+          <input
+            type="text"
+            class="ui-g-8"
+            pInputText
+            formControlName='dayOfWeek'>
+          <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+            *ngIf="
+              taskScheduleForm.controls['dayOfWeek'].invalid &&
+              taskScheduleForm.controls['dayOfWeek'].dirty
+            ">
+            <div *ngIf="taskScheduleForm.controls['dayOfWeek'].hasError('required')">
+              <i class="fa fa-close"></i>
+              Día de smana es requerido
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-fieldset>
+  </form>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button pButton
+        label='Cancelar'
+        type="button"
+        icon='fa-times'
+        class="ui-button-danger"
+        (click)="toogleTaskScheduleDialog(false)"
+      ></button>
+      <button pButton
+        label='Guardar'
+        type="button"
+        icon='fa-check'
+        class="ui-button-success"
+        [disabled]="taskScheduleForm.invalid"
+        (click)="saveTaskScheduleDialog()"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
+

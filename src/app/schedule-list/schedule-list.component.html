@@ -1,63 +1,41 @@
-<md-toolbar color="primary">
-  Calendarios y tareas
-</md-toolbar>
-
-<div id="schedule-list-container">
-  <div id="schedule-list-panel">
-    <p-dataList [value]='scheduleLists'>
-      <p-header>Lista calendarios</p-header>
-      <ng-template
-        let-scheduleList
-        let-i='index'
-        pTemplate="item"
-      >
-        <div
-          class="schedule-list-container"
-          [ngClass]="{selected: selectedListId === scheduleList.id}"
-          (click)='setSelectedList(scheduleList)'
-        >
-          <div *ngIf="scheduleList.id !== ''; else showAll">
-            <div class="name">
-              <b>Nombre:</b> {{ scheduleList.name }}
-            </div>
-            <div class="isListActive">
-              <b>Activo:</b> {{ scheduleList.active }}
-            </div>
-          </div>
-          <ng-template #showAll>
-            <div class="name">
-              <b>{{ scheduleList.name }}</b>
-            </div>
-          </ng-template>
+<p-dataList [value]='scheduleLists'>
+  <p-header>Lista calendarios</p-header>
+  <ng-template
+    let-scheduleList
+    let-i='index'
+    pTemplate="item"
+  >
+    <div
+      class="schedule-list-container"
+      [ngClass]="{selected: selectedListId === scheduleList.id}"
+      (click)='setSelectedList(scheduleList)'
+    >
+      <div *ngIf="scheduleList.id !== ''; else showAll">
+        <div class="name">
+          <b>Nombre:</b> {{ scheduleList.name }}
+        </div>
+        <div class="isListActive">
+          <b>Activo:</b> {{ scheduleList.active }}
+        </div>
+      </div>
+      <ng-template #showAll>
+        <div class="name">
+          <b>{{ scheduleList.name }}</b>
         </div>
       </ng-template>
-      <p-footer>
-        <button pButton
-          (click)="openListDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
-        <button pButton
-          [disabled]="selectedListId === ''"
-          (click)="openListDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
-        <button pButton
-          [disabled]="selectedListId === ''"
-          (click)="openListDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
-      </p-footer>
-    </p-dataList>
-  </div>
-  <div id="schedule-item-panel">
-    <p-dataList [value]='taskLists'>
-      <p-header>Lista tareas</p-header>
-    </p-dataList>
-  </div>
-  <div id="schedule-queue-panel">
-    <p-dataList [value]='taskQueue'>
-      <p-header>Cola tareas</p-header>
-    </p-dataList>
-  </div>
-</div>
-
-<button (click)='showNewListDialog(true)'>
-  addItem
-</button>
+    </div>
+  </ng-template>
+  <p-footer>
+    <button pButton
+      (click)="openListDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+    <button pButton
+      [disabled]="selectedListId === ''"
+      (click)="openListDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
+      [disabled]="selectedListId === ''"
+      (click)="openListDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+  </p-footer>
+</p-dataList>
 
 <!-- NewListDialog from here down-->
 <p-dialog
@@ -69,7 +47,7 @@
   (visibleChange)="toogleListDialog($event)">
   <form class="ui-g" [formGroup]='listDialogForm'>
     <div class="ui-g-12">
-      <label class="ui-g-4">Id</label>
+      <label class="ui-g-4">Id:</label>
       <input
         type="text"
         class="ui-g-8"
@@ -92,18 +70,18 @@
           listDialogForm.controls['name'].dirty
         "
       >
-        <div *ngIf="listDialogForm.controls['name'].hasError('required'); else newListNameErrorLength">
+        <div *ngIf="listDialogForm.controls['name'].hasError('required'); else listNameErrorLength">
           <i class="fa fa-close"></i>
           Nobre es requerido
         </div>
-        <ng-template #newListNameErrorLength>
+        <ng-template #listNameErrorLength>
           <i class="fa fa-close"></i>
           Nobre minimo 4 caracteres
         </ng-template>
       </div>
     </div>
     <div class="ui-g-12">
-      <label class="ui-g-4">Activo</label>
+      <label class="ui-g-4">Activo:</label>
       <p-toggleButton
         class="ui-g-8"
         formControlName='active'

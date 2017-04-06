@@ -9,7 +9,7 @@ interface ListsState {
   selectedTaskScedule:  string;
 }
 
-interface ListDialogState {
+interface DialogState {
   show: boolean;
   type: string;
 }
@@ -23,7 +23,9 @@ interface ScheduleList {
 
 interface TaskSchedule {
   id: string;
-  scheduleListId: string
+  name: string;
+  scheduleListId: string;
+  useDateRange: boolean;
   start?: Date;
   end?: Date;
 
@@ -33,7 +35,7 @@ interface TaskSchedule {
   dayOfMonth: String;
   month: String;
   dayOfWeek: String;
-  active: String;
+  active: Boolean;
 
   taskIds?: String[];
 }

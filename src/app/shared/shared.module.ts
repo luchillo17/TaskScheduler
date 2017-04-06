@@ -20,7 +20,9 @@ import { MaterialModule } from '@angular/material';
 import {
   ButtonModule,
   DialogModule,
+  FieldsetModule,
   DataListModule,
+  CalendarModule,
   InputSwitchModule,
   ToggleButtonModule,
 } from 'primeng/primeng';
@@ -68,7 +70,9 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
 
     ButtonModule,
     DialogModule,
+    FieldsetModule,
     DataListModule,
+    CalendarModule,
     InputSwitchModule,
     ToggleButtonModule
   ]

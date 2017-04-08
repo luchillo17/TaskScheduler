@@ -60,12 +60,35 @@
     </div>
     <div class="ui-g-12">
       <label class="ui-g-4">Id lista calendario:</label>
-      <input
-        type="text"
+      <p-autoComplete
+        #taskScheduleListAutocomplete
         class="ui-g-8"
-        pInputText
-        disabled
-        formControlName='scheduleListId'>
+        formControlName='scheduleList'
+        placeholder="Empiece a escribir para buscar"
+        field="name"
+        [size]="10"
+        [minLength]="1"
+        [dropdown]="true"
+        [autoHighlight]="true"
+        [suggestions]="scheduleLists | async"
+        (completeMethod)="filterLists($event)"
+        (onDropdownClick)="handleDropdownClick($event)"
+      ></p-autoComplete>
+        <!--[readonly]="true"-->
+      <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
+        *ngIf="
+          taskScheduleForm.controls['scheduleList'].invalid &&
+          taskScheduleForm.controls['scheduleList'].dirty
+        ">
+        <div *ngIf="taskScheduleForm.controls['scheduleList'].hasError('required');">
+          <i class="fa fa-close"></i>
+          Lista de calendario es requerido
+        </div>
+        <div *ngIf="taskScheduleForm.controls['scheduleList'].hasError('selection')">
+          <i class="fa fa-close"></i>
+          Debe seleccionar una lista de las opciones de la lista desplegable
+        </div>
+      </div>
     </div>
     <div class="ui-g-12">
       <label class="ui-g-4">Nombre:</label>
@@ -81,11 +104,11 @@
         ">
         <div *ngIf="taskScheduleForm.controls['name'].hasError('required'); else newListNameErrorLength">
           <i class="fa fa-close"></i>
-          Nobre es requerido
+          Nombre es requerido
         </div>
         <ng-template #newListNameErrorLength>
           <i class="fa fa-close"></i>
-          Nobre minimo 4 caracteres
+          Nombre minimo 4 caracteres
         </ng-template>
       </div>
     </div>
@@ -119,7 +142,6 @@
             type="text"
             class="ui-g-12"
             pInputText
-            disabled
             formControlName='second'>
         </div>
         <div class="ui-g-12">

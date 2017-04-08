@@ -24,6 +24,7 @@ import {
   DataListModule,
   CalendarModule,
   InputSwitchModule,
+  AutoCompleteModule,
   ToggleButtonModule,
 } from 'primeng/primeng';
 
@@ -74,7 +75,8 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     DataListModule,
     CalendarModule,
     InputSwitchModule,
-    ToggleButtonModule
+    AutoCompleteModule,
+    ToggleButtonModule,
   ]
 })
 export class SharedModule {}

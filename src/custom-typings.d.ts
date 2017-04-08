@@ -21,6 +21,10 @@ interface ScheduleList {
   // taskScheduleIds?: string[];
 }
 
+interface ScheduleListFilter {
+  (scheduleLists: ScheduleList[]): ScheduleList[];
+}
+
 interface TaskSchedule {
   id: string;
   name: string;

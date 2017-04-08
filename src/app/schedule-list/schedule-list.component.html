@@ -72,11 +72,11 @@
       >
         <div *ngIf="listDialogForm.controls['name'].hasError('required'); else listNameErrorLength">
           <i class="fa fa-close"></i>
-          Nobre es requerido
+          Nombre es requerido
         </div>
         <ng-template #listNameErrorLength>
           <i class="fa fa-close"></i>
-          Nobre minimo 4 caracteres
+          Nombre minimo 4 caracteres
         </ng-template>
       </div>
     </div>

@@ -1,5 +1,30 @@
 import { ActionReducer } from '@ngrx/store';
 
+export const initialScheduleListsFilterState = (scheduleLists: ScheduleList[]) => scheduleLists.filter(list => list.id !== '');
+
+export const scheduleListsFilterReducer: ActionReducer<ScheduleListFilter> = (state = initialScheduleListsFilterState, action) => {
+  switch (action.type) {
+    case 'FILTER_SCHEDULE_LIST_BY_NAME':
+      return (scheduleLists: ScheduleList[]) => {
+        return scheduleLists.filter((scheduleList) => scheduleList
+          .name
+          .toLowerCase()
+          .includes(
+            action
+            .payload
+            .toLowerCase()
+          )
+        );
+      }
+
+    case 'FILTER_SCHEDULE_LIST_NONE':
+      return initialScheduleListsFilterState;
+
+    default:
+      return state;
+  }
+}
+
 const initialTaskScheduleDialogState = { show: false, type: 'NEW' }
 
 export const taskScheduleDialogStateReducer: ActionReducer<DialogState> = (state = initialTaskScheduleDialogState, action) => {

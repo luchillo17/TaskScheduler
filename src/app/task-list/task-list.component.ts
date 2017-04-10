@@ -60,18 +60,25 @@ export class TaskListComponent implements AfterViewInit {
     });
     global['taskScheduleDialogForm'] = this.taskScheduleForm;
 
-    this.scheduleLists = Observable.combineLatest(
-      this.store.select<ScheduleList[]>('scheduleLists'),
-      this.store.select<ScheduleListFilter>('scheduleListsFilter'),
-      (scheduleLists, scheduleListsFilter) => {
-        if (!scheduleLists || !scheduleListsFilter) return;
-        return scheduleListsFilter(scheduleLists);
-      },
-    )
+    this.scheduleLists = this.store
+      .select<ScheduleList[]>('scheduleLists')
+      .map((scheduleLists) => {
+        return scheduleLists.filter((scheduleList) => scheduleList.id != '')
+      })
 
-    this.store.select<TaskSchedule[]>('taskSchedules')
-      .subscribe((taskLists) => {
-        this.taskSchedules = taskLists
+    Observable.combineLatest(
+      this.store.select<TaskSchedule[]>('taskSchedules'),
+      this.store.select<ListsState>('listsState'),
+      (taskSchedules, { selectedScheduleList }) => {
+        return taskSchedules.filter((taskSchedule) => {
+          return selectedScheduleList == '' ||
+            taskSchedule.id == '' ||
+            taskSchedule.scheduleListId == selectedScheduleList
+        })
+
+    })
+      .subscribe((taskSchedules) => {
+        this.taskSchedules = taskSchedules
       })
 
     this.store.select<ListsState>('listsState')
@@ -113,20 +120,24 @@ export class TaskListComponent implements AfterViewInit {
     switch (type) {
       case 'UPDATE':
         if (this.selectedTaskScheduleId === '') return;
-        let selectedTaskSchedule = this.taskSchedules
+        // Extract scheduleListId of selectedTaskSchedule
+        let { scheduleListId, ...selectedTaskSchedule} = this.taskSchedules
           .find((taskList) => taskList.id === this.selectedTaskScheduleId)
 
         this.store
           .select<ScheduleList[]>('scheduleLists')
           .take(1)
           .subscribe((scheduleLists) => {
-            let taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === selectedTaskSchedule.scheduleListId);
+            // Get taskScheduleList object and assign it to the selectedTaskSchedule
+            let taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === scheduleListId);
             selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
-            delete selectedTaskSchedule.scheduleListId;
-            console.log(selectedTaskSchedule);
-            this.taskScheduleForm.reset(selectedTaskSchedule)
-          })
 
+            // Parse start & end dates to JS Date type
+            this.taskScheduleForm.reset(Object.assign({}, selectedTaskSchedule, {
+              start: new Date(selectedTaskSchedule.start),
+              end: new Date(selectedTaskSchedule.end),
+            }))
+          })
 
         break;
       case 'DELETE':

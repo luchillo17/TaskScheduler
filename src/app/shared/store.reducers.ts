@@ -2,7 +2,6 @@ import { ActionReducer } from '@ngrx/store';
 
 import {
   taskScheduleDialogStateReducer,
-  scheduleListsFilterReducer,
   taskSchedulesReducer,
 } from "..";
 
@@ -92,5 +91,4 @@ export const AppReducers = {
 
   taskSchedules: taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,
-  scheduleListsFilter: scheduleListsFilterReducer,
 };

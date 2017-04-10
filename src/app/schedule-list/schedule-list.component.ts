@@ -1,13 +1,14 @@
 import {
-  AfterViewInit,
   Component,
+  OnDestroy,
+  AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
@@ -20,7 +21,11 @@ import { v1 as uuidV1 } from 'uuid';
   templateUrl: './schedule-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class ScheduleListComponent implements AfterViewInit {
+export class ScheduleListComponent implements AfterViewInit, OnDestroy {
+  private listsState$: Subscription;
+  private scheduleLists$: Subscription;
+  private listDialogState$: Subscription;
+
   public selectedListId = "";
 
   public listDialogState: DialogState = { show: false, type: 'NEW' };
@@ -42,23 +47,29 @@ export class ScheduleListComponent implements AfterViewInit {
     global['listDialogForm'] = this.listDialogForm;
 
 
-    this.store.select<ScheduleList[]>('scheduleLists')
+    this.scheduleLists$ = this.store.select<ScheduleList[]>('scheduleLists')
       .subscribe((scheduleLists) => {
         this.scheduleLists = scheduleLists
-      })
+      });
 
-    this.store.select<ListsState>('listsState')
+    this.listsState$ = this.store.select<ListsState>('listsState')
       .subscribe((listsState) => {
         this.selectedListId = listsState.selectedScheduleList;
       });
   }
 
   public ngAfterViewInit() {
-    this.store
+    this.listDialogState$ = this.store
       .select<DialogState>('listDialogState')
       .subscribe((listDialogState) => {
         this.listDialogState = listDialogState
       })
+  }
+
+  public ngOnDestroy() {
+    this.listsState$.unsubscribe();
+    this.scheduleLists$.unsubscribe();
+    this.listDialogState$.unsubscribe();
   }
 
   public setSelectedList(scheduleList: ScheduleList) {

@@ -1,6 +1,7 @@
 import {
   Component,
   ViewChild,
+  OnDestroy,
   AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -10,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AutoComplete } from "primeng/primeng";
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
@@ -25,8 +26,12 @@ import { CustomTaskListValidators } from ".";
   templateUrl: './task-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class TaskListComponent implements AfterViewInit {
+export class TaskListComponent implements AfterViewInit, OnDestroy {
   @ViewChild('taskScheduleListAutocomplete') private taskScheduleListAutocomplete: AutoComplete;
+
+  private taskSchedules$: Subscription;
+  private selectedTaskSchedule$: Subscription;
+  private taskScheduleDialogState$: Subscription;
 
   public selectedTaskScheduleId = "";
 
@@ -66,7 +71,7 @@ export class TaskListComponent implements AfterViewInit {
         return scheduleLists.filter((scheduleList) => scheduleList.id != '')
       })
 
-    Observable.combineLatest(
+    this.taskSchedules$ = Observable.combineLatest(
       this.store.select<TaskSchedule[]>('taskSchedules'),
       this.store.select<ListsState>('listsState'),
       (taskSchedules, { selectedScheduleList }) => {
@@ -75,24 +80,29 @@ export class TaskListComponent implements AfterViewInit {
             taskSchedule.id == '' ||
             taskSchedule.scheduleListId == selectedScheduleList
         })
-
-    })
+      })
       .subscribe((taskSchedules) => {
         this.taskSchedules = taskSchedules
-      })
+      });
 
-    this.store.select<ListsState>('listsState')
+    this.selectedTaskSchedule$ = this.store.select<ListsState>('listsState')
       .subscribe(({ selectedTaskScedule }) => {
         this.selectedTaskScheduleId = selectedTaskScedule;
       });
   }
 
   public ngAfterViewInit() {
-    this.store
+    this.taskScheduleDialogState$ = this.store
       .select<DialogState>('taskScheduleDialogState')
       .subscribe((taskScheduleDialogState) => {
         this.taskScheduleDialogState = taskScheduleDialogState
-      })
+      });
+  }
+
+  ngOnDestroy() {
+    this.taskSchedules$.unsubscribe();
+    this.selectedTaskSchedule$.unsubscribe();
+    this.taskScheduleDialogState$.unsubscribe();
   }
 
   public setSelectedTaskSchedule(taskSchedule: TaskSchedule) {

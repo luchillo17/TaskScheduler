@@ -89,6 +89,7 @@ export class TaskListComponent implements AfterViewInit {
   }
 
   public setSelectedTaskSchedule(taskSchedule: TaskSchedule) {
+    console.log('SetSelected: ', taskSchedule);
     this.store.dispatch({
       type: 'SHOW_TASK_SCHEDULE',
       payload: taskSchedule.id,
@@ -115,8 +116,18 @@ export class TaskListComponent implements AfterViewInit {
         let selectedTaskSchedule = this.taskSchedules
           .find((taskList) => taskList.id === this.selectedTaskScheduleId)
 
+        this.store
+          .select<ScheduleList[]>('scheduleLists')
+          .take(1)
+          .subscribe((scheduleLists) => {
+            let taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === selectedTaskSchedule.scheduleListId);
+            selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
+            delete selectedTaskSchedule.scheduleListId;
+            console.log(selectedTaskSchedule);
+            this.taskScheduleForm.reset(selectedTaskSchedule)
+          })
 
-        this.taskScheduleForm.reset(selectedTaskSchedule)
+
         break;
       case 'DELETE':
         if (this.selectedTaskScheduleId === '') return;

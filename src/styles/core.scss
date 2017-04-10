@@ -25,7 +25,8 @@ html, body{
 
 p-datalist,
 p-datalist > div,
-p-dialog > div
+p-dialog > div,
+.ui-dialog
 {
   display: flex!important;
   flex-wrap: nowrap;
@@ -41,8 +42,12 @@ p-datalist > div > .ui-datalist-content {
   flex: 1;
 }
 
-p-dialog, p-datalist {
+p-dialog, .ui-dialog, p-datalist {
   > div {
     flex-direction: column;
   }
+}
+
+.ui-dialog {
+  flex-direction: column;
 }

@@ -49,7 +49,9 @@ interface Task {
 }
 
 interface RXState {
-  listsState:         ListsState;
-  scheduleLists:      ScheduleList[];
-  newListDialogState: boolean;
+  listsState     : ListsState;
+  scheduleLists  : ScheduleList[];
+  TaskSchedules  : TaskSchedule[];
+  listDialogState: DialogState;
+  taskScheduleDialogState: DialogState;
 }

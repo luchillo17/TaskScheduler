@@ -71,7 +71,7 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
     case 'UPDATE_TASK_SCHEDULE':
       selectedSceduleList = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
+          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
           selectedSceduleList,
       ];
     case 'DELETE_TASK_SCHEDULE':

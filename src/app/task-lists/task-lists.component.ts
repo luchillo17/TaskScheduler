@@ -18,12 +18,12 @@ import { v1 as uuidV1 } from 'uuid';
 import { CustomTaskListsValidators } from ".";
 
 @Component({
-  selector: 'task-list',
+  selector: 'task-lists',
   host: {
-    id: 'task-list-panel',
+    id: 'task-lists-panel',
   },
-  styleUrls: [ './task-list.component.scss' ],
-  templateUrl: './task-list.component.html',
+  styleUrls: [ './task-lists.component.scss' ],
+  templateUrl: './task-lists.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
 export class TaskListsComponent implements AfterViewInit, OnDestroy {
@@ -225,12 +225,13 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
     this.toogleTaskScheduleDialog(false)
   }
   filterLists($event) {
-    // setTimeout(() => {
+    setTimeout(() => {
       this.store.dispatch({
         type: 'FILTER_SCHEDULE_LIST_BY_NAME',
         payload: $event.query,
       })
-    // });
+      this.taskScheduleListAutocomplete.show()
+    });
   }
   handleDropdownClick($event) {
     setTimeout(() => {

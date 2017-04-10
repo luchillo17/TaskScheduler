@@ -28,7 +28,7 @@ import {
   ToggleButtonModule,
 } from 'primeng/primeng';
 
-import { AppReducers } from './store.reducers';
+import { AppReducers, ScheduleService, UtilService } from './';
 
 export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action ) {
@@ -77,6 +77,10 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     InputSwitchModule,
     AutoCompleteModule,
     ToggleButtonModule,
+  ],
+  providers: [
+    ScheduleService,
+    UtilService,
   ]
 })
 export class SharedModule {}

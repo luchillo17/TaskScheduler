@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from './app.service';
 
+import { ScheduleService } from "./shared";
+
 /*
  * App Component
  * Top Level Component
@@ -29,7 +31,11 @@ export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
 
-  constructor() {}
+  constructor(
+    scheduleService: ScheduleService
+  ) {
+
+  }
 
   public ngOnInit() {
   }

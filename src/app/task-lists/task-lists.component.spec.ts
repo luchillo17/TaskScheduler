@@ -15,16 +15,16 @@ import { MockBackend } from '@angular/http/testing';
 
 // Load the implementations that should be tested
 import { AppState } from '../app.service';
-import { TaskListComponent } from './task-list.component';
+import { TaskListsComponent } from './task-lists.component';
 
 describe(`Home`, () => {
-  let comp: TaskListComponent;
-  let fixture: ComponentFixture<TaskListComponent>;
+  let comp: TaskListsComponent;
+  let fixture: ComponentFixture<TaskListsComponent>;
 
   // async beforeEach
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TaskListComponent],
+      declarations: [TaskListsComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         BaseRequestOptions,
@@ -44,7 +44,7 @@ describe(`Home`, () => {
 
   // synchronous beforeEach
   beforeEach(() => {
-    fixture = TestBed.createComponent(TaskListComponent);
+    fixture = TestBed.createComponent(TaskListsComponent);
     comp = fixture.componentInstance;
 
     fixture.detectChanges(); // trigger initial data binding

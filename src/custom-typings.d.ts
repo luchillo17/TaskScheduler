@@ -41,11 +41,13 @@ interface TaskSchedule {
   dayOfWeek: String;
   active: Boolean;
 
+  job?: any;
   taskIds?: String[];
 }
 
 interface Task {
-
+  id: string;
+  name: string;
 }
 
 interface RXState {

@@ -37,7 +37,7 @@ import {
 import {
   ScheduleComponent,
   ScheduleListComponent,
-  TaskListComponent,
+  TaskListsComponent,
 } from './';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';
@@ -66,7 +66,7 @@ type StoreType = {
     AppComponent,
     ScheduleComponent,
     ScheduleListComponent,
-    TaskListComponent,
+    TaskListsComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules

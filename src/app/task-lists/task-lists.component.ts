@@ -15,7 +15,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
-import { CustomTaskListValidators } from ".";
+import { CustomTaskListsValidators } from ".";
 
 @Component({
   selector: 'task-list',
@@ -26,7 +26,7 @@ import { CustomTaskListValidators } from ".";
   templateUrl: './task-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class TaskListComponent implements AfterViewInit, OnDestroy {
+export class TaskListsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('taskScheduleListAutocomplete') private taskScheduleListAutocomplete: AutoComplete;
 
   private taskSchedules$: Subscription;
@@ -50,7 +50,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     this.taskScheduleForm = this.fb.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
-      scheduleList: [null, [Validators.required, CustomTaskListValidators.ScheduleListDropdownValidator]],
+      scheduleList: [null, [Validators.required, CustomTaskListsValidators.ScheduleListDropdownValidator]],
       active: [true, Validators.required],
       useDateRange: [true, Validators.required],
       start: [new Date()],

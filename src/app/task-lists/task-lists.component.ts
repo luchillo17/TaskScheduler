@@ -100,9 +100,9 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.taskSchedules$.unsubscribe();
-    this.selectedTaskSchedule$.unsubscribe();
-    this.taskScheduleDialogState$.unsubscribe();
+    this.taskSchedules$ && this.taskSchedules$.unsubscribe();
+    this.selectedTaskSchedule$ && this.selectedTaskSchedule$.unsubscribe();
+    this.taskScheduleDialogState$ && this.taskScheduleDialogState$.unsubscribe();
   }
 
   public setSelectedTaskSchedule(taskSchedule: TaskSchedule) {

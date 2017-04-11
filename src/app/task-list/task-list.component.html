@@ -1,0 +1,75 @@
+<p-dataList [value]='taskSchedules'>
+  <p-header>Lista tareas</p-header>
+  <ng-template
+    let-taskSchedule
+    let-i='index'
+    pTemplate="item"
+  >
+    <div
+      class="task-schedule-container"
+      [ngClass]="{selected: selectedTaskScheduleId === taskSchedule.id}"
+      (click)='setSelectedTaskSchedule(taskSchedule)'
+    >
+      <div *ngIf="taskSchedule.id !== ''; else showAll">
+        <div class="name">
+          <b>Nombre:</b> {{ taskSchedule.name }}
+        </div>
+        <div class="isListActive">
+          <b>Activo:</b> {{ taskSchedule.active }}
+        </div>
+      </div>
+      <ng-template #showAll>
+        <div class="name">
+          <b>{{ taskSchedule.name }}</b>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+  <p-footer>
+    <button pButton
+      (click)="openTaskScheduleDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+    <button pButton
+      [disabled]="selectedTaskScheduleId === ''"
+      (click)="openTaskScheduleDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
+      [disabled]="selectedTaskScheduleId === ''"
+      (click)="openTaskScheduleDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+  </p-footer>
+</p-dataList>
+
+<!-- NewListDialog from here down-->
+<p-dialog
+  header='Nueva agenda de tareas'
+  width='800'
+  height='600'
+  responsive='true'
+  appendTo='body'
+  [modal]='true'
+  [closable]='true'
+  [dismissableMask]='false'
+  [visible]="taskScheduleDialogState.show && taskScheduleDialogState.type !== 'DELETE'"
+  (visibleChange)="toogleTaskScheduleDialog($event)">
+  <form class="ui-g" [formGroup]='taskForm'>
+  </form>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button pButton
+        label='Cancelar'
+        type="button"
+        icon='fa-times'
+        class="ui-button-danger"
+        (click)="toogleTaskScheduleDialog(false)"
+      ></button>
+      <button pButton
+        label='Guardar'
+        type="button"
+        icon='fa-check'
+        class="ui-button-success"
+        [disabled]="taskForm.invalid"
+        (click)="saveTask()"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
+

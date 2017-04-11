@@ -29,9 +29,11 @@ import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
-import 'setimmediate';
-
 import 'font-awesome-webpack2';
+
+if (!window.setImmediate) {
+  require('setimmediate');
+}
 
 if ('production' === ENV) {
   // Production

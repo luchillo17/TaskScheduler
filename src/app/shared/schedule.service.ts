@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import * as schedule from "node-schedule";
 import { UtilService } from "./";
 
 @Injectable()
-export class ScheduleService {
+export class ScheduleService implements OnDestroy {
 
   public scheduleEmitter = new Subject<TaskSchedule>();
   public jobs: schedule.Job[] = [];
@@ -20,10 +20,22 @@ export class ScheduleService {
   ) {
     console.log('ScheduleService Up');
 
+    global['scheduleService'] = this;
     global['schedule'] = schedule;
-    this.store
-      .select<TaskSchedule[]>('taskSchedules')
-      .map((taskSchedules) => taskSchedules.filter((taskSchedule) => taskSchedule.id != ''))
+    Observable.combineLatest(
+      this.store
+        .select<ScheduleList[]>('scheduleLists')
+        .map(scheduleLists => scheduleLists.filter(scheduleList => scheduleList.id != '' && scheduleList.active))
+        .map(scheduleLists => scheduleLists.map(scheduleList => scheduleList.id)),
+
+      this.store
+        .select<TaskSchedule[]>('taskSchedules')
+        .map((taskSchedules) => taskSchedules.filter((taskSchedule) => taskSchedule.id != '' && taskSchedule.active)),
+
+      (scheduleListsIds, taskSchedules) => {
+        return taskSchedules.filter(taskSchedule => scheduleListsIds.includes(taskSchedule.scheduleListId))
+      }
+    )
       .subscribe((taskSchedules) => {
         this.cancelJobs();
         this.scheduleJobs(taskSchedules);
@@ -32,6 +44,9 @@ export class ScheduleService {
     this.scheduleEmitter.subscribe((taskSchedule) => {
       this.executeTasks(taskSchedule);
     });
+  }
+  public ngOnDestroy() {
+    this.cancelJobs();
   }
   private cancelJobs() {
     console.log('Cancelling jobs');
@@ -49,11 +64,19 @@ export class ScheduleService {
           ${taskSchedule.month || '*'}
           ${taskSchedule.dayOfWeek || '*'}
         `);
-        return schedule.scheduleJob(taskSchedule.name, rule, () => {
+        let ruleObj = {rule};
+
+        if (taskSchedule.useDateRange) {
+          Object.assign(ruleObj, {
+            start: taskSchedule.start,
+            end: taskSchedule.end,
+          });
+        }
+        return schedule.scheduleJob(taskSchedule.name, ruleObj, () => {
           this.scheduleEmitter.next(taskSchedule);
         })
       })
-    ]
+    ].filter(job => job);
   }
   private executeTasks(taskSchedule: TaskSchedule) {
     console.log('Executing TaskSchedule: ', taskSchedule.name);

@@ -70,13 +70,13 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = init
     case 'UPDATE_LIST':
       selectedSceduleList = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
+          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
           selectedSceduleList,
       ];
     case 'DELETE_LIST':
       selectedSceduleList = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
+          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
       ];
 
     default:

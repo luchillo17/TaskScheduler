@@ -37,7 +37,7 @@
   </p-footer>
 </p-dataList>
 
-<!-- NewListDialog from here down-->
+<!-- New or Edit TaskListsDialog from here down-->
 <p-dialog
   header='Nueva agenda de tareas'
   width='800'
@@ -130,9 +130,9 @@
     <p-fieldset *ngIf="taskScheduleForm.controls['useDateRange'].value === true" class="ui-g-12">
       <p-header>Rango de fecha:</p-header>
       <div class="ui-g-6">Desde: </div>
-      <p-calendar class="ui-g-6" formControlName='start' showTime='true' showIcon='true'></p-calendar>
+      <p-calendar class="ui-g-6" formControlName='start' showTime='true' hourFormat="12" showIcon='true'></p-calendar>
       <div class="ui-g-6">Hasta:</div>
-      <p-calendar class="ui-g-6" formControlName='end' showTime='true' showIcon='true'></p-calendar>
+      <p-calendar class="ui-g-6" formControlName='end' showTime='true' hourFormat="12" showIcon='true'></p-calendar>
     </p-fieldset>
     <p-fieldset legend='Reglas de frecuencia'>
       <!-- Time inputs -->
@@ -258,7 +258,7 @@
         icon='fa-check'
         class="ui-button-success"
         [disabled]="taskScheduleForm.invalid"
-        (click)="saveTaskScheduleDialog()"
+        (click)="saveTaskSchedule()"
       ></button>
     </div>
   </p-footer>

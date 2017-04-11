@@ -8,6 +8,8 @@ import {
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
+
+import { ConfirmationService } from "primeng/primeng";
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
@@ -36,6 +38,7 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
   public listDialogForm: FormGroup;
 
   constructor(
+    private confirDialogService: ConfirmationService,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
@@ -106,7 +109,27 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
         break;
       case 'DELETE':
         if (this.selectedListId === '') return;
-        break;
+
+        let scheduleListToDelete = this.scheduleLists
+          .find((scheduleList) => scheduleList.id === this.selectedListId)
+
+        this.confirDialogService.confirm({
+          message: `¿Esta seguro que desea borrar la lista de calendarios ${scheduleListToDelete.name}?`,
+          header: 'Confirmar borrado lista de calendarios',
+          icon: 'fa fa-trash',
+          accept: () => {
+            this.store.dispatch({
+              type: 'DELETE_TASK_SCHEDULES_BY_SCHEDULE_LIST_ID',
+              payload: scheduleListToDelete.id,
+            })
+            this.store.dispatch({
+              type: 'DELETE_LIST',
+              payload: scheduleListToDelete,
+            })
+          },
+        });
+
+        return;
 
       case 'NEW':
       default:
@@ -125,15 +148,6 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
 
   public saveListDialog() {
     switch (this.listDialogState.type) {
-      case 'DELETE':
-        let selectedList = this.scheduleLists
-          .find((scheduleList) => scheduleList.id === this.selectedListId)
-
-        this.store.dispatch({
-          type: 'DELETE_LIST',
-          payload: selectedList,
-        })
-        break;
       case 'UPDATE':
         if (this.listDialogForm.invalid) {
           return;

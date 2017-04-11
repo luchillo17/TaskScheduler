@@ -25,6 +25,7 @@ import { ScheduleService } from "./shared";
     <main>
       <router-outlet></router-outlet>
     </main>
+    <p-confirmDialog></p-confirmDialog>
   `
 })
 export class AppComponent implements OnInit {

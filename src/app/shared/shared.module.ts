@@ -26,6 +26,8 @@ import {
   InputSwitchModule,
   AutoCompleteModule,
   ToggleButtonModule,
+  ConfirmDialogModule,
+  ConfirmationService,
 } from 'primeng/primeng';
 
 import { AppReducers, ScheduleService, UtilService } from './';
@@ -77,8 +79,10 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     InputSwitchModule,
     AutoCompleteModule,
     ToggleButtonModule,
+    ConfirmDialogModule,
   ],
   providers: [
+    ConfirmationService,
     ScheduleService,
     UtilService,
   ]

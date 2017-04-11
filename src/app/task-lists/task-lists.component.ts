@@ -8,9 +8,9 @@ import {
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { AutoComplete } from "primeng/primeng";
-
 import { Store } from '@ngrx/store';
+
+import { AutoComplete, ConfirmationService } from "primeng/primeng";
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
@@ -44,6 +44,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
   public taskScheduleForm: FormGroup;
 
   constructor(
+    private confirDialogService: ConfirmationService,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
@@ -127,6 +128,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
     })
   }
   public openTaskScheduleDialog(type: string) {
+    let selectedTaskScedule
     switch (type) {
       case 'UPDATE':
         if (this.selectedTaskScheduleId === '') return;
@@ -143,27 +145,52 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
             selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
 
             // Parse start & end dates to JS Date type
+            let [start, end] = [new Date(selectedTaskSchedule.end), new Date(selectedTaskSchedule.end)]
+              .map(date => {
+                date.setSeconds(0, 0);
+                return date;
+              });
+
             this.taskScheduleForm.reset(Object.assign({}, selectedTaskSchedule, {
-              start: new Date(selectedTaskSchedule.start),
-              end: new Date(selectedTaskSchedule.end),
+              start,
+              end
             }))
           })
 
         break;
       case 'DELETE':
         if (this.selectedTaskScheduleId === '') return;
-        break;
+
+        let taskScheduleToDelete = this.taskSchedules
+          .find((taskList) => taskList.id === this.selectedTaskScheduleId)
+
+        this.confirDialogService.confirm({
+          message: `¿Esta seguro que desea borrar el calendario de tareas ${taskScheduleToDelete.name}?`,
+          header: 'Confirmar borrado calendario de tareas',
+          icon: 'fa fa-trash',
+          accept: () => {
+            this.store.dispatch({
+              type: 'DELETE_TASK_SCHEDULE',
+              payload: taskScheduleToDelete,
+            })
+          },
+        });
+
+        return;
 
       case 'NEW':
       default:
+        let currentDate = new Date();
+        currentDate.setSeconds(0);
+
         this.taskScheduleForm.reset({
           id: uuidV1(),
           name: '',
           active: true,
           scheduleList: null,
           useDateRange: true,
-          start: new Date(),
-          end: new Date(),
+          start: currentDate,
+          end: currentDate,
 
           second: '*',
           minute: '*',
@@ -180,18 +207,9 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
     })
   }
 
-  public saveTaskScheduleDialog() {
+  public saveTaskSchedule() {
     let formValue;
     switch (this.taskScheduleDialogState.type) {
-      case 'DELETE':
-        let selectedTaskSchedule = this.taskSchedules
-          .find((taskSchedule) => taskSchedule.id === this.selectedTaskScheduleId)
-
-        this.store.dispatch({
-          type: 'DELETE_TASK_SCHEDULE',
-          payload: selectedTaskSchedule,
-        })
-        break;
       case 'UPDATE':
         if (this.taskScheduleForm.invalid) {
           return;

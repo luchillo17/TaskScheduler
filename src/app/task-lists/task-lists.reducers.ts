@@ -35,7 +35,7 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
     taskIds: [],
   } as TaskSchedule;
 
-  let selectedSceduleList: TaskSchedule;
+  let selectedTaskScedule: TaskSchedule;
 
   switch (action.type) {
     case 'ADD_TASK_SCHEDULE':
@@ -44,15 +44,20 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
           Object.assign({}, defaults, action.payload),
       ];
     case 'UPDATE_TASK_SCHEDULE':
-      selectedSceduleList = action.payload
+      selectedTaskScedule = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
-          selectedSceduleList,
+          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskScedule.id),
+          selectedTaskScedule,
       ];
     case 'DELETE_TASK_SCHEDULE':
-      selectedSceduleList = action.payload
+      selectedTaskScedule = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id === selectedSceduleList.id),
+          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskScedule.id),
+      ];
+    case 'DELETE_TASK_SCHEDULES_BY_SCHEDULE_LIST_ID':
+      if (!action.payload) return state;
+      return [
+          ...state.filter((taskSchedule) => taskSchedule.scheduleListId !== action.payload),
       ];
 
     default:

@@ -6,7 +6,8 @@ declare var mainBrowserUrl: string;
 
 interface ListsState {
   selectedScheduleList: string;
-  selectedTaskScedule:  string;
+  selectedTaskScedule : string;
+  selectedTask        : string;
 }
 
 interface DialogState {
@@ -42,12 +43,22 @@ interface TaskSchedule {
   active: Boolean;
 
   job?: any;
-  taskIds?: String[];
 }
 
 interface Task {
   id: string;
   name: string;
+  order: number;
+  active: boolean;
+  taskScheduleId: string;
+
+  type: string;
+}
+
+interface TaskType {
+  name: string;
+  type: any;
+  formSelector: string;
 }
 
 interface RXState {

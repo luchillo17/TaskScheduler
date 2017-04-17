@@ -3,9 +3,10 @@ import { ActionReducer } from '@ngrx/store';
 import {
   taskScheduleDialogStateReducer,
   taskSchedulesReducer,
+  tasksReducer
 } from "..";
 
-const initialListsState: ListsState = { selectedScheduleList: "", selectedTaskScedule: "" };
+const initialListsState: ListsState = { selectedScheduleList: "", selectedTaskScedule: "", selectedTask: '' };
 
 export const listsStateReducer: ActionReducer<ListsState> = (state = initialListsState, action) => {
   switch (action.type) {
@@ -13,17 +14,25 @@ export const listsStateReducer: ActionReducer<ListsState> = (state = initialList
       return Object.assign({}, state, {
         selectedScheduleList: '',
         selectedTaskScedule: '',
+        selectedTask: '',
       } as ListsState);
 
     case 'SHOW_LIST':
       return Object.assign({}, state, {
         selectedScheduleList: action.payload,
         selectedTaskScedule: '',
+        selectedTask: '',
       } as ListsState);
 
     case 'SHOW_TASK_SCHEDULE':
       return Object.assign({}, state, {
         selectedTaskScedule: action.payload,
+        selectedTask: '',
+      } as ListsState);
+
+    case 'SHOW_TASK':
+      return Object.assign({}, state, {
+        selectedTask: action.payload,
       } as ListsState);
 
     default:
@@ -85,10 +94,11 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = init
 }
 
 export const AppReducers = {
-  listsState:      listsStateReducer,
-  scheduleLists:   scheduleListsReducer,
+  listsState     : listsStateReducer,
+  scheduleLists  : scheduleListsReducer,
   listDialogState: listDialogStateReducer,
 
-  taskSchedules: taskSchedulesReducer,
+  tasks                  : tasksReducer,
+  taskSchedules          : taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,
 };

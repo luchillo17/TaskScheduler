@@ -64,7 +64,6 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
       month: ['*', Validators.required],
       dayOfWeek: ['*', Validators.required],
     });
-    global['taskScheduleDialogForm'] = this.taskScheduleForm;
 
     this.scheduleLists = this.store
       .select<ScheduleList[]>('scheduleLists')

@@ -1,44 +1,40 @@
-<p-dataList [value]='taskSchedules'>
-  <p-header>Lista tareas</p-header>
+<p-dataList [value]='tasks'>
+  <p-header>Cola tareas</p-header>
   <ng-template
-    let-taskSchedule
+    let-task
     let-i='index'
     pTemplate="item"
   >
     <div
       class="task-schedule-container"
-      [ngClass]="{selected: selectedTaskScheduleId === taskSchedule.id}"
-      (click)='setSelectedTaskSchedule(taskSchedule)'
+      [ngClass]="{selected: selectedTaskId === task.id}"
+      (click)='setSelectedTask(task)'
     >
-      <div *ngIf="taskSchedule.id !== ''; else showAll">
-        <div class="name">
-          <b>Nombre:</b> {{ taskSchedule.name }}
-        </div>
-        <div class="isListActive">
-          <b>Activo:</b> {{ taskSchedule.active }}
-        </div>
+      <div class="name">
+        <b>Nombre:</b> {{ task.name }}
       </div>
-      <ng-template #showAll>
-        <div class="name">
-          <b>{{ taskSchedule.name }}</b>
-        </div>
-      </ng-template>
+      <div class="name">
+        <b>Tipo:</b> {{ task.type }}
+      </div>
+      <div class="isListActive">
+        <b>Activo:</b> {{ task.active }}
+      </div>
     </div>
   </ng-template>
   <p-footer>
     <button pButton
-      (click)="openTaskScheduleDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+      (click)="openTaskDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
     <button pButton
-      [disabled]="selectedTaskScheduleId === ''"
-      (click)="openTaskScheduleDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+      [disabled]="selectedTaskId === ''"
+      (click)="openTaskDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
     <button pButton
-      [disabled]="selectedTaskScheduleId === ''"
-      (click)="openTaskScheduleDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+      [disabled]="selectedTaskId === ''"
+      (click)="openTaskDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
   </p-footer>
 </p-dataList>
 
 <!-- NewListDialog from here down-->
-<p-dialog
+<!--<p-dialog
   header='Nueva agenda de tareas'
   width='800'
   height='600'
@@ -47,8 +43,8 @@
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'
-  [visible]="taskScheduleDialogState.show && taskScheduleDialogState.type !== 'DELETE'"
-  (visibleChange)="toogleTaskScheduleDialog($event)">
+  [visible]="taskDialogState.show && taskDialogState.type !== 'DELETE'"
+  (visibleChange)="toogleTaskDialog($event)">
   <form class="ui-g" [formGroup]='taskForm'>
   </form>
 
@@ -59,7 +55,7 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toogleTaskScheduleDialog(false)"
+        (click)="toogleTaskDialog(false)"
       ></button>
       <button pButton
         label='Guardar'
@@ -71,5 +67,5 @@
       ></button>
     </div>
   </p-footer>
-</p-dialog>
+</p-dialog>-->
 

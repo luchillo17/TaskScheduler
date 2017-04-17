@@ -130,9 +130,9 @@
     <p-fieldset *ngIf="taskScheduleForm.controls['useDateRange'].value === true" class="ui-g-12">
       <p-header>Rango de fecha:</p-header>
       <div class="ui-g-6">Desde: </div>
-      <p-calendar class="ui-g-6" formControlName='start' showTime='true' hourFormat="12" showIcon='true'></p-calendar>
+      <p-calendar class="ui-g-6" formControlName='start' showTime='true' hourFormat="24" showIcon='true'></p-calendar>
       <div class="ui-g-6">Hasta:</div>
-      <p-calendar class="ui-g-6" formControlName='end' showTime='true' hourFormat="12" showIcon='true'></p-calendar>
+      <p-calendar class="ui-g-6" formControlName='end' showTime='true' hourFormat="24" showIcon='true'></p-calendar>
     </p-fieldset>
     <p-fieldset legend='Reglas de frecuencia'>
       <!-- Time inputs -->

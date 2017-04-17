@@ -145,7 +145,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
             selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
 
             // Parse start & end dates to JS Date type
-            let [start, end] = [new Date(selectedTaskSchedule.end), new Date(selectedTaskSchedule.end)]
+            let [start, end] = [new Date(selectedTaskSchedule.start), new Date(selectedTaskSchedule.end)]
               .map(date => {
                 date.setSeconds(0, 0);
                 return date;

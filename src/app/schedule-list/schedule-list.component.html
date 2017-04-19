@@ -45,7 +45,7 @@
   [closable]='true'
   [dismissableMask]='false'
   [visible]="listDialogState.show && listDialogState.type !== 'DELETE'"
-  (visibleChange)="toogleListDialog($event)">
+  (visibleChange)="toggleListDialog($event)">
   <form class="ui-g" [formGroup]='listDialogForm'>
     <div class="ui-g-12">
       <label class="ui-g-4">Id:</label>
@@ -97,7 +97,7 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toogleListDialog(false)"
+        (click)="toggleListDialog(false)"
       ></button>
       <button pButton
         label='Guardar'

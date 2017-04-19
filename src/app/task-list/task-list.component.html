@@ -44,7 +44,7 @@
   [closable]='true'
   [dismissableMask]='false'
   [visible]="taskDialogState.show && taskDialogState.type !== 'DELETE'"
-  (visibleChange)="toogleTaskDialog($event)">
+  (visibleChange)="toggleTaskDialog($event)">
   <form class="ui-g" [formGroup]='taskForm'>
   </form>
 
@@ -55,7 +55,7 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toogleTaskDialog(false)"
+        (click)="toggleTaskDialog(false)"
       ></button>
       <button pButton
         label='Guardar'

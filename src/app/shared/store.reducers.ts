@@ -4,29 +4,33 @@ import {
   taskScheduleDialogStateReducer,
   taskSchedulesReducer,
   tasksReducer
-} from "..";
+} from '..';
 
-const initialListsState: ListsState = { selectedScheduleList: "", selectedTaskScedule: "", selectedTask: '' };
+const initialListsState: ListsState = {
+  selectedScheduleList: '',
+  selectedTaskSchedule: '',
+  selectedTask: '',
+};
 
 export const listsStateReducer: ActionReducer<ListsState> = (state = initialListsState, action) => {
   switch (action.type) {
     case 'SHOW_ALL':
       return Object.assign({}, state, {
         selectedScheduleList: '',
-        selectedTaskScedule: '',
+        selectedTaskSchedule: '',
         selectedTask: '',
       } as ListsState);
 
     case 'SHOW_LIST':
       return Object.assign({}, state, {
         selectedScheduleList: action.payload,
-        selectedTaskScedule: '',
+        selectedTaskSchedule: '',
         selectedTask: '',
       } as ListsState);
 
     case 'SHOW_TASK_SCHEDULE':
       return Object.assign({}, state, {
-        selectedTaskScedule: action.payload,
+        selectedTaskSchedule: action.payload,
         selectedTask: '',
       } as ListsState);
 
@@ -38,20 +42,21 @@ export const listsStateReducer: ActionReducer<ListsState> = (state = initialList
     default:
       return state;
   }
-}
+};
 
-const initialListDialogState = { show: false, type: 'NEW' }
+const initialListDialogState = { show: false, type: 'NEW' };
 
-export const listDialogStateReducer: ActionReducer<DialogState> = (state = initialListDialogState, action) => {
-  switch (action.type) {
-    case 'SHOW_LIST_DIALOG':
-      return Object.assign({}, state, { show: true, type: action.payload, });
-    case 'HIDE_LIST_DIALOG':
-      return Object.assign({}, state, { show: false });
-    default:
-      return state;
-  }
-}
+export const listDialogStateReducer: ActionReducer<DialogState> =
+  (state = initialListDialogState, action) => {
+    switch (action.type) {
+      case 'SHOW_LIST_DIALOG':
+        return Object.assign({}, state, { show: true, type: action.payload, });
+      case 'HIDE_LIST_DIALOG':
+        return Object.assign({}, state, { show: false });
+      default:
+        return state;
+    }
+  };
 
 const initialScheduleListState: ScheduleList[] = [
   {
@@ -60,38 +65,39 @@ const initialScheduleListState: ScheduleList[] = [
   }
 ];
 
-export const scheduleListsReducer: ActionReducer<ScheduleList[]> = (state = initialScheduleListState, action) => {
-  let defaults = {
-    id: '',
-    name: '',
-    active: true,
-    taskScheduleIds: [],
-  } as ScheduleList;
+export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
+  (state = initialScheduleListState, action) => {
+    let defaults = {
+      id: '',
+      name: '',
+      active: true,
+      taskScheduleIds: [],
+    } as ScheduleList;
 
-  let selectedSceduleList: ScheduleList;
+    let selectedScheduleList: ScheduleList;
 
-  switch (action.type) {
-    case 'ADD_LIST':
-      return [
-          ...state,
-          Object.assign({}, defaults, action.payload),
-      ];
-    case 'UPDATE_LIST':
-      selectedSceduleList = action.payload
-      return [
-          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
-          selectedSceduleList,
-      ];
-    case 'DELETE_LIST':
-      selectedSceduleList = action.payload
-      return [
-          ...state.filter((scheduleList) => scheduleList.id !== selectedSceduleList.id),
-      ];
+    switch (action.type) {
+      case 'ADD_LIST':
+        return [
+            ...state,
+            Object.assign({}, defaults, action.payload),
+        ];
+      case 'UPDATE_LIST':
+        selectedScheduleList = action.payload;
+        return [
+            ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
+            selectedScheduleList,
+        ];
+      case 'DELETE_LIST':
+        selectedScheduleList = action.payload;
+        return [
+            ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
+        ];
 
-    default:
-      return state;
-  }
-}
+      default:
+        return state;
+    }
+  };
 
 export const AppReducers = {
   listsState     : listsStateReducer,

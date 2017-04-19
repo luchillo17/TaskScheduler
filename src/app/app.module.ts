@@ -39,6 +39,7 @@ import {
   ScheduleListComponent,
   TaskListsComponent,
   TaskListComponent,
+  TaskComponent,
 } from './';
 import { NoContentComponent } from './no-content';
 import { SharedModule } from './shared';
@@ -69,6 +70,7 @@ type StoreType = {
     ScheduleListComponent,
     TaskListsComponent,
     TaskListComponent,
+    TaskComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
@@ -104,7 +106,7 @@ export class AppModule {
 
     this.storeSubscription = store
       .debounceTime(3500)
-      .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+      .subscribe((storageState) => localStorage.setItem('state', JSON.stringify(storageState)));
 
     // window.onbeforeunload = ($event) => {
     //   console.log('onBeforeUnload')
@@ -113,7 +115,7 @@ export class AppModule {
 
     // Save state before reload, close
     window.addEventListener('beforeunload', ($event) => {
-      this.setStateToDB()
+      this.setStateToDB();
     });
   }
 

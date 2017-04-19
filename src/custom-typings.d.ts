@@ -6,7 +6,7 @@ declare var mainBrowserUrl: string;
 
 interface ListsState {
   selectedScheduleList: string;
-  selectedTaskScedule : string;
+  selectedTaskSchedule : string;
   selectedTask        : string;
 }
 
@@ -53,6 +53,10 @@ interface Task {
   taskScheduleId: string;
 
   type: string;
+
+  direction?: 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
+  mapFormat?: JSON;
+  data?: any;
 }
 
 interface TaskType {
@@ -62,6 +66,7 @@ interface TaskType {
 }
 
 interface RXState {
+  tasks          : Task[];
   listsState     : ListsState;
   scheduleLists  : ScheduleList[];
   TaskSchedules  : TaskSchedule[];

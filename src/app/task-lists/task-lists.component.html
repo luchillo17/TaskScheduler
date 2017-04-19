@@ -48,7 +48,7 @@
   [closable]='true'
   [dismissableMask]='false'
   [visible]="taskScheduleDialogState.show && taskScheduleDialogState.type !== 'DELETE'"
-  (visibleChange)="toogleTaskScheduleDialog($event)">
+  (visibleChange)="toggleTaskScheduleDialog($event)">
   <form class="ui-g" [formGroup]='taskScheduleForm'>
     <div class="ui-g-12">
       <label class="ui-g-4">Id:</label>
@@ -250,7 +250,7 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toogleTaskScheduleDialog(false)"
+        (click)="toggleTaskScheduleDialog(false)"
       ></button>
       <button pButton
         label='Guardar'

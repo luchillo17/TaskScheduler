@@ -1,0 +1,11 @@
+<md-toolbar color="primary">
+  <div *ngIf="method === 'NEW';else templateName">
+    Crear tarea
+  </div>
+  <ng-template>
+    Editar tarea {{ name }}
+  </ng-template>
+
+</md-toolbar>
+
+<a [routerLink]="['/']">Regresar a la lista</a>

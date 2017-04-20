@@ -39,11 +39,11 @@
 
 <!-- New or Edit TaskListsDialog from here down-->
 <p-dialog
-  header='Nueva agenda de tareas'
   width='800'
   height='600'
   responsive='true'
   appendTo='body'
+  [header]="taskScheduleDialogState.type == 'NEW' ? 'Nueva agenda de tareas' : 'Editar agenda de tareas'"
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'

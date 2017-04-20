@@ -14,6 +14,9 @@ export class TaskComponent implements OnInit {
   private id: string = '';
   private name: string = '';
   private method: string = 'NEW';
+
+  public component: Component;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store<RXState>,

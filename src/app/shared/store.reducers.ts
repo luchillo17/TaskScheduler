@@ -1,11 +1,21 @@
 import { ActionReducer } from '@ngrx/store';
 
+/**
+ * Reducers import
+ */
 import {
-  taskScheduleDialogStateReducer,
-  taskSchedulesReducer,
-  tasksReducer
-} from '..';
+  tasksReducer,
+  taskDialogStateReducer
+} from '../task-list';
 
+import {
+  taskSchedulesReducer,
+  taskScheduleDialogStateReducer
+} from '../task-lists';
+
+/**
+ * ScheduleList reducers
+ */
 const initialListsState: ListsState = {
   selectedScheduleList: '',
   selectedTaskSchedule: '',
@@ -101,10 +111,13 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
 
 export const AppReducers = {
   listsState     : listsStateReducer,
+
   scheduleLists  : scheduleListsReducer,
   listDialogState: listDialogStateReducer,
 
-  tasks                  : tasksReducer,
   taskSchedules          : taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,
+
+  tasks          : tasksReducer,
+  taskDialogState: taskDialogStateReducer,
 };

@@ -34,19 +34,19 @@
 </p-dataList>
 
 <!-- NewListDialog from here down-->
-<!--<p-dialog
-  header='Nueva agenda de tareas'
+<p-dialog
   width='800'
   height='600'
-  responsive='true'
+  header='Nueva tarea'
   appendTo='body'
+  responsive='true'
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'
   [visible]="taskDialogState.show && taskDialogState.type !== 'DELETE'"
   (visibleChange)="toggleTaskDialog($event)">
-  <form class="ui-g" [formGroup]='taskForm'>
-  </form>
+
+  <task-selector></task-selector>
 
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
@@ -62,10 +62,10 @@
         type="button"
         icon='fa-check'
         class="ui-button-success"
-        [disabled]="taskForm.invalid"
-        (click)="saveTask()"
+        (click)="newTask()"
       ></button>
+        <!--[disabled]="taskForm.invalid"-->
     </div>
   </p-footer>
-</p-dialog>-->
+</p-dialog>
 

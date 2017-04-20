@@ -10,5 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class BaseTaskComponent implements OnInit {
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log('Init base task.');
+  }
 }

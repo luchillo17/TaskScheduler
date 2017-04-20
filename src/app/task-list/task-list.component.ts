@@ -24,20 +24,23 @@ import { v1 as uuidV1 } from 'uuid';
   templateUrl: './task-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class TaskListComponent {
+export class TaskListComponent implements AfterViewInit, OnDestroy {
   @HostBinding('id') private id = 'task-list-panel';
 
   private tasks: Task[] = [];
   private selectedTaskId: string;
+  private taskDialogState: DialogState = { show: false, type: 'NEW' };
 
   private tasks$: Subscription;
   private selectedTask$: Subscription;
+  private taskDialogState$: Subscription;
 
   constructor(
     private router: Router,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
+    global['taskList'] = this;
     this.tasks$ = Observable.combineLatest(
       this.store.select<Task[]>('tasks'),
       this.store.select<TaskSchedule[]>('taskSchedules'),
@@ -52,6 +55,20 @@ export class TaskListComponent {
       .subscribe(({ selectedTask }) => {
         this.selectedTaskId = selectedTask;
       });
+  }
+
+  public ngAfterViewInit() {
+    this.taskDialogState$ = this.store
+      .select<DialogState>('taskDialogState')
+      .subscribe((taskDialogState) =>
+        this.taskDialogState = taskDialogState
+      );
+  }
+
+  public ngOnDestroy() {
+    this.tasks$ && this.tasks$.unsubscribe();
+    this.selectedTask$ && this.selectedTask$.unsubscribe();
+    this.taskDialogState$ && this.taskDialogState$.unsubscribe();
   }
 
   public filterTasks(

@@ -46,6 +46,7 @@ import {
 import {
   SharedModule,
   AppReducers,
+  TaskModule,
 } from '.';
 
 import {
@@ -53,7 +54,6 @@ import {
   ScheduleListComponent,
   TaskListsComponent,
   TaskListComponent,
-  TaskComponent,
 } from './';
 import { NoContentComponent } from './no-content';
 
@@ -97,7 +97,6 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     ScheduleListComponent,
     TaskListsComponent,
     TaskListComponent,
-    TaskComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
@@ -108,6 +107,7 @@ export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
     SharedModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
 
+    TaskModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

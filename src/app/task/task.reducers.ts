@@ -1,11 +1,11 @@
-import {
-  BaseTaskComponent
-} from '.';
+// import {
+//   BaseTaskComponent
+// } from '.';
 
 export const taskTypes = [
-  {
-    type: 'base',
-    selector: 'base-task',
-    component: BaseTaskComponent,
-  },
+  // {
+  //   type: 'base',
+  //   selector: 'base-task',
+  //   component: BaseTaskComponent,
+  // },
 ];

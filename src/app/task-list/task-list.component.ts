@@ -117,9 +117,9 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
 
       case 'NEW':
       default:
-        this.router.navigate(['/task', {
-          method: 'NEW'
-        }]);
+        this.store.dispatch({
+          type: 'SHOW_TASK_DIALOG',
+        });
         break;
     }
   }

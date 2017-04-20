@@ -18,10 +18,6 @@ export class ScheduleService implements OnDestroy {
     public store: Store<RXState>,
     public util: UtilService,
   ) {
-    console.log('ScheduleService Up');
-
-    global['scheduleService'] = this;
-    global['schedule'] = schedule;
     Observable.combineLatest(
       this.store
         .select<ScheduleList[]>('scheduleLists')

@@ -40,7 +40,6 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
-    global['taskList'] = this;
     this.tasks$ = Observable.combineLatest(
       this.store.select<Task[]>('tasks'),
       this.store.select<TaskSchedule[]>('taskSchedules'),

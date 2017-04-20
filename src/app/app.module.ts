@@ -17,7 +17,16 @@ import {
 } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {
+  Store,
+  StoreModule,
+  ActionReducer,
+  combineReducers,
+} from '@ngrx/store';
+import { compose } from '@ngrx/core/compose'
+import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/debounceTime';
 
@@ -35,6 +44,11 @@ import {
 } from './app.service';
 
 import {
+  SharedModule,
+  AppReducers,
+} from '.';
+
+import {
   ScheduleComponent,
   ScheduleListComponent,
   TaskListsComponent,
@@ -42,7 +56,6 @@ import {
   TaskComponent,
 } from './';
 import { NoContentComponent } from './no-content';
-import { SharedModule } from './shared';
 
 import '../styles/core.scss';
 // import '../styles/headings.css';
@@ -60,6 +73,20 @@ type StoreType = {
 };
 
 /**
+ * Store reducers config
+ */
+export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function (state, action ) {
+    if (action.type === 'SET_ROOT_STATE') {
+      return action.payload
+    }
+    return reducer(state, action)
+  }
+}
+
+export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
+
+/**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
@@ -74,8 +101,13 @@ type StoreType = {
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
+    StoreModule.provideStore(rootReducer),
+    RouterStoreModule.connectRouter(),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreLogMonitorModule,
     SharedModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

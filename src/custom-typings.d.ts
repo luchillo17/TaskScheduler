@@ -12,7 +12,7 @@ interface ListsState {
 
 interface DialogState {
   show: boolean;
-  type: string;
+  type?: string;
 }
 
 interface ScheduleList {

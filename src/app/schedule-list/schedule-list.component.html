@@ -39,8 +39,8 @@
 
 <!-- NewListDialog from here down-->
 <p-dialog
-  header='Nueva lista de calendarios'
   appendTo='body'
+  [header]="listDialogState.type == 'NEW' ? 'Nueva lista de calendarios' : 'Editar lista de calendarios'"
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'

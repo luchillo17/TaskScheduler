@@ -156,7 +156,9 @@ export class AppModule {
 
   public setStateToDB() {
     this.store.take(1).subscribe((state) => {
-      localStorage.setItem('state', JSON.stringify(state));
+      if (state) {
+        localStorage.setItem('state', JSON.stringify(state));
+      }
     });
   }
 

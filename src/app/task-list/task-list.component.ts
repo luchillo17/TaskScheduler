@@ -105,10 +105,10 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   private openTaskDialog(type: string) {
     switch (type) {
       case 'UPDATE':
-        this.router.navigate(['/task', {
+        this.gotoTask({
           id: this.selectedTaskId,
           method: 'UPDATE',
-        }]);
+        });
         break;
 
       case 'DELETE':
@@ -122,5 +122,24 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
         });
         break;
     }
+  }
+
+  private toggleTaskDialog(isShow: boolean) {
+    this.store.dispatch({
+      type: isShow ? 'SHOW_TASK_DIALOG' : 'HIDE_TASK_DIALOG',
+    });
+  }
+
+  private newTask() {
+    this.gotoTask({
+      method: 'NEW'
+    })
+  }
+
+  private gotoTask({method, id}: {method: string, id?: string}) {
+    this.router.navigate(['/task', {
+      method,
+      id
+    }])
   }
 }

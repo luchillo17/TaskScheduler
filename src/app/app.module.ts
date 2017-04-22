@@ -76,15 +76,14 @@ type StoreType = {
  * Store reducers config
  */
 export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function (state, action ) {
-    if (action.type === 'SET_ROOT_STATE') {
-      return action.payload
-    }
-    return reducer(state, action)
-  }
+  return (state, action) =>
+    action.type === 'SET_ROOT_STATE' ? action.payload : reducer(state, action)
 }
 
-export const rootReducer = compose(stateSetter, combineReducers)(AppReducers)
+export function rootReducer(state, action) {
+  const reducer = compose(stateSetter, combineReducers)(AppReducers)
+  return reducer(state, action)
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process

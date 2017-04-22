@@ -2,7 +2,7 @@
 //   BaseTaskComponent
 // } from '.';
 
-export const taskTypes = [
+export const taskTypesReducer = [
   // {
   //   type: 'base',
   //   selector: 'base-task',

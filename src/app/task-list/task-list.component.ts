@@ -9,13 +9,21 @@ import {
 
 import { Router } from "@angular/router";
 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { AutoComplete } from 'primeng/primeng';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
 
+import {
+  Observable,
+  Subject,
+  Subscription
+} from 'rxjs';
+
+import { AutoComplete } from 'primeng/primeng';
 import { v1 as uuidV1 } from 'uuid';
 
 @Component({

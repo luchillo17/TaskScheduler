@@ -62,7 +62,7 @@ interface Task {
 interface TaskType {
   name: string;
   type: any;
-  formSelector: string;
+  component: any;
 }
 
 interface RXState {

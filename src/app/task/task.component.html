@@ -9,7 +9,5 @@
 </md-toolbar>
 
 <ng-container
-  *ngComponentOutlet="alert"
+  *ngComponentOutlet="type && type.component"
 ></ng-container>
-
-<a [routerLink]="['/']">Regresar a la lista</a>

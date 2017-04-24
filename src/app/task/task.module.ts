@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from "..";
 import {
   TaskComponent,
+  LogTaskComponent,
   BaseTaskComponent,
   TaskSelectorComponent,
 } from '.';
@@ -10,16 +11,17 @@ import {
 @NgModule({
   imports: [ SharedModule ],
   exports: [
-    BaseTaskComponent,
     TaskSelectorComponent,
   ],
   declarations: [
     TaskComponent,
+    LogTaskComponent,
     BaseTaskComponent,
     TaskSelectorComponent,
   ],
   entryComponents: [
-    // Base task
+    LogTaskComponent,
+    BaseTaskComponent,
   ],
   providers: [],
 })

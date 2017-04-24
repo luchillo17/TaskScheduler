@@ -43,11 +43,14 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   private selectedTask$: Subscription;
   private taskDialogState$: Subscription;
 
+  private taskTypeSelected: TaskType;
+
   constructor(
     private router: Router,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
+    global['TaskList'] = this;
     this.tasks$ = Observable.combineLatest(
       this.store.select<Task[]>('tasks'),
       this.store.select<TaskSchedule[]>('taskSchedules'),
@@ -140,14 +143,16 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
 
   private newTask() {
     this.gotoTask({
-      method: 'NEW'
+      method: 'NEW',
+      type: this.taskTypeSelected,
     })
   }
 
-  private gotoTask({method, id}: {method: string, id?: string}) {
+  private gotoTask({method, id, type}: {method: string, id?: string, type?: TaskType}) {
     this.router.navigate(['/task', {
       method,
-      id
+      type: JSON.stringify(type),
+      id,
     }])
   }
 }

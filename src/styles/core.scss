@@ -23,6 +23,27 @@ html, body{
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/*
+  Angular specific
+*/
+
+.errors {
+  border: 1px solid red;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.error {
+  color: white;
+  background: red;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/*
+  PrimeNG specific
+*/
+
 p-datalist,
 p-datalist > div
 {
@@ -46,4 +67,7 @@ p-datalist {
   }
 }
 
+/*
+  App specific
+*/
 .ui-dialog .ui-dialog-content { height: calc(100% - 38px - 65.8px); }

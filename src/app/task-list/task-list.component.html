@@ -35,18 +35,18 @@
 
 <!-- NewListDialog from here down-->
 <p-dialog
-  width='800'
-  height='600'
+  id='new-task-dialog'
   header='Nueva tarea'
   appendTo='body'
   responsive='true'
   [modal]='true'
-  [closable]='true'
-  [dismissableMask]='false'
   [visible]="taskDialogState.show && taskDialogState.type !== 'DELETE'"
+  [closable]='true'
+  [contentStyle]="{'overflow': 'visible'}"
+  [dismissableMask]='false'
   (visibleChange)="toggleTaskDialog($event)">
 
-  <task-selector></task-selector>
+  <task-selector (taskTypeSelected)='taskTypeSelected = $event'></task-selector>
 
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">

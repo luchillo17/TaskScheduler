@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { NgxErrorsModule } from "@ultimate/ngxerrors";
+
 import { MaterialModule } from '@angular/material';
 import {
   ButtonModule,
@@ -14,6 +16,8 @@ import {
   FieldsetModule,
   DataListModule,
   CalendarModule,
+  DropdownModule,
+  InputTextModule,
   InputSwitchModule,
   AutoCompleteModule,
   ToggleButtonModule,
@@ -26,12 +30,6 @@ import { ScheduleService, UtilService } from './';
 // Components
 @NgModule({
   imports:      [
-    HttpModule,
-    FormsModule,
-    CommonModule,
-    BrowserModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
   ],
   declarations: [
   ],
@@ -44,6 +42,8 @@ import { ScheduleService, UtilService } from './';
     ReactiveFormsModule,
     BrowserAnimationsModule,
 
+    NgxErrorsModule,
+
     MaterialModule,
 
     ButtonModule,
@@ -51,6 +51,8 @@ import { ScheduleService, UtilService } from './';
     FieldsetModule,
     DataListModule,
     CalendarModule,
+    DropdownModule,
+    InputTextModule,
     InputSwitchModule,
     AutoCompleteModule,
     ToggleButtonModule,

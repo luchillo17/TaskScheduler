@@ -1,13 +1,23 @@
 // Replace later with Webpack 2 Context for automated exports & variables
-import { BaseTaskComponent } from ".";
+import {
+  BaseTaskComponent,
+  LogTaskComponent
+} from ".";
+
 export * from './base-task/base.task'
+export * from './log-task/log.task'
 
 export const tasksTypes: TaskType[] = [
-  // {
-  //   name: 'Tarea base',
-  //   type: BaseTaskComponent.name,
-  //   component: BaseTaskComponent,
-  // },
+  {
+    name: BaseTaskComponent.taskName,
+    type: BaseTaskComponent.name,
+    component: BaseTaskComponent,
+  },
+  {
+    name: LogTaskComponent.taskName,
+    type: LogTaskComponent.name,
+    component: LogTaskComponent,
+  },
 ];
 
 // This ones are fixed

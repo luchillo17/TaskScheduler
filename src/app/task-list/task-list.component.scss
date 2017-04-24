@@ -10,4 +10,8 @@
   &:hover {
     background: #808080;
   }
+
+  #new-task-dialog /deep/ .ui-dialog-content {
+    overflow: visible;
+  }
 }

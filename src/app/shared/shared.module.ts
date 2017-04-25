@@ -29,10 +29,8 @@ import { ScheduleService, UtilService } from './';
 
 // Components
 @NgModule({
-  imports:      [
-  ],
-  declarations: [
-  ],
+  imports:      [],
+  declarations: [],
   exports:      [
     HttpModule,
     FormsModule,

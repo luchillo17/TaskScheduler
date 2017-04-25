@@ -77,7 +77,7 @@ type StoreType = {
  */
 export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action) =>
-    action.type === 'SET_ROOT_STATE' ? action.payload : reducer(state, action)
+    action.type === 'SET_ROOT_STATE' ? Object.assign({}, state, action.payload) : reducer(state, action)
 }
 
 export function rootReducer(state, action) {
@@ -137,7 +137,7 @@ export class AppModule {
 
     this.storeSubscription = store
       .debounceTime(3500)
-      .subscribe((storageState) => localStorage.setItem('state', JSON.stringify(storageState)));
+      .subscribe(() => this.setStateToDB());
 
     // window.onbeforeunload = ($event) => {
     //   console.log('onBeforeUnload')

@@ -31,6 +31,7 @@ import { tasksTypes } from '.';
 
 export class TaskSelectorComponent implements OnInit, AfterViewChecked {
   @ViewChild('dropdown') dropdown: Dropdown;
+
   @Output()
   taskTypeSelected = new EventEmitter<TaskType>();
 

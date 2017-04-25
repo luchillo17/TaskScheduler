@@ -5,6 +5,10 @@ import { ActionReducer } from '@ngrx/store';
  */
 import {
   tasksReducer,
+  currentTaskReducer,
+} from '../task';
+
+import {
   taskDialogStateReducer
 } from '../task-list';
 
@@ -118,6 +122,8 @@ export const AppReducers = {
   taskSchedules          : taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,
 
-  tasks          : tasksReducer,
   taskDialogState: taskDialogStateReducer,
+
+  tasks      : tasksReducer,
+  currentTask: currentTaskReducer,
 };

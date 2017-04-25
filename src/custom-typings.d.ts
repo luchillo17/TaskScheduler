@@ -52,8 +52,9 @@ interface Task {
   active: boolean;
   taskScheduleId: string;
 
-  type: string;
+  type: TaskType;
 
+  method?: 'NEW' | 'UPDATE';
   direction?: 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
   mapFormat?: JSON;
   data?: any;
@@ -63,6 +64,7 @@ interface TaskType {
   name: string;
   type: any;
   component: any;
+  executor?: any;
 }
 
 interface RXState {

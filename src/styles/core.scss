@@ -28,14 +28,14 @@ html, body{
 */
 
 .errors {
-  border: 1px solid red;
+  border: 1px solid $stateErrorBorderColor;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
 .error {
-  color: white;
-  background: red;
+  color: $stateErrorTextColor;
+  background: $stateErrorBgColor;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }

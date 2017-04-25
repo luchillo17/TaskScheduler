@@ -23,7 +23,7 @@ import {
   Subscription
 } from 'rxjs';
 
-import { AutoComplete } from 'primeng/primeng';
+import { AutoComplete, ConfirmationService } from 'primeng/primeng';
 import { v1 as uuidV1 } from 'uuid';
 
 @Component({
@@ -46,6 +46,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   private taskTypeSelected: TaskType;
 
   constructor(
+    private confirmDialogService: ConfirmationService,
     private router: Router,
     private store: Store<RXState>,
     private fb: FormBuilder,
@@ -86,6 +87,13 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     taskSchedules: TaskSchedule[],
     { selectedScheduleList, selectedTaskSchedule }: ListsState
   ) {
+    if (
+      selectedScheduleList === '' &&
+      selectedTaskSchedule === ''
+    ) {
+      return tasks;
+    }
+
     let filteredTaskSchedulesIds = taskSchedules
       .filter((taskSchedule) =>
         taskSchedule.id !== '' &&
@@ -123,7 +131,22 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
         break;
 
       case 'DELETE':
+        if (this.selectedTaskId === '') return;
 
+        let taskToDelete = this.tasks
+          .find((task) => task.id === this.selectedTaskId)
+
+        this.confirmDialogService.confirm({
+          message: `¿Esta seguro que desea borrar la tarea seleccionada ${taskToDelete.name}?`,
+          header: 'Confirmar borrado de tarea',
+          icon: 'fa fa-trash',
+          accept: () => {
+            this.store.dispatch({
+              type: 'DELETE_TASK',
+              payload: taskToDelete,
+            });
+          },
+        });
         break;
 
       case 'NEW':

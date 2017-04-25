@@ -44,7 +44,7 @@ export const currentTaskReducer: ActionReducer<Task> = (state = initialTaskState
 }
 
 export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, action) => {
-  let selectedScheduleList: Task;
+  let selectedTask: Task;
 
   switch (action.type) {
     case 'ADD_TASK':
@@ -54,16 +54,16 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
       ] as Task[]).sort((a, b) => b.order - a.order);
 
     case 'UPDATE_TASK':
-      selectedScheduleList = action.payload
+      selectedTask = action.payload
       return ([
-          ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
-          selectedScheduleList,
+          ...state.filter((task) => task.id !== selectedTask.id),
+          selectedTask,
       ] as Task[]).sort((a, b) => b.order - a.order);
 
     case 'DELETE_TASK':
-      selectedScheduleList = action.payload
+      selectedTask = action.payload
       return [
-          ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
+          ...state.filter((scheduleList) => scheduleList.id !== selectedTask.id),
       ];
 
     default:

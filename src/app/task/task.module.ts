@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from "..";
+import { SharedModule } from "../shared/shared.module";
 import {
   TaskComponent,
   LogTaskComponent,

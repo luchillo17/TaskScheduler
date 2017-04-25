@@ -6,7 +6,7 @@ import { ActionReducer } from '@ngrx/store';
 import {
   tasksReducer,
   currentTaskReducer,
-} from '../task';
+} from '../task/task.reducers';
 
 import {
   taskDialogStateReducer

@@ -68,10 +68,13 @@ interface TaskType {
 }
 
 interface RXState {
-  tasks          : Task[];
-  listsState     : ListsState;
-  scheduleLists  : ScheduleList[];
-  TaskSchedules  : TaskSchedule[];
+  tasks        : Task[];
+  listsState   : ListsState;
+  currentTask  : Task;
+  TaskSchedules: TaskSchedule[];
+  scheduleLists: ScheduleList[];
+
+  taskDialogState: DialogState
   listDialogState: DialogState;
   taskScheduleDialogState: DialogState;
 }

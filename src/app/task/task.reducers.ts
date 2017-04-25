@@ -29,11 +29,14 @@ const initialTaskState: Task[] = [
 
 export const currentTaskReducer: ActionReducer<Task> = (state = initialTaskState[0], action) => {
   switch (action.type) {
-    case 'SET_CURRENT_TASK':
-      return action.payload;
+    case 'RESET_CURRENT_TASK':
+      return taskDefaults;
 
     case 'CREATE_CURRENT_TASK':
       return Object.assign({}, taskDefaults, action.payload);
+
+    case 'UPDATE_CURRENT_TASK':
+      return Object.assign({}, state, action.payload);
 
     default:
       return state;

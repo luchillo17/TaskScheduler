@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'base-task',
@@ -7,11 +12,19 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class BaseTaskComponent implements OnInit {
+
   public static taskName: string = "Tarea base";
   public taskName: string;
+
+  public taskForm: FormGroup;
   constructor() {
     this.taskName = (<typeof BaseTaskComponent>this.constructor).taskName;
   }
+
+   /**
+   * initNew
+   */
+  public initNew() {};
 
   ngOnInit() {
     console.log('Init base task.');

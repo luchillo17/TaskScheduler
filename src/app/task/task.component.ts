@@ -14,7 +14,6 @@ import { tasksTypes } from ".";
 })
 
 export class TaskComponent implements OnInit {
-  private id: string = '';
   private name: string = '';
   private type: Component;
   private method: string = 'NEW';
@@ -33,33 +32,24 @@ export class TaskComponent implements OnInit {
   }
 
   public ngOnInit() {
-    ({ method: this.method, id: this.id } = this.route.snapshot.params);
+    let typeString: string, id: string;
+    ({ method: this.method, id: id, type: typeString } = this.route.snapshot.params);
+
+    let type: TaskType = JSON.parse(typeString);
+    this.type = tasksTypes.find((taskType) => taskType.type == type.type);
 
     if (this.method === 'NEW') {
-      return this.initializeNew();
+      id = uuidV1();
+      this.store.dispatch({
+        type: 'CREATE_CURRENT_TASK',
+        payload: {
+          id,
+          type
+        } as Task,
+      });
+    } else {
+
+
     }
-    this.initializeUpdate();
-  }
-
-  ngAfterViewInit() {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    console.log(this.method, this.id, this.type);
-
-  }
-
-  public initializeNew() {
-    this.id = uuidV1();
-
-    let params = this.route.snapshot.params;
-
-    let type: TaskType = JSON.parse(params.type);
-
-    this.type = tasksTypes.find((taskType) => taskType.type == type.type);
-  }
-
-  public initializeUpdate() {
-
-
   }
 }

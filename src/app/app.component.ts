@@ -8,8 +8,6 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from './app.service';
-
 import { ScheduleService } from "./shared";
 
 /*

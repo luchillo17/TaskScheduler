@@ -50,21 +50,27 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
     case 'ADD_TASK':
       return ([
           ...state,
-          Object.assign({}, taskDefaults, action.payload),
-      ] as Task[]).sort((a, b) => b.order - a.order);
+          Object.assign({}, taskDefaults, action.payload) as Task,
+      ])
+      .sort((a, b) => b.order - a.order)
+      .map((task, index) => ({...task, order: index}));
 
     case 'UPDATE_TASK':
       selectedTask = action.payload
       return ([
           ...state.filter((task) => task.id !== selectedTask.id),
           selectedTask,
-      ] as Task[]).sort((a, b) => b.order - a.order);
+      ])
+      .sort((a, b) => b.order - a.order)
+      .map((task, index) => ({...task, order: index}));
 
     case 'DELETE_TASK':
       selectedTask = action.payload
       return [
           ...state.filter((scheduleList) => scheduleList.id !== selectedTask.id),
-      ];
+      ]
+      .sort((a, b) => b.order - a.order)
+      .map((task, index) => ({...task, order: index}));
 
     default:
       return state;

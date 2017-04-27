@@ -177,5 +177,6 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
       type: JSON.stringify(type),
       id,
     }])
+    this.toggleTaskDialog(false)
   }
 }

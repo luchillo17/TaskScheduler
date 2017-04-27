@@ -11,6 +11,7 @@ import { NgxErrorsModule } from "@ultimate/ngxerrors";
 
 import { MaterialModule } from '@angular/material';
 import {
+  PanelModule,
   ButtonModule,
   DialogModule,
   FieldsetModule,
@@ -44,6 +45,7 @@ import { ScheduleService, UtilService } from './';
 
     MaterialModule,
 
+    PanelModule,
     ButtonModule,
     DialogModule,
     FieldsetModule,

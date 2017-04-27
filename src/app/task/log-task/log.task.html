@@ -1,46 +1,81 @@
-<div>
-  {{taskName}}
-</div>
+<p-panel>
+  <p-header>
+    {{taskName}}
+  </p-header>
 
-<form [formGroup]='taskForm'>
-  <div class="ui-g-12">
-    <label class="ui-g-4">Id:</label>
-    <input type="text"
-      pInputText
-      formControlName='id'
-      disabled
-    >
-  </div>
+  <form
+    id='taskForm'
+    class='ui-g'
+    [formGroup]='taskForm'
+    (ngSubmit)='saveTask'
+  >
+    <div class='ui-g-12'>
+      <label class='ui-g-4'>Id:</label>
+      <input class='ui-g-8'
+        type='text'
+        pInputText
+        formControlName='id'
+        disabled
+      >
+    </div>
 
-  <div class="ui-g-12">
+    <div class='ui-g-12'>
 
-    <label class="ui-g-4">Nombre:</label>
-    <input type="text"
-      pInputText
-      formControlName='name'
-      [class.errors]="name.hasError('*',['dirty'])"
-    >
-    <div ngxErrors="name" #name='ngxErrors'>
-      <div class="error" ngxError="required" [when]="['touched', 'dirty']">
-        El campo de nombre es requerido
+      <label class='ui-g-4'>Nombre:</label>
+      <input class='ui-g-8'
+        type='text'
+        pInputText
+        formControlName='name'
+        [class.errors]='name.hasError("*",["touched", "dirty"])'
+      >
+      <div
+        #name='ngxErrors'
+        class='ui-g-8'
+        ngxErrors='name'
+      >
+        <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+          El campo de nombre es requerido
+        </div>
+      </div>
+
+    </div>
+
+    <div class='ui-g-12'>
+      <label class='ui-g-4'>Texto:</label>
+      <input class='ui-g-8'
+        type='text'
+        pInputText
+        formControlName='text'
+        [class.errors]='text.hasError("*",["touched", "dirty"])'
+      >
+      <div
+        #text='ngxErrors'
+        class='ui-g-8'
+        ngxErrors='text'
+      >
+        <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+          El campo de texto es requerido
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="ui-g-12">
-    <label class="ui-g-4">Texto:</label>
-    <input type="text"
-      pInputText
-      formControlName='text'
-      [class.errors]="text.hasError('*',['dirty'])"
-    >
-    <div ngxErrors="text" #text='ngxErrors'>
-      <div class="error" ngxError="required" [when]="['touched', 'dirty']">
-        El campo de texto es requerido
-      </div>
+    <div class='taskActions ui-g-12'>
+      <button pButton
+        label='Guardar'
+        type='button'
+        icon='fa-check'
+        class='ui-button-success'
+        form='taskForm'>
+      </button>
+      <button pButton
+        label='Regresar a la lista'
+        type='button'
+        icon='fa-times'
+        class='ui-button-danger'
+        (click)="goBack()">
+      </button>
     </div>
-  </div>
-</form>
+  </form>
 
-<a [routerLink]="['/']">Regresar a la lista</a>
+</p-panel>
+

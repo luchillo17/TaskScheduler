@@ -28,9 +28,13 @@ html, body{
 */
 
 .errors {
-  border: 1px solid $stateErrorBorderColor;
+  border: 1px solid $stateErrorBorderColor!important;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+
+  &+[ngxErrors] {
+    padding: 0;
+  }
 }
 
 .error {

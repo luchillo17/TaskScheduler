@@ -58,6 +58,8 @@ interface Task {
   direction?: 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
   mapFormat?: JSON;
   data?: any;
+
+  [key: string]: any;
 }
 
 interface TaskType {

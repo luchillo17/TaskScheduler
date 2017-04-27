@@ -3,6 +3,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 
@@ -23,6 +24,7 @@ export class LogTaskComponent extends BaseTaskComponent {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<RXState>,
+    private location: Location,
   ) {
     super()
 
@@ -40,7 +42,30 @@ export class LogTaskComponent extends BaseTaskComponent {
   }
 
   public initNew() {
+    this.location.back()
+  }
 
+  public goBack() {
+    this.location.back();
+  }
+
+  public saveTask() {
+    if (this.taskForm.invalid) {
+      return;
+    }
+    let {text, ...value} = this.taskForm.value;
+    this.store.dispatch({
+      type: 'ADD_TASK',
+      payload: {
+        ...value,
+        data: {
+          text
+        }
+      },
+    });
+    this.store.dispatch({
+      type: 'RESET_CURRENT_TASK',
+    });
   }
 
 }

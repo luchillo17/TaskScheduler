@@ -14,7 +14,6 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 // Load the implementations that should be tested
-import { AppState } from '../app.service';
 import { TaskListComponent } from './task-list.component';
 
 describe(`Home`, () => {
@@ -36,7 +35,6 @@ describe(`Home`, () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
-        AppState,
       ]
     })
     .compileComponents(); // compile template and css

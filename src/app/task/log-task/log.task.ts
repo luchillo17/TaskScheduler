@@ -36,6 +36,9 @@ export class LogTaskComponent extends BaseTaskComponent {
           text: ['', Validators.required],
         });
       });
+
+    this.taskSchedules$ = store
+      .select<TaskSchedule[]>('taskSchedules')
   }
   ngOnInit() {
     console.log('Init log task.');

@@ -64,6 +64,10 @@ export class LogTaskComponent extends BaseTaskComponent {
 
   public saveTask() {
     if (this.taskForm.invalid) {
+      for(let control of Object.values(this.taskForm.controls)) {
+        control.markAsDirty()
+        control.markAsTouched()
+      }
       return;
     }
     let {text, ...value} = this.taskForm.value;

@@ -14,9 +14,9 @@ import { tasksTypes } from ".";
 })
 
 export class TaskComponent implements OnInit {
-  private name: string = '';
-  private type: Component;
-  private method: string = 'NEW';
+  public name: string = '';
+  public type: Component;
+  public method: string = 'NEW';
 
   public component: Component;
 

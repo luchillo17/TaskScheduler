@@ -1,0 +1,5 @@
+@for $var from 1 to 12 {
+  .ew-og-#{$var} {
+    margin-left: calc(#{$var} * 100% / 12);
+  }
+}

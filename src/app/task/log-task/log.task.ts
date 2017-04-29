@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 
 import { BaseTaskComponent } from "..";
+import { Observable } from "rxjs";
+import { SelectItem } from "primeng/primeng";
 
 @Component({
   selector: 'log-task',
@@ -18,6 +20,7 @@ import { BaseTaskComponent } from "..";
 export class LogTaskComponent extends BaseTaskComponent {
 
   public currentTask: Task;
+  public taskSchedules$: Observable<SelectItem[]>;
 
   public static taskName: string = 'Tarea tipo log';
 
@@ -31,14 +34,21 @@ export class LogTaskComponent extends BaseTaskComponent {
     store.select<Task>('currentTask')
       .subscribe((task) => {
         this.taskForm = formBuilder.group({
-          id  : [task.id, Validators.required],
+          id:   [task.id,   Validators.required],
           name: [task.name, Validators.required],
-          text: ['', Validators.required],
+          text: ['',        Validators.required],
+          taskScheduleId: [task.taskScheduleId, Validators.required],
         });
       });
 
     this.taskSchedules$ = store
       .select<TaskSchedule[]>('taskSchedules')
+      .map((taskSchedules) => taskSchedules
+        .map((taskSchedule) => ({
+          label: taskSchedule.name,
+          value: taskSchedule.id,
+        })
+      ))
   }
   ngOnInit() {
     console.log('Init log task.');

@@ -65,7 +65,7 @@ const APP_PROVIDERS = [
 ];
 
 type StoreType = {
-  state: InternalStateType,
+  state: RXState,
   restoreInputValues: () => void,
   disposeOldHosts: () => void
 };
@@ -97,12 +97,12 @@ export function rootReducer(state, action) {
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
+    SharedModule,
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreLogMonitorModule,
-    SharedModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
 
     TaskModule,
   ],

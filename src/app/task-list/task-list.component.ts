@@ -174,7 +174,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   private gotoTask({method, id, type}: {method: string, id?: string, type?: TaskType}) {
     this.router.navigate(['/task', {
       method,
-      type: JSON.stringify(type),
+      type: type && JSON.stringify(type),
       id,
     }])
     this.toggleTaskDialog(false)

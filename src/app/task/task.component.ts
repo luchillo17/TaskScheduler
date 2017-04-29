@@ -15,7 +15,7 @@ import { tasksTypes } from ".";
 
 export class TaskComponent implements OnInit {
   public name: string = '';
-  public type: Component;
+  public type: TaskType;
   public method: string = 'NEW';
 
   public component: Component;
@@ -35,11 +35,12 @@ export class TaskComponent implements OnInit {
     let typeString: string, id: string;
     ({ method: this.method, id: id, type: typeString } = this.route.snapshot.params);
 
-    let type: TaskType = JSON.parse(typeString);
-    this.type = tasksTypes.find((taskType) => taskType.type == type.type);
+    let type: TaskType;
 
     if (this.method === 'NEW') {
       id = uuidV1();
+      type = JSON.parse(typeString)
+      this.type = tasksTypes.find((taskType) => taskType.type == type.type);
       this.store.dispatch({
         type: 'CREATE_CURRENT_TASK',
         payload: {
@@ -48,8 +49,19 @@ export class TaskComponent implements OnInit {
         } as Task,
       });
     } else {
-
-
+      this.store
+        .select<Task[]>('tasks')
+        .take(1)
+        .subscribe((tasks) => {
+          let selectedTask: Task = tasks.find((task) => task.id == id)
+          type = selectedTask.type
+          this.type = tasksTypes.find((taskType) => taskType.type == type.type);
+          this.store.dispatch({
+            type: 'CREATE_CURRENT_TASK',
+            payload: selectedTask as Task,
+          });
+        })
     }
+
   }
 }

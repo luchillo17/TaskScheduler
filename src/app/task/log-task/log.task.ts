@@ -72,10 +72,13 @@ export class LogTaskComponent extends BaseTaskComponent {
       }
       return;
     }
-    let {text, ...value} = this.taskForm.value;
+    this.goBack()
+    let { method, ...currentTask } = this.currentTask;
+    let { text, ...value } = this.taskForm.value;
     this.store.dispatch({
-      type: this.currentTask.method == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
+      type: method == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
+        ...currentTask,
         ...value,
         data: {
           text

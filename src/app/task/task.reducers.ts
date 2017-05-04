@@ -56,7 +56,7 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
       .map((task, index) => ({...task, order: index}));
 
     case 'UPDATE_TASK':
-      selectedTask = action.payload
+      selectedTask = { ...taskDefaults, ...action.payload }
       return ([
           ...state.filter((task) => task.id !== selectedTask.id),
           selectedTask,

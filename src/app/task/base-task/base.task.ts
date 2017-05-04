@@ -21,11 +21,6 @@ export class BaseTaskComponent implements OnInit {
     this.taskName = (<typeof BaseTaskComponent>this.constructor).taskName;
   }
 
-   /**
-   * initNew
-   */
-  public initNew() {};
-
   ngOnInit() {
     console.log('Init base task.');
   }

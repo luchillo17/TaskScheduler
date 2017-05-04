@@ -16,14 +16,4 @@ import { v1 as uuidV1 } from 'uuid';
   templateUrl: './schedule.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class ScheduleComponent implements OnInit {
-
-  public taskLists = [];
-  public taskQueue = [];
-
-  constructor(
-    private store: Store<RXState>,
-  ) {}
-
-  public ngOnInit() {}
-}
+export class ScheduleComponent {}

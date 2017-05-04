@@ -89,12 +89,4 @@ export class LogTaskComponent extends BaseTaskComponent {
       type: 'RESET_CURRENT_TASK',
     });
   }
-
-}
-
-export const LogTaskType: TaskType = {
-    name: LogTaskComponent.taskName,
-    type: LogTaskComponent.name,
-    component: LogTaskComponent,
-    executor: null,
 }

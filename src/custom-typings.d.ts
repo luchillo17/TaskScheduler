@@ -67,9 +67,13 @@ interface Task {
 
 interface TaskType {
   name: string;
-  type: any;
+  type: string;
   component: any;
-  executor?: any;
+  executor?: TaskExecutor;
+}
+
+interface TaskExecutor {
+  executeTask(task: Task, data?: any[], taskIndex?: number): Promise<any|Error>;
 }
 
 interface RXState {

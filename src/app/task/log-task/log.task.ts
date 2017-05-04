@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 
 import { BaseTaskComponent } from "..";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { SelectItem } from "primeng/primeng";
 
 @Component({
@@ -30,7 +30,8 @@ export class LogTaskComponent extends BaseTaskComponent {
   ) {
     super(store, location)
 
-    store.select<Task>('currentTask')
+    this.currentTaskSub = store
+      .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
         let text = task.data && task.data.text
@@ -47,13 +48,10 @@ export class LogTaskComponent extends BaseTaskComponent {
   }
 
   public saveTask() {
-    if (this.taskForm.invalid) {
-      for(let control of Object.values(this.taskForm.controls)) {
-        control.markAsDirty()
-        control.markAsTouched()
-      }
+    if (this.isFormInvalid()) {
       return;
     }
+
     this.goBack()
     let { method, ...currentTask } = this.currentTask;
     let { text, ...value } = this.taskForm.value;
@@ -67,8 +65,12 @@ export class LogTaskComponent extends BaseTaskComponent {
         }
       },
     });
-    this.store.dispatch({
-      type: 'RESET_CURRENT_TASK',
-    });
+    setTimeout(() => {
+      this.store.dispatch({
+        type: 'RESET_CURRENT_TASK',
+      });
+    }, 300)
   }
+
+
 }

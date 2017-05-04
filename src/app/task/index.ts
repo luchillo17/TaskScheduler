@@ -1,6 +1,6 @@
 // Replace later with Webpack 2 Context for automated exports & variables
 
-export * from './base-task/base.task'
+export * from './base-task'
 export * from './log-task'
 
 import {

@@ -3,11 +3,10 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 import { LogTaskData } from "./index";
+import { BaseTaskExecutor } from "../index";
 
 @Injectable()
-export class LogTaskExecutor implements TaskExecutor{
-  private tasks$: Observable<Task[]>;
-
+export class LogTaskExecutor implements BaseTaskExecutor {
   constructor() {
   }
 

@@ -1,27 +1,30 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { SelectItem } from "primeng/primeng";
 
-@Component({
-  selector: 'base-task',
-  templateUrl: 'base.task.html',
-  styleUrls: ['base.task.scss'],
-})
+// @Component({
+//   selector: 'base-task',
+//   templateUrl: 'base.task.html',
+//   styleUrls: ['base.task.scss'],
+// })
 
-export class BaseTaskComponent implements OnInit {
+export abstract class BaseTaskComponent implements OnInit {
 
   public static taskName: string = "Tarea base";
 
   public taskName: string;
   public taskForm: FormGroup;
-  public taskSchedules$: Observable<SelectItem[]>;
+  public taskSchedules: Observable<SelectItem[]>;
+  public currentTaskSub: Subscription;
+
 
   constructor(
     public store: Store<RXState>,
@@ -29,7 +32,7 @@ export class BaseTaskComponent implements OnInit {
   ) {
     this.taskName = (<typeof BaseTaskComponent>this.constructor).taskName;
 
-    this.taskSchedules$ = store
+    this.taskSchedules = store
       .select<TaskSchedule[]>('taskSchedules')
       .map((taskSchedules) => taskSchedules
         .map((taskSchedule) => ({
@@ -39,6 +42,10 @@ export class BaseTaskComponent implements OnInit {
       ))
   }
 
+  ngOnDestroy() {
+    this.currentTaskSub && this.currentTaskSub.unsubscribe()
+  }
+
   ngOnInit() {
     console.log('Init base task.');
   }
@@ -46,4 +53,17 @@ export class BaseTaskComponent implements OnInit {
   public goBack() {
     this.location.back();
   }
+
+  public isFormInvalid() {
+    if (this.taskForm.invalid) {
+      for(let control of Object.values(this.taskForm.controls)) {
+        control.markAsDirty()
+        control.markAsTouched()
+      }
+      return true
+    }
+    return false
+  }
+
+  public abstract saveTask();
 }

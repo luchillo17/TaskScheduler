@@ -20,16 +20,15 @@ import { SelectItem } from "primeng/primeng";
 export class LogTaskComponent extends BaseTaskComponent {
 
   public currentTask: Task;
-  public taskSchedules$: Observable<SelectItem[]>;
 
   public static taskName: string = 'Tarea tipo log';
 
   constructor(
+    public store: Store<RXState>,
+    public location: Location,
     private formBuilder: FormBuilder,
-    private store: Store<RXState>,
-    private location: Location,
   ) {
-    super()
+    super(store, location)
 
     store.select<Task>('currentTask')
       .subscribe((task) => {
@@ -42,26 +41,9 @@ export class LogTaskComponent extends BaseTaskComponent {
           taskScheduleId: [task.taskScheduleId, Validators.required],
         });
       });
-
-    this.taskSchedules$ = store
-      .select<TaskSchedule[]>('taskSchedules')
-      .map((taskSchedules) => taskSchedules
-        .map((taskSchedule) => ({
-          label: taskSchedule.name,
-          value: taskSchedule.id,
-        })
-      ))
   }
   ngOnInit() {
     console.log('Init log task.');
-  }
-
-  public initNew() {
-    this.location.back()
-  }
-
-  public goBack() {
-    this.location.back();
   }
 
   public saveTask() {

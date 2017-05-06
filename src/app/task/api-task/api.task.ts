@@ -7,9 +7,10 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 
-import { BaseTaskComponent } from "..";
+import { BaseTaskComponent, ApiTaskData } from "..";
 import { Observable, Subscription } from "rxjs";
 import { SelectItem } from "primeng/primeng";
+import { ApiValidators } from "./api.validators";
 
 @Component({
   selector: 'api-task',
@@ -30,17 +31,32 @@ export class ApiTaskComponent extends BaseTaskComponent {
   ) {
     super(store, location)
 
+    global['apitask'] = this
+
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        let {text, logTasksData} = task.data || {} as any;
+        let {
+          url,
+          method,
+          authorization,
+          requestData,
+        } = (task.data || {}) as ApiTaskData;
+
         this.taskForm = formBuilder.group({
-          id:   [task.id,    Validators.required],
-          name: [task.name,  Validators.required],
+          id       : [task.id,   Validators.required],
+          name     : [task.name, Validators.required],
+          mapFormat: [task.mapFormat],
           taskScheduleId: [task.taskScheduleId, Validators.required],
 
           // Api task specific
+          url          : [url, Validators.required],
+          method       : [method, Validators.required],
+          requestData  : [requestData, ApiValidators.validateJson],
+          authorization: [authorization, Validators.required],
+        }, {
+          validator: ApiValidators.requestDataByMethod,
         });
       });
   }

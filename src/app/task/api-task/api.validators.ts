@@ -8,10 +8,17 @@ export class ApiValidators {
     let requestControl = group.controls['requestData'] as AbstractControl;
     let methodControl  = group.controls['method'] as AbstractControl;
 
-    if (methodControl.value == 'GET' && requestControl.value == '') {
+    if (
+      methodControl.value !== 'GET' &&
+      (
+        requestControl.value == null ||
+        requestControl.value.length == 0
+      )
+    ) {
       requestControl.setErrors({ required: true })
     } else {
-      requestControl.setErrors({ required: false })
+      let errors = Object.assign({}, requestControl.errors, {required: false})
+      requestControl.setErrors(errors)
     }
 
 
@@ -19,6 +26,10 @@ export class ApiValidators {
   }
 
   static validateJson(control: AbstractControl) {
+    if (control.value === '') {
+      return null
+    }
+
     try {
       let o: Object = JSON.parse(control.value)
       if (o !== undefined && typeof o === 'object') {

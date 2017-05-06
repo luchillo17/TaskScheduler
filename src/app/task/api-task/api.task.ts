@@ -22,7 +22,7 @@ export class ApiTaskComponent extends BaseTaskComponent {
 
   public currentTask: Task;
 
-  public static taskName: string = 'Tarea tipo api';
+  public static taskName: string = 'Tarea tipo API';
 
   constructor(
     public store: Store<RXState>,

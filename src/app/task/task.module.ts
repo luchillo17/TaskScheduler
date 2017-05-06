@@ -4,6 +4,7 @@ import { SharedModule } from "../shared/shared.module";
 import {
   TaskComponent,
   LogTaskComponent,
+  ApiTaskComponent,
   TaskSelectorComponent,
 } from '.';
 
@@ -15,10 +16,12 @@ import {
   declarations: [
     TaskComponent,
     LogTaskComponent,
+    ApiTaskComponent,
     TaskSelectorComponent,
   ],
   entryComponents: [
     LogTaskComponent,
+    ApiTaskComponent,
   ],
   providers: [],
 })

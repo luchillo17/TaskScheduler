@@ -2,6 +2,7 @@ import {
   Component,
   ViewChild,
   OnDestroy,
+  HostBinding,
   AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -10,30 +11,30 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
-import { AutoComplete, ConfirmationService } from "primeng/primeng";
+import { AutoComplete, ConfirmationService } from 'primeng/primeng';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
-import { CustomTaskListsValidators } from ".";
+import { CustomTaskListsValidators } from '.';
 
 @Component({
   selector: 'task-lists',
-  host: {
-    id: 'task-lists-panel',
-  },
+
   styleUrls: [ './task-lists.component.scss' ],
   templateUrl: './task-lists.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
 export class TaskListsComponent implements AfterViewInit, OnDestroy {
+  @HostBinding('id') private id = 'task-lists-panel';
+
   @ViewChild('taskScheduleListAutocomplete') private taskScheduleListAutocomplete: AutoComplete;
 
   private taskSchedules$: Subscription;
   private selectedTaskSchedule$: Subscription;
   private taskScheduleDialogState$: Subscription;
 
-  public selectedTaskScheduleId = "";
+  public selectedTaskScheduleId = '';
 
   public taskScheduleDialogState: DialogState = { show: false, type: 'NEW' };
 
@@ -44,14 +45,17 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
   public taskScheduleForm: FormGroup;
 
   constructor(
-    private confirDialogService: ConfirmationService,
+    private confirmDialogService: ConfirmationService,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
     this.taskScheduleForm = this.fb.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
-      scheduleList: [null, [Validators.required, CustomTaskListsValidators.ScheduleListDropdownValidator]],
+      scheduleList: [null, [
+        Validators.required,
+        CustomTaskListsValidators.ScheduleListDropdownValidator
+      ]],
       active: [true, Validators.required],
       useDateRange: [true, Validators.required],
       start: [new Date()],
@@ -64,31 +68,30 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
       month: ['*', Validators.required],
       dayOfWeek: ['*', Validators.required],
     });
-    global['taskScheduleDialogForm'] = this.taskScheduleForm;
 
     this.scheduleLists = this.store
       .select<ScheduleList[]>('scheduleLists')
       .map((scheduleLists) => {
-        return scheduleLists.filter((scheduleList) => scheduleList.id != '')
-      })
+        return scheduleLists.filter((scheduleList) => scheduleList.id !== '');
+      });
 
     this.taskSchedules$ = Observable.combineLatest(
       this.store.select<TaskSchedule[]>('taskSchedules'),
       this.store.select<ListsState>('listsState'),
       (taskSchedules, { selectedScheduleList }) => {
         return taskSchedules.filter((taskSchedule) => {
-          return selectedScheduleList == '' ||
-            taskSchedule.id == '' ||
-            taskSchedule.scheduleListId == selectedScheduleList
-        })
+          return selectedScheduleList === '' ||
+            taskSchedule.id === '' ||
+            taskSchedule.scheduleListId === selectedScheduleList;
+        });
       })
       .subscribe((taskSchedules) => {
-        this.taskSchedules = taskSchedules
+        this.taskSchedules = taskSchedules;
       });
 
     this.selectedTaskSchedule$ = this.store.select<ListsState>('listsState')
-      .subscribe(({ selectedTaskScedule }) => {
-        this.selectedTaskScheduleId = selectedTaskScedule;
+      .subscribe(({ selectedTaskSchedule }) => {
+        this.selectedTaskScheduleId = selectedTaskSchedule;
       });
   }
 
@@ -96,11 +99,11 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
     this.taskScheduleDialogState$ = this.store
       .select<DialogState>('taskScheduleDialogState')
       .subscribe((taskScheduleDialogState) => {
-        this.taskScheduleDialogState = taskScheduleDialogState
+        this.taskScheduleDialogState = taskScheduleDialogState;
       });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.taskSchedules$ && this.taskSchedules$.unsubscribe();
     this.selectedTaskSchedule$ && this.selectedTaskSchedule$.unsubscribe();
     this.taskScheduleDialogState$ && this.taskScheduleDialogState$.unsubscribe();
@@ -114,27 +117,26 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public toogleTaskScheduleDialog(isShow: boolean) {
+  public toggleTaskScheduleDialog(isShow: boolean) {
     this.taskScheduleForm.reset({
       id: uuidV1(),
       scheduleList: null,
       name: '',
       active: true,
       useDateRange: false,
-    })
+    });
     this.store.dispatch({
       type: isShow ? 'SHOW_TASK_SCHEDULE_DIALOG' : 'HIDE_TASK_SCHEDULE_DIALOG',
       payload: this.taskScheduleDialogState.type,
-    })
+    });
   }
   public openTaskScheduleDialog(type: string) {
-    let selectedTaskScedule
     switch (type) {
       case 'UPDATE':
         if (this.selectedTaskScheduleId === '') return;
         // Extract scheduleListId of selectedTaskSchedule
         let { scheduleListId, ...selectedTaskSchedule} = this.taskSchedules
-          .find((taskList) => taskList.id === this.selectedTaskScheduleId)
+          .find((taskList) => taskList.id === this.selectedTaskScheduleId);
 
         this.store
           .select<ScheduleList[]>('scheduleLists')
@@ -145,7 +147,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
             selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
 
             // Parse start & end dates to JS Date type
-            let [start, end] = [new Date(selectedTaskSchedule.end), new Date(selectedTaskSchedule.end)]
+            let [start, end] = [new Date(selectedTaskSchedule.start), new Date(selectedTaskSchedule.end)]
               .map(date => {
                 date.setSeconds(0, 0);
                 return date;
@@ -154,17 +156,17 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
             this.taskScheduleForm.reset(Object.assign({}, selectedTaskSchedule, {
               start,
               end
-            }))
-          })
+            }));
+          });
 
         break;
       case 'DELETE':
         if (this.selectedTaskScheduleId === '') return;
 
         let taskScheduleToDelete = this.taskSchedules
-          .find((taskList) => taskList.id === this.selectedTaskScheduleId)
+          .find((taskList) => taskList.id === this.selectedTaskScheduleId);
 
-        this.confirDialogService.confirm({
+        this.confirmDialogService.confirm({
           message: `¿Esta seguro que desea borrar el calendario de tareas ${taskScheduleToDelete.name}?`,
           header: 'Confirmar borrado calendario de tareas',
           icon: 'fa fa-trash',
@@ -172,7 +174,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
             this.store.dispatch({
               type: 'DELETE_TASK_SCHEDULE',
               payload: taskScheduleToDelete,
-            })
+            });
           },
         });
 
@@ -198,13 +200,13 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
           dayOfMonth: '*',
           month: '*',
           dayOfWeek: '*',
-        })
+        });
         break;
     }
     this.store.dispatch({
       type: 'SHOW_TASK_SCHEDULE_DIALOG',
       payload: type,
-    })
+    });
   }
 
   public saveTaskSchedule() {
@@ -221,7 +223,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
         this.store.dispatch({
           type: 'UPDATE_TASK_SCHEDULE',
           payload: formValue,
-        })
+        });
 
         break;
 
@@ -237,26 +239,26 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
         this.store.dispatch({
           type: 'ADD_TASK_SCHEDULE',
           payload: formValue,
-        })
+        });
         break;
     }
-    this.toogleTaskScheduleDialog(false)
+    this.toggleTaskScheduleDialog(false);
   }
-  filterLists($event) {
+  public filterLists($event) {
     setTimeout(() => {
       this.store.dispatch({
         type: 'FILTER_SCHEDULE_LIST_BY_NAME',
         payload: $event.query,
-      })
-      this.taskScheduleListAutocomplete.show()
+      });
+      this.taskScheduleListAutocomplete.show();
     });
   }
-  handleDropdownClick($event) {
+  public handleDropdownClick($event) {
     setTimeout(() => {
       this.store.dispatch({
         type: 'FILTER_SCHEDULE_LIST_NONE',
-      })
-      this.taskScheduleListAutocomplete.show()
+      });
+      this.taskScheduleListAutocomplete.show();
     });
   }
 }

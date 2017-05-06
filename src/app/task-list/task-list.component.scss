@@ -1,0 +1,17 @@
+:host {
+  flex: 1;
+}
+
+.task-schedule-container {
+  padding: 10px;
+  &.selected {
+    background: #808080;
+  }
+  &:hover {
+    background: #808080;
+  }
+
+  #new-task-dialog /deep/ .ui-dialog-content {
+    overflow: visible;
+  }
+}

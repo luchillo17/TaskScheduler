@@ -1,0 +1,15 @@
+:host, :host > p-panel, :host > p-panel > /deep/ div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  min-width: 250px;
+
+  .taskActions {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+}

@@ -1,6 +1,7 @@
 import {
   Component,
   OnDestroy,
+  HostBinding,
   AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -9,26 +10,25 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
-import { ConfirmationService } from "primeng/primeng";
+import { ConfirmationService } from 'primeng/primeng';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
 @Component({
   selector: 'schedule-list',
-  host: {
-    id: 'schedule-list-panel',
-  },
   styleUrls: [ './schedule-list.component.scss' ],
   templateUrl: './schedule-list.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
 export class ScheduleListComponent implements AfterViewInit, OnDestroy {
+  @HostBinding('id') private id = 'schedule-list-panel';
+
   private listsState$: Subscription;
   private scheduleLists$: Subscription;
   private listDialogState$: Subscription;
 
-  public selectedListId = "";
+  public selectedListId = '';
 
   public listDialogState: DialogState = { show: false, type: 'NEW' };
 
@@ -38,7 +38,7 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
   public listDialogForm: FormGroup;
 
   constructor(
-    private confirDialogService: ConfirmationService,
+    private confirmDialogService: ConfirmationService,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
@@ -49,10 +49,9 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
     });
     global['listDialogForm'] = this.listDialogForm;
 
-
     this.scheduleLists$ = this.store.select<ScheduleList[]>('scheduleLists')
       .subscribe((scheduleLists) => {
-        this.scheduleLists = scheduleLists
+        this.scheduleLists = scheduleLists;
       });
 
     this.listsState$ = this.store.select<ListsState>('listsState')
@@ -65,8 +64,8 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
     this.listDialogState$ = this.store
       .select<DialogState>('listDialogState')
       .subscribe((listDialogState) => {
-        this.listDialogState = listDialogState
-      })
+        this.listDialogState = listDialogState;
+      });
   }
 
   public ngOnDestroy() {
@@ -82,38 +81,37 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public toogleListDialog(isShow: boolean) {
+  public toggleListDialog(isShow: boolean) {
     this.listDialogForm.reset({
       id: uuidV1(),
       name: '',
       active: true,
-    })
+    });
     this.store.dispatch({
       type: isShow ? 'SHOW_LIST_DIALOG' : 'HIDE_LIST_DIALOG',
       payload: this.listDialogState.type,
-    })
+    });
   }
   public openListDialog(type: string) {
     switch (type) {
       case 'UPDATE':
         if (this.selectedListId === '') return;
         let selectedList = this.scheduleLists
-          .find((scheduleList) => scheduleList.id === this.selectedListId)
-
+          .find((scheduleList) => scheduleList.id === this.selectedListId);
 
         this.listDialogForm.reset({
           id: selectedList.id,
           name: selectedList.name,
           active: selectedList.active,
-        })
+        });
         break;
       case 'DELETE':
         if (this.selectedListId === '') return;
 
         let scheduleListToDelete = this.scheduleLists
-          .find((scheduleList) => scheduleList.id === this.selectedListId)
+          .find((scheduleList) => scheduleList.id === this.selectedListId);
 
-        this.confirDialogService.confirm({
+        this.confirmDialogService.confirm({
           message: `¿Esta seguro que desea borrar la lista de calendarios ${scheduleListToDelete.name}?`,
           header: 'Confirmar borrado lista de calendarios',
           icon: 'fa fa-trash',
@@ -121,11 +119,11 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
             this.store.dispatch({
               type: 'DELETE_TASK_SCHEDULES_BY_SCHEDULE_LIST_ID',
               payload: scheduleListToDelete.id,
-            })
+            });
             this.store.dispatch({
               type: 'DELETE_LIST',
               payload: scheduleListToDelete,
-            })
+            });
           },
         });
 
@@ -137,13 +135,13 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
           id: uuidV1(),
           name: '',
           active: true,
-        })
+        });
         break;
     }
     this.store.dispatch({
       type: 'SHOW_LIST_DIALOG',
       payload: type,
-    })
+    });
   }
 
   public saveListDialog() {
@@ -155,7 +153,7 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
         this.store.dispatch({
           type: 'UPDATE_LIST',
           payload: this.listDialogForm.value,
-        })
+        });
 
         break;
 
@@ -167,9 +165,9 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
         this.store.dispatch({
           type: 'ADD_LIST',
           payload: this.listDialogForm.value,
-        })
+        });
         break;
     }
-    this.toogleListDialog(false)
+    this.toggleListDialog(false);
   }
 }

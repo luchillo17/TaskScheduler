@@ -1,10 +1,10 @@
 @import '~normalize.css/normalize';
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 @import '~primeng/resources/themes/darkness/theme';
 @import '~primeng/resources/primeng.min.css';
-// @import '~primeui/primeui-ng-all.min';
 
+@import './grid-offsets';
 
 // @import '~@angular/material/core/theming/all-theme';
 // @include mat-core();
@@ -22,6 +22,31 @@ html, body{
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+  Angular specific
+*/
+
+.errors {
+  border: 1px solid $stateErrorBorderColor!important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &+[ngxErrors] {
+    padding: 0;
+  }
+}
+
+.error {
+  color: $stateErrorTextColor;
+  background: $stateErrorBgColor;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/*
+  PrimeNG specific
+*/
 
 p-datalist,
 p-datalist > div
@@ -46,4 +71,7 @@ p-datalist {
   }
 }
 
+/*
+  App specific
+*/
 .ui-dialog .ui-dialog-content { height: calc(100% - 38px - 65.8px); }

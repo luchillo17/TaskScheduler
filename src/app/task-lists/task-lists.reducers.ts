@@ -32,7 +32,6 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
     month: '*',
     dayOfWeek: '*',
     active: true,
-    taskIds: [],
   } as TaskSchedule;
 
   let selectedTaskScedule: TaskSchedule;

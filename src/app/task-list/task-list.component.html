@@ -1,0 +1,71 @@
+<p-dataList [value]='tasks'>
+  <p-header>Cola tareas</p-header>
+  <ng-template
+    let-task
+    let-i='index'
+    pTemplate="item"
+  >
+    <div
+      class="task-schedule-container"
+      [ngClass]="{selected: selectedTaskId === task.id}"
+      (click)='setSelectedTask(task)'
+    >
+      <div class="name">
+        <b>Nombre:</b> {{ task.name }}
+      </div>
+      <div class="name">
+        <b>Tipo:</b> {{ task.type.name }}
+      </div>
+      <div class="isListActive">
+        <b>Activo:</b> {{ task.active }}
+      </div>
+    </div>
+  </ng-template>
+  <p-footer>
+    <button pButton
+      (click)="openTaskDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+    <button pButton
+      [disabled]="selectedTaskId === ''"
+      (click)="openTaskDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
+      [disabled]="selectedTaskId === ''"
+      (click)="openTaskDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+  </p-footer>
+</p-dataList>
+
+<!-- NewListDialog from here down-->
+<p-dialog
+  id='new-task-dialog'
+  header='Nueva tarea'
+  appendTo='body'
+  responsive='true'
+  [modal]='true'
+  [visible]="taskDialogState.show && taskDialogState.type !== 'DELETE'"
+  [closable]='true'
+  [contentStyle]="{'overflow': 'visible'}"
+  [dismissableMask]='false'
+  (visibleChange)="toggleTaskDialog($event)">
+
+  <task-selector (taskTypeSelected)='taskTypeSelected = $event'></task-selector>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button pButton
+        label='Cancelar'
+        type="button"
+        icon='fa-times'
+        class="ui-button-danger"
+        (click)="toggleTaskDialog(false)"
+      ></button>
+      <button pButton
+        label='Guardar'
+        type="button"
+        icon='fa-check'
+        class="ui-button-success"
+        (click)="newTask()"
+      ></button>
+        <!--[disabled]="taskForm.invalid"-->
+    </div>
+  </p-footer>
+</p-dialog>
+

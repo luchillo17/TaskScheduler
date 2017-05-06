@@ -6,12 +6,13 @@ declare var mainBrowserUrl: string;
 
 interface ListsState {
   selectedScheduleList: string;
-  selectedTaskScedule:  string;
+  selectedTaskSchedule : string;
+  selectedTask        : string;
 }
 
 interface DialogState {
   show: boolean;
-  type: string;
+  type?: string;
 }
 
 interface ScheduleList {
@@ -42,18 +43,47 @@ interface TaskSchedule {
   active: Boolean;
 
   job?: any;
-  taskIds?: String[];
 }
+
+type Method = 'NEW' | 'UPDATE';
+type Direction = 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
 
 interface Task {
   id: string;
   name: string;
+  order: number;
+  active: boolean;
+  taskScheduleId: string;
+
+  type: TaskType;
+
+  method?: Method;
+  direction?: Direction;
+  mapFormat?: JSON;
+  data?: any;
+
+  [key: string]: any;
+}
+
+interface TaskType {
+  name: string;
+  type: string;
+  component: any;
+  executor?: TaskExecutor;
+}
+
+interface TaskExecutor {
+  executeTask(task: Task, data?: any[], taskIndex?: number): Promise<any|Error>;
 }
 
 interface RXState {
-  listsState     : ListsState;
-  scheduleLists  : ScheduleList[];
-  TaskSchedules  : TaskSchedule[];
+  tasks        : Task[];
+  listsState   : ListsState;
+  currentTask  : Task;
+  TaskSchedules: TaskSchedule[];
+  scheduleLists: ScheduleList[];
+
+  taskDialogState: DialogState
   listDialogState: DialogState;
   taskScheduleDialogState: DialogState;
 }

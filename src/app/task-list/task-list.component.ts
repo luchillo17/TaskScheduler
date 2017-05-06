@@ -35,9 +35,9 @@ import { v1 as uuidV1 } from 'uuid';
 export class TaskListComponent implements AfterViewInit, OnDestroy {
   @HostBinding('id') private id = 'task-list-panel';
 
-  private tasks: Task[] = [];
-  private selectedTaskId: string;
-  private taskDialogState: DialogState = { show: false, type: 'NEW' };
+  public tasks: Task[] = [];
+  public selectedTaskId: string;
+  public taskDialogState: DialogState = { show: false, type: 'NEW' };
 
   private tasks$: Subscription;
   private selectedTask$: Subscription;

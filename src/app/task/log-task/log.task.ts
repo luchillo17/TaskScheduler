@@ -34,11 +34,12 @@ export class LogTaskComponent extends BaseTaskComponent {
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        let text = task.data && task.data.text
+        let {text, logTasksData} = task.data || {} as any;
         this.taskForm = formBuilder.group({
           id:   [task.id,    Validators.required],
           name: [task.name,  Validators.required],
           text: [text || '', Validators.required],
+          logTasksData: [logTasksData || false, Validators.required],
           taskScheduleId: [task.taskScheduleId, Validators.required],
         });
       });
@@ -54,14 +55,15 @@ export class LogTaskComponent extends BaseTaskComponent {
 
     this.goBack()
     let { method, ...currentTask } = this.currentTask;
-    let { text, ...value } = this.taskForm.value;
+    let { text, logTasksData, ...value } = this.taskForm.value;
     this.store.dispatch({
       type: method == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
         ...currentTask,
         ...value,
         data: {
-          text
+          text,
+          logTasksData,
         }
       },
     });

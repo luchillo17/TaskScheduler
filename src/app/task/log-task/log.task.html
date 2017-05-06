@@ -53,7 +53,7 @@
           class='ui-g-8'
           formControlName='taskScheduleId'
           [filter]="true"
-          [options]="taskSchedules$ | async"
+          [options]="taskSchedules | async"
           [class.errors]='taskScheduleId.hasError("*",["touched", "dirty"])'
         ></p-dropdown>
         <div
@@ -63,6 +63,27 @@
         >
           <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
             El campo de calendario de tareas es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-4'>Loguear datos de tareas:</label>
+        <p-inputSwitch class='ui-g-8'
+          formControlName='logTasksData'
+          [class.errors]='logTasksData.hasError("*",["touched", "dirty"])'
+        ></p-inputSwitch>
+        <div
+          #logTasksData='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='logTasksData'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de texto es requerido
           </div>
         </div>
 

@@ -13,5 +13,8 @@ export class LogTaskExecutor implements BaseTaskExecutor {
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
     let taskData: LogTaskData = task.data;
     console.log(taskData.text);
+    if (taskData.logTaskData) {
+      console.log('Tasks data: ', data);
+    }
   }
 }

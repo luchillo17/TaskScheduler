@@ -12,16 +12,16 @@ import { Observable, Subscription } from "rxjs";
 import { SelectItem } from "primeng/primeng";
 
 @Component({
-  selector: 'log-task',
-  templateUrl: 'log.task.html',
-  styleUrls: ['log.task.scss']
+  selector: 'api-task',
+  templateUrl: 'api.task.html',
+  styleUrls: ['api.task.scss']
 })
 
-export class LogTaskComponent extends BaseTaskComponent {
+export class ApiTaskComponent extends BaseTaskComponent {
 
   public currentTask: Task;
 
-  public static taskName: string = 'Tarea tipo log';
+  public static taskName: string = 'Tarea tipo api';
 
   constructor(
     public store: Store<RXState>,
@@ -40,14 +40,12 @@ export class LogTaskComponent extends BaseTaskComponent {
           name: [task.name,  Validators.required],
           taskScheduleId: [task.taskScheduleId, Validators.required],
 
-          // Log task specific
-          text: [text || '', Validators.required],
-          logTasksData: [logTasksData || false, Validators.required],
+          // Api task specific
         });
       });
   }
   ngOnInit() {
-    console.log('Init log task.');
+    console.log('Init api task.');
   }
 
   public saveTask() {
@@ -64,7 +62,7 @@ export class LogTaskComponent extends BaseTaskComponent {
         ...currentTask,
         ...value,
 
-        // Log task specific
+        // Api task specific
         data: {
           text,
           logTasksData,

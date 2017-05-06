@@ -5,7 +5,7 @@ import { LogTaskComponent, LogTaskExecutor } from '.';
 
 export interface LogTaskData {
   text: string;
-  logTaskData: boolean;
+  logTasksData: boolean;
 }
 
 export const LogTaskType: TaskType = {

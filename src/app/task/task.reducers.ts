@@ -52,7 +52,6 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
           ...state,
           Object.assign({}, taskDefaults, action.payload) as Task,
       ])
-      .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));
 
     case 'UPDATE_TASK':

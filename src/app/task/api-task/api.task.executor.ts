@@ -7,11 +7,33 @@ import { BaseTaskExecutor } from "../index";
 
 @Injectable()
 export class ApiTaskExecutor implements BaseTaskExecutor {
-  constructor() {
-  }
 
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
-    let taskData: ApiTaskData = task.data;
-    console.log('Api task data: ', taskData);
+    let {
+      url,
+      method,
+      authorization,
+      requestData: body,
+    } = task.data as ApiTaskData;
+    console.log('Api task data: ', task.data);
+
+    let response = await fetch(url, {
+      headers: new Headers({
+        authorization,
+        'accept': 'application/json',
+        'content-type': 'application/json',
+      }),
+      mode: 'cors',
+      method,
+      body,
+    });
+
+    if (!response.ok) {
+      throw await response.json()
+    }
+
+    data.push(await response.json())
+
+    console.log('ApiTask response: ', response)
   }
 }

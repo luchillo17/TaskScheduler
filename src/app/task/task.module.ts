@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 import {
   TaskComponent,
+  LogTaskExecutor,
+  ApiTaskExecutor,
   LogTaskComponent,
   ApiTaskComponent,
   TaskSelectorComponent,
@@ -25,4 +27,14 @@ import {
   ],
   providers: [],
 })
-export class TaskModule { }
+export class TaskModule {
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: this,
+      providers: [
+        LogTaskExecutor,
+        ApiTaskExecutor,
+      ],
+    };
+  }
+}

@@ -69,7 +69,7 @@ interface TaskType {
   name: string;
   type: string;
   component: any;
-  executor: TaskExecutor;
+  executor: any;
 }
 
 interface TaskExecutor {

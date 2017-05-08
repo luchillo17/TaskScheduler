@@ -11,6 +11,12 @@
       false,
       true
     ],
+    "semicolon": [
+      false
+    ],
+    "object-literal-key-quotes": [
+      false
+    ],
     "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
     "interface-name": [false, "always-prefix"],
     "member-ordering": [

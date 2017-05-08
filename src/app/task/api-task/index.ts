@@ -17,5 +17,5 @@ export const ApiTaskType: TaskType = {
     name: ApiTaskComponent.taskName,
     type: ApiTaskComponent.name,
     component: ApiTaskComponent,
-    executor: new ApiTaskExecutor(),
+    executor: ApiTaskExecutor,
 };

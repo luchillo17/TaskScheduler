@@ -33,7 +33,13 @@ export class AppComponent implements OnInit {
   constructor(
     scheduleService: ScheduleService
   ) {
-
+    // if (window.Notification && Notification.permission !== "granted") {
+    //   Notification.requestPermission((status) => {
+    //     if (Notification.permission !== status) {
+    //       Notification.permission = status;
+    //     }
+    //   });
+    // }
   }
 
   public ngOnInit() {

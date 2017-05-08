@@ -7,7 +7,7 @@ export * from './api-task'
 import {
   LogTaskType,
   ApiTaskType,
-} from ".";
+} from '.';
 
 export const tasksTypes: TaskType[] = [
   LogTaskType,

@@ -7,8 +7,6 @@ import { BaseTaskExecutor } from "../index";
 
 @Injectable()
 export class LogTaskExecutor implements BaseTaskExecutor {
-  constructor() {
-  }
 
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
     let taskData: LogTaskData = task.data;

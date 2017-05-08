@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpModule }    from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 import { CommonModule }  from '@angular/common';
@@ -27,6 +27,12 @@ import {
 } from 'primeng/primeng';
 
 import { ScheduleService, UtilService } from './';
+
+let sharedProviders = [
+  ConfirmationService,
+  ScheduleService,
+  UtilService,
+];
 
 // Components
 @NgModule({
@@ -58,10 +64,12 @@ import { ScheduleService, UtilService } from './';
     ToggleButtonModule,
     ConfirmDialogModule,
   ],
-  providers: [
-    ConfirmationService,
-    ScheduleService,
-    UtilService,
-  ]
 })
-export class SharedModule {}
+export class SharedModule {
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: this,
+      providers: sharedProviders,
+    };
+  }
+}

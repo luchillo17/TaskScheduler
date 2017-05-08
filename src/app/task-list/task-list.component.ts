@@ -170,7 +170,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     })
   }
 
-  private gotoTask({method, id, type}: {method: Method, id?: string, type?: TaskType}) {
+  private gotoTask({method, id, type}: {method: CrudMethod, id?: string, type?: TaskType}) {
     this.router.navigate(['/task', {
       method,
       type: type && JSON.stringify(type),

@@ -45,7 +45,7 @@ interface TaskSchedule {
   job?: any;
 }
 
-type Method = 'NEW' | 'UPDATE';
+type CrudMethod = 'NEW' | 'UPDATE';
 type Direction = 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
 
 interface Task {
@@ -57,7 +57,7 @@ interface Task {
 
   type: TaskType;
 
-  method?: Method;
+  crudMethod?: CrudMethod;
   direction?: Direction;
   mapFormat?: JSON;
   data?: any;

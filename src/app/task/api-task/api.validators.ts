@@ -11,16 +11,16 @@ export class ApiValidators {
     if (
       methodControl.value !== 'GET' &&
       (
-        requestControl.value == null ||
-        requestControl.value.length == 0
+        requestControl.value === null ||
+        requestControl.value.length === 0
       )
     ) {
       requestControl.setErrors({ required: true })
-    } else {
-      let errors = Object.assign({}, requestControl.errors, {required: false})
+    } else if (requestControl.errors !== null) {
+      let {required, ...errors} = requestControl.errors;
+      // let errors = Object.assign({}, requestControl.errors)
       requestControl.setErrors(errors)
     }
-
 
     return null
   }

@@ -70,19 +70,28 @@ export class ApiTaskComponent extends BaseTaskComponent {
     }
 
     this.goBack()
-    let { method, ...currentTask } = this.currentTask;
-    let { text, logTasksData, ...value } = this.taskForm.value;
+    let { crudMethod, ...currentTask } = this.currentTask;
+    let {
+      url,
+      method,
+      requestData,
+      authorization,
+      ...value,
+    } = this.taskForm.value;
+
     this.store.dispatch({
-      type: method == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
+      type: crudMethod == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
         ...currentTask,
         ...value,
 
         // Api task specific
         data: {
-          text,
-          logTasksData,
-        }
+          url,
+          method,
+          requestData,
+          authorization,
+        } as ApiTaskData,
       },
     });
     setTimeout(() => {

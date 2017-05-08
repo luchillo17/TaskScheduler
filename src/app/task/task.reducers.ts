@@ -11,7 +11,7 @@ const taskDefaults: Task = {
   active: true,
   taskScheduleId: '',
 
-  method: 'NEW',
+  crudMethod: 'NEW',
   type: LogTaskType,
 };
 
@@ -52,7 +52,7 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
           ...state,
           Object.assign({}, taskDefaults, action.payload) as Task,
       ])
-      .sort((a, b) => b.order - a.order)
+      .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));
 
     case 'UPDATE_TASK':
@@ -61,7 +61,7 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
           ...state.filter((task) => task.id !== selectedTask.id),
           selectedTask,
       ])
-      .sort((a, b) => b.order - a.order)
+      .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));
 
     case 'DELETE_TASK':
@@ -69,7 +69,7 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
       return [
           ...state.filter((scheduleList) => scheduleList.id !== selectedTask.id),
       ]
-      .sort((a, b) => b.order - a.order)
+      .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));
 
     default:

@@ -95,13 +95,15 @@
     <div class='ui-g-12'>
       <div class="ui-g">
 
-        <label class='ui-g-4'>Metodo:</label>
-        <input class='ui-g-8'
-          type='text'
-          pInputText
+      <label class='ui-g-4'>Metodo:</label>
+
+        <p-dropdown
+          class='ui-g-8'
           formControlName='method'
+          [filter]="true"
+          [options]="apiMethods"
           [class.errors]='method.hasError("*",["touched", "dirty"])'
-        >
+        ></p-dropdown>
         <div
           #method='ngxErrors'
           class='ew-og-4 ui-g-8'

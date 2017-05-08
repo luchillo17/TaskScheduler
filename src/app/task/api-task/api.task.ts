@@ -20,9 +20,10 @@ import { ApiValidators } from "./api.validators";
 
 export class ApiTaskComponent extends BaseTaskComponent {
 
-  public currentTask: Task;
+  public static taskName: string = 'Tarea tipo API'
 
-  public static taskName: string = 'Tarea tipo API';
+  public currentTask: Task
+  public apiMethods: SelectItem[]
 
   constructor(
     public store: Store<RXState>,
@@ -32,6 +33,11 @@ export class ApiTaskComponent extends BaseTaskComponent {
     super(store, location)
 
     global['apitask'] = this
+
+    this.apiMethods = ['GET', 'POST'].map((apiMethod) => ({
+      label: apiMethod,
+      value: apiMethod,
+    }))
 
     this.currentTaskSub = store
       .select<Task>('currentTask')

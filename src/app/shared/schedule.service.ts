@@ -10,7 +10,12 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 import * as schedule from 'node-schedule';
-import { UtilService } from './';
+
+import {
+  UtilService,
+  WebNotificationService
+} from './';
+
 import { tasksTypes } from '../index';
 
 @Injectable()
@@ -24,7 +29,8 @@ export class ScheduleService implements OnDestroy {
   constructor(
     public store: Store<RXState>,
     public util: UtilService,
-    public injector: Injector
+    public injector: Injector,
+    public notificationService: WebNotificationService,
   ) {
     // Combine the result of all the observables into the last method.
     Observable.combineLatest(
@@ -128,6 +134,12 @@ export class ScheduleService implements OnDestroy {
 
           }
         } catch (error) {
+          this.notificationService.createNotification({
+            title: 'Error executing task schedule',
+            body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
+            icon: 'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-128.png',
+            tag: 'ScheduleService-taskExecutor-error',
+          })
           console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
         }
       })

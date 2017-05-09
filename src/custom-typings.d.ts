@@ -1,12 +1,17 @@
 declare module '*';
-
 declare var ENV;
 
 declare var mainBrowserUrl: string;
 
+
+interface NotificationParams extends NotificationOptions{
+  title: string;
+  duration?: number;
+}
+
 interface ListsState {
   selectedScheduleList: string;
-  selectedTaskSchedule : string;
+  selectedTaskSchedule: string;
   selectedTask        : string;
 }
 

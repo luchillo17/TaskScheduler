@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { NgxErrorsModule } from "@ultimate/ngxerrors";
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { MaterialModule } from '@angular/material';
 import {
@@ -26,9 +26,14 @@ import {
   ConfirmationService,
 } from 'primeng/primeng';
 
-import { ScheduleService, UtilService } from './';
+import {
+  UtilService,
+  ScheduleService,
+  WebNotificationService,
+} from './';
 
-let sharedProviders = [
+const sharedProviders = [
+  WebNotificationService,
   ConfirmationService,
   ScheduleService,
   UtilService,

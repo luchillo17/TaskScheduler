@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { ScheduleService } from "./shared";
+import {
+  ScheduleService,
+  WebNotificationService,
+} from "./shared";
 
 /*
  * App Component
@@ -31,15 +34,9 @@ export class AppComponent implements OnInit {
   public name = 'Angular 2 Webpack Starter';
 
   constructor(
-    scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private notificationService: WebNotificationService,
   ) {
-    // if (window.Notification && Notification.permission !== "granted") {
-    //   Notification.requestPermission((status) => {
-    //     if (Notification.permission !== status) {
-    //       Notification.permission = status;
-    //     }
-    //   });
-    // }
   }
 
   public ngOnInit() {

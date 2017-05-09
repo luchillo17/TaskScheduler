@@ -68,8 +68,8 @@ let sharedProviders = [
 export class SharedModule {
   public static forRoot(): ModuleWithProviders {
     return {
-      ngModule: this,
+      ngModule: SharedModule,
       providers: sharedProviders,
-    };
+    }
   }
 }

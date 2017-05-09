@@ -30,7 +30,7 @@ import {
 export class TaskModule {
   public static forRoot(): ModuleWithProviders {
     return {
-      ngModule: this,
+      ngModule: TaskModule,
       providers: [
         LogTaskExecutor,
         ApiTaskExecutor,

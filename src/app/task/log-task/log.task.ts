@@ -38,9 +38,11 @@ export class LogTaskComponent extends BaseTaskComponent {
         this.taskForm = formBuilder.group({
           id:   [task.id,    Validators.required],
           name: [task.name,  Validators.required],
+          taskScheduleId: [task.taskScheduleId, Validators.required],
+
+          // Log task specific
           text: [text || '', Validators.required],
           logTasksData: [logTasksData || false, Validators.required],
-          taskScheduleId: [task.taskScheduleId, Validators.required],
         });
       });
   }
@@ -54,13 +56,15 @@ export class LogTaskComponent extends BaseTaskComponent {
     }
 
     this.goBack()
-    let { method, ...currentTask } = this.currentTask;
+    let { crudMethod, ...currentTask } = this.currentTask;
     let { text, logTasksData, ...value } = this.taskForm.value;
     this.store.dispatch({
-      type: method == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
+      type: crudMethod == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
         ...currentTask,
         ...value,
+
+        // Log task specific
         data: {
           text,
           logTasksData,

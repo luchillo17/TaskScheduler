@@ -2,13 +2,16 @@
 
 export * from './base-task'
 export * from './log-task'
+export * from './api-task'
 
 import {
   LogTaskType,
-} from ".";
+  ApiTaskType,
+} from '.';
 
 export const tasksTypes: TaskType[] = [
   LogTaskType,
+  ApiTaskType,
 ];
 
 // This ones are fixed

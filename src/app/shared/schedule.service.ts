@@ -1,13 +1,22 @@
 
-import { Injectable, OnDestroy } from '@angular/core';
+import {
+  Injectable,
+  OnDestroy,
+  Injector,
+} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
-import * as schedule from "node-schedule";
-import { UtilService } from "./";
-import { tasksTypes } from "../index";
+import * as schedule from 'node-schedule';
+
+import {
+  UtilService,
+  WebNotificationService
+} from './';
+
+import { tasksTypes } from '../index';
 
 @Injectable()
 export class ScheduleService implements OnDestroy {
@@ -20,6 +29,8 @@ export class ScheduleService implements OnDestroy {
   constructor(
     public store: Store<RXState>,
     public util: UtilService,
+    public injector: Injector,
+    public notificationService: WebNotificationService,
   ) {
     // Combine the result of all the observables into the last method.
     Observable.combineLatest(
@@ -27,13 +38,13 @@ export class ScheduleService implements OnDestroy {
       // Get scheduleLists, filter them by active and remove the 'Show all' one.
       this.store
         .select<ScheduleList[]>('scheduleLists')
-        .map(scheduleLists => scheduleLists.filter(scheduleList => scheduleList.id != '' && scheduleList.active))
+        .map(scheduleLists => scheduleLists.filter(scheduleList => scheduleList.id !== '' && scheduleList.active))
         .map(scheduleLists => scheduleLists.map(scheduleList => scheduleList.id)),
 
       // Get taskSchedules, filter them by active and remove the 'Show all' one.
       this.store
         .select<TaskSchedule[]>('taskSchedules')
-        .map((taskSchedules) => taskSchedules.filter((taskSchedule) => taskSchedule.id != '' && taskSchedule.active)),
+        .map((taskSchedules) => taskSchedules.filter((taskSchedule) => taskSchedule.id !== '' && taskSchedule.active)),
 
       // Filter all taskSchedules that are included in the actives scheduleLists
       (scheduleListsIds, taskSchedules) => {
@@ -107,22 +118,28 @@ export class ScheduleService implements OnDestroy {
     this.tasks$
       .map((tasks) =>
         tasks.filter(task =>
-          task.taskScheduleId == taskSchedule.id
+          task.taskScheduleId === taskSchedule.id
       ))
       .take(1)
       .subscribe(async (tasks) => {
         try {
 
           let taskData = [];
-          for(let [taskIndex, task] of Array.from(tasks.entries())) {
+          for (let [taskIndex, task] of Array.from(tasks.entries())) {
 
-            let taskType = tasksTypes.find(taskType => taskType.type == task.type.type)
-            let taskExecutor = taskType.executor
+            let taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
+            let taskExecutor = this.injector.get(taskType.executor)
 
             let result = await taskExecutor.executeTask(task, taskData, taskIndex)
 
           }
         } catch (error) {
+          this.notificationService.createNotification({
+            title: 'Error executing task schedule',
+            body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
+            icon: 'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-128.png',
+            tag: 'ScheduleService-taskExecutor-error',
+          })
           console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
         }
       })

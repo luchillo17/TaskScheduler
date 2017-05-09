@@ -97,14 +97,14 @@ export function rootReducer(state, action) {
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
-    SharedModule,
+    SharedModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreLogMonitorModule,
 
-    TaskModule,
+    TaskModule.forRoot(),
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

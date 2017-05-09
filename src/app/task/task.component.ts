@@ -16,7 +16,7 @@ import { tasksTypes } from ".";
 export class TaskComponent implements OnInit {
   public name: string = '';
   public type: TaskType;
-  public method: Method = 'NEW';
+  public method: CrudMethod = 'NEW';
 
   public component: Component;
 
@@ -53,7 +53,7 @@ export class TaskComponent implements OnInit {
         .select<Task[]>('tasks')
         .take(1)
         .subscribe((tasks) => {
-          let selectedTask: Task = { ...tasks.find((task) => task.id == id), method: this.method };
+          let selectedTask: Task = { ...tasks.find((task) => task.id == id), crudMethod: this.method };
           type = selectedTask.type
           this.type = tasksTypes.find((taskType) => taskType.type == type.type);
           this.store.dispatch({

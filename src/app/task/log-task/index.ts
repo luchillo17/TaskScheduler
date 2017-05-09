@@ -12,5 +12,5 @@ export const LogTaskType: TaskType = {
     name: LogTaskComponent.taskName,
     type: LogTaskComponent.name,
     component: LogTaskComponent,
-    executor: new LogTaskExecutor(),
+    executor: LogTaskExecutor,
 };

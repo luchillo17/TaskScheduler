@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpModule }    from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 import { CommonModule }  from '@angular/common';
@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { NgxErrorsModule } from "@ultimate/ngxerrors";
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { MaterialModule } from '@angular/material';
 import {
@@ -26,7 +26,18 @@ import {
   ConfirmationService,
 } from 'primeng/primeng';
 
-import { ScheduleService, UtilService } from './';
+import {
+  UtilService,
+  ScheduleService,
+  WebNotificationService,
+} from './';
+
+const sharedProviders = [
+  WebNotificationService,
+  ConfirmationService,
+  ScheduleService,
+  UtilService,
+];
 
 // Components
 @NgModule({
@@ -58,10 +69,12 @@ import { ScheduleService, UtilService } from './';
     ToggleButtonModule,
     ConfirmDialogModule,
   ],
-  providers: [
-    ConfirmationService,
-    ScheduleService,
-    UtilService,
-  ]
 })
-export class SharedModule {}
+export class SharedModule {
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: sharedProviders,
+    }
+  }
+}

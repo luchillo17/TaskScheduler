@@ -1,12 +1,17 @@
 declare module '*';
-
 declare var ENV;
 
 declare var mainBrowserUrl: string;
 
+
+interface NotificationParams extends NotificationOptions{
+  title: string;
+  duration?: number;
+}
+
 interface ListsState {
   selectedScheduleList: string;
-  selectedTaskSchedule : string;
+  selectedTaskSchedule: string;
   selectedTask        : string;
 }
 
@@ -45,7 +50,7 @@ interface TaskSchedule {
   job?: any;
 }
 
-type Method = 'NEW' | 'UPDATE';
+type CrudMethod = 'NEW' | 'UPDATE';
 type Direction = 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
 
 interface Task {
@@ -57,7 +62,7 @@ interface Task {
 
   type: TaskType;
 
-  method?: Method;
+  crudMethod?: CrudMethod;
   direction?: Direction;
   mapFormat?: JSON;
   data?: any;
@@ -69,7 +74,7 @@ interface TaskType {
   name: string;
   type: string;
   component: any;
-  executor?: TaskExecutor;
+  executor: any;
 }
 
 interface TaskExecutor {

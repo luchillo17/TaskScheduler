@@ -170,7 +170,7 @@ export let config = (options): Configuration => {
       ),
       new AotPlugin({
         mainPath: root('src', 'main.browser.ts'),
-        tsConfigPath: "tsconfig.json",
+        tsConfigPath: 'tsconfig.json',
         skipCodeGeneration: !AOT,
       }),
       new WebpackBuildNotifier({

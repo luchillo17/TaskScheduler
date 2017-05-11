@@ -15,6 +15,7 @@ import * as webpackMerge from 'webpack-merge';
 import { DllBundlesPlugin } from 'webpack-dll-bundles-plugin';
 import * as AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin';
 import * as NamedModulesPlugin from 'webpack/lib/NamedModulesPlugin';
+import * as NormalModuleReplacementPlugin from 'webpack/lib/NormalModuleReplacementPlugin';
 
 // Node imports
 import { spawn } from 'child_process';
@@ -44,7 +45,7 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HMR = hasProcessFlag('hot');
 
 // App Configuration ------------------------------------
-export let config = (options): Configuration => {
+export let config = (options?): Configuration => {
   return webpackMerge(commonConfig({ env: 'development' }), {
     devtool: 'cheap-module-source-map',
     output: {
@@ -98,12 +99,17 @@ export let config = (options): Configuration => {
       ],
     },
     plugins: [
+      new NormalModuleReplacementPlugin(/(.*)mail-notification\.service(.*)/, (resource) => {
+        let mailFileName = `mail-notification${ process.env.START_BROWSER ? '-mock' : '' }.service`
+        resource.request = resource.request.replace(/mail-notification\.service/, mailFileName)
+      }),
       new LoaderOptionsPlugin({
         debug: true,
       }),
       new DefinePlugin({
-        'ENV': JSON.stringify(ENV),
         HMR,
+        IS_NODE: process.env.START_BROWSER ? true : false,
+        'ENV': JSON.stringify(ENV),
         'process.env.ENV': JSON.stringify(ENV),
         'process.env.NODE_ENV': JSON.stringify(ENV),
       }),

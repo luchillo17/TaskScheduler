@@ -43,14 +43,12 @@ import {
 } from './app.service';
 
 import {
-  SharedModule,
-  AppReducers,
   TaskModule,
-} from '.';
+  SharedModule,
 
-import {
-  ScheduleComponent,
+  AppReducers,
   ScheduleListComponent,
+  ScheduleComponent,
   TaskListsComponent,
   TaskListComponent,
 } from './';

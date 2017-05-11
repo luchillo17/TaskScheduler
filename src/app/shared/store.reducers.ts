@@ -17,6 +17,8 @@ import {
   taskScheduleDialogStateReducer
 } from '../task-lists';
 
+import { mailConfigReducer } from '../mail-notification';
+
 /**
  * ScheduleList reducers
  */
@@ -126,4 +128,6 @@ export const AppReducers = {
 
   tasks      : tasksReducer,
   currentTask: currentTaskReducer,
+
+  mailConfig: mailConfigReducer,
 };

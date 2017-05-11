@@ -30,9 +30,11 @@ import {
   UtilService,
   ScheduleService,
   WebNotificationService,
+  MailNotificationService,
 } from './';
 
 const sharedProviders = [
+  MailNotificationService,
   WebNotificationService,
   ConfirmationService,
   ScheduleService,

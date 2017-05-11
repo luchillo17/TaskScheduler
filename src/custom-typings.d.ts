@@ -1,5 +1,6 @@
 declare module '*';
 declare var ENV;
+declare var IS_NODE;
 
 declare var mainBrowserUrl: string;
 
@@ -7,6 +8,12 @@ declare var mainBrowserUrl: string;
 interface NotificationParams extends NotificationOptions{
   title: string;
   duration?: number;
+}
+
+interface MailConfig {
+  service: string;
+  user: string;
+  pass: string;
 }
 
 interface ListsState {

@@ -13,6 +13,10 @@ import {
   WebNotificationService,
 } from "./shared";
 
+import {
+  MailNotificationService,
+} from "./shared/mail-notification-service";
+
 /*
  * App Component
  * Top Level Component
@@ -36,6 +40,7 @@ export class AppComponent implements OnInit {
   constructor(
     private scheduleService: ScheduleService,
     private notificationService: WebNotificationService,
+    private mailService: MailNotificationService,
   ) {
   }
 

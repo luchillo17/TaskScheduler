@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 :host {
   flex: 1;
 }
@@ -5,10 +7,10 @@
 .task-schedule-container {
   padding: 10px;
   &.selected {
-    background: #808080;
+    background: $selectedColor;
   }
   &:hover {
-    background: #808080;
+    background: $hoverColor;
   }
 
   #new-task-dialog /deep/ .ui-dialog-content {

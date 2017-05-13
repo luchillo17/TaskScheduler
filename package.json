@@ -63,7 +63,7 @@
     "@ngrx/store-log-monitor": "^3.0.2",
     "@ultimate/ngxerrors": "^1.3.0",
     "core-js": "^2.4.1",
-    "electron": "^1.6.5",
+    "electron": "^1.6.8",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack2": "0.0.6",
     "ie-shim": "^0.1.0",

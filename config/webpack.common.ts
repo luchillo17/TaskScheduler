@@ -65,6 +65,12 @@ export let config = (options): Configuration => {
                 prod: isProd
               }
             },
+            { // MAKE SURE TO CHAIN VANILLA JS CODE, I.E. TS COMPILATION OUTPUT.
+              loader: 'ng-router-loader',
+              options: {
+                aot: AOT,
+              },
+            },
             '@ngtools/webpack',
           ],
           exclude: [/\.(spec|e2e)\.ts$/],

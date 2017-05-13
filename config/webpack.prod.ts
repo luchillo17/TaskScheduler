@@ -201,7 +201,6 @@ module.exports = function (env) {
       new UglifyJsPlugin({
         // beautify: true, //debug
         // mangle: false, //debug
-        // dead_code: false, //debug
         // unused: false, //debug
         // deadCode: false, //debug
         // compress: {

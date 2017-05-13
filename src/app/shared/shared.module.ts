@@ -3,8 +3,6 @@ import { HttpModule }    from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 import { CommonModule }  from '@angular/common';
 import { RouterModule }  from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
@@ -50,9 +48,7 @@ const sharedProviders = [
     FormsModule,
     CommonModule,
     RouterModule,
-    BrowserModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
 
     NgxErrorsModule,
 

@@ -1,7 +1,7 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import { MailNotificationComponent } from '.';
-import { SharedModule } from '../index';
+import { MailNotificationComponent } from './mail-notification.component';
+import { SharedModule } from '../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 
 let routes: Routes = [
@@ -13,8 +13,6 @@ let routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  exports: [],
   declarations: [MailNotificationComponent],
-  providers: [],
 })
 export class MailNotificationModule {}

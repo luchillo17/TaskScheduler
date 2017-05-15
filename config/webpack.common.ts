@@ -58,13 +58,17 @@ export let config = (options): Configuration => {
         {
           test: /\.ts$/,
           use: [
-            {
-              loader: '@angularclass/hmr-loader',
-              options: {
-                pretty: !isProd,
-                prod: isProd
-              }
-            },
+            // {
+            //   loader: '@angularclass/hmr-loader',
+            //   options: {
+            //     pretty: !isProd,
+            //     prod: isProd
+            //   }
+            // },
+            /**
+             * Temporal fix for lazy loading not working,
+             * see https://github.com/angular/angular-cli/issues/4431
+             */
             { // MAKE SURE TO CHAIN VANILLA JS CODE, I.E. TS COMPILATION OUTPUT.
               loader: 'ng-router-loader',
               options: {
@@ -136,7 +140,7 @@ export let config = (options): Configuration => {
       }),
       // This enables tree shaking of the vendor modules
       new CommonsChunkPlugin({
-        name: 'vendor',
+        name: ['vendor'],
         chunks: ['main'],
         minChunks: module => /node_modules/.test(module.resource)
       }),

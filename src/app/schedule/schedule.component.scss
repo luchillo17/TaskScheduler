@@ -8,6 +8,10 @@
   justify-content: flex-start;
 }
 
+md-toolbar /deep/ .mat-toolbar-row {
+  justify-content: space-between;
+}
+
 #schedule-list-container,
 #schedule-list-container > *
 {

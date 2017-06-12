@@ -62,6 +62,9 @@ interface TaskSchedule {
   dayOfWeek: String;
   active: Boolean;
 
+  mailNotify: boolean;
+  mailAddress: string;
+
   job?: any;
 }
 

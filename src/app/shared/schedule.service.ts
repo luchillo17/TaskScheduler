@@ -142,8 +142,10 @@ export class ScheduleService implements OnDestroy {
             body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
             tag: 'ScheduleService-taskExecutor-error',
           })
+          if (!taskSchedule.mailNotify) return;
+
           this.mailNotificationService.sendMail({
-            to: 'luchillo17@gmail.com',
+            to: taskSchedule.mailAddress,
             html: `
               Task schedule: ${ JSON.stringify(taskSchedule, null, 2) }<br>
               Error: ${error.message} ${JSON.stringify(error)}

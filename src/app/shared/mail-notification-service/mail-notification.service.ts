@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
 import nodemailer = require('nodemailer');
 
+import { Subscription } from 'rxjs';
+
 import { WebNotificationService } from '..';
-import { Store } from '@ngrx/store';
 
 @Injectable()
-export class MailNotificationService {
+export class MailNotificationService implements OnDestroy {
+  private mailConfigSub: Subscription
 
   private user: string = '';
   private pass: string = '';
@@ -15,7 +18,7 @@ export class MailNotificationService {
     private webNotificationService: WebNotificationService,
     private store: Store<RXState>,
   ) {
-    store.select<MailConfig>('mailConfig')
+    this.mailConfigSub = store.select<MailConfig>('mailConfig')
       .subscribe((mailConfig) => {
         if (
           !mailConfig.user ||
@@ -26,6 +29,10 @@ export class MailNotificationService {
         return this.connect(mailConfig)
       })
     console.log('Start MailNotificationService');
+  }
+
+  public ngOnDestroy() {
+    this.mailConfigSub && this.mailConfigSub.unsubscribe()
   }
 
   public async connect({
@@ -48,9 +55,9 @@ export class MailNotificationService {
     from = this.user,
     to,
     subject = 'TaskScheduler Error',
-    text,
     html,
-  }) {
+    text = 'Unknown error',
+  }: MailMessage) {
     if (
       !this.transporter ||
       !this.user ||
@@ -58,7 +65,7 @@ export class MailNotificationService {
     ) {
       return;
     }
-    let mailOptions = {
+    const mailOptions = {
       from,
       to,
       subject,
@@ -66,7 +73,7 @@ export class MailNotificationService {
       html,
     }
     try {
-      let info = await this.transporter.sendMail(mailOptions)
+      const info = await this.transporter.sendMail(mailOptions)
       this.webNotificationService.createNotification({
         title: 'Email sent',
         body: html || text,

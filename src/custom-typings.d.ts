@@ -16,6 +16,14 @@ interface MailConfig {
   pass: string;
 }
 
+interface MailMessage {
+  to: string
+  html: string
+  text?: string
+  from?: string
+  subject?: string
+}
+
 interface ListsState {
   selectedScheduleList: string;
   selectedTaskSchedule: string;

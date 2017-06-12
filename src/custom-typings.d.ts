@@ -89,6 +89,8 @@ interface TaskExecutor {
 }
 
 interface RXState {
+  mailConfig: MailConfig;
+
   tasks        : Task[];
   listsState   : ListsState;
   currentTask  : Task;

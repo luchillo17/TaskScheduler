@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { v1 as uuidV1 } from 'uuid';
 
-import { tasksTypes } from ".";
+import { tasksTypes } from '.';
 
 @Component({
   selector: 'task',
@@ -32,15 +32,16 @@ export class TaskComponent implements OnInit {
   }
 
   public ngOnInit() {
-    let typeString: string, id: string;
-    ({ method: this.method, id: id, type: typeString } = this.route.snapshot.params);
+    let id: string
+    let typeString: string
+    ({ method: this.method, id, type: typeString } = this.route.snapshot.params);
 
     let type: TaskType;
 
     if (this.method === 'NEW') {
       id = uuidV1();
       type = JSON.parse(typeString)
-      this.type = tasksTypes.find((taskType) => taskType.type == type.type);
+      this.type = tasksTypes.find((taskType) => taskType.type === type.type);
       this.store.dispatch({
         type: 'CREATE_CURRENT_TASK',
         payload: {
@@ -53,9 +54,9 @@ export class TaskComponent implements OnInit {
         .select<Task[]>('tasks')
         .take(1)
         .subscribe((tasks) => {
-          let selectedTask: Task = { ...tasks.find((task) => task.id == id), crudMethod: this.method };
+          const selectedTask: Task = { ...tasks.find((task) => task.id === id), crudMethod: this.method };
           type = selectedTask.type
-          this.type = tasksTypes.find((taskType) => taskType.type == type.type);
+          this.type = tasksTypes.find((taskType) => taskType.type === type.type);
           this.store.dispatch({
             type: 'CREATE_CURRENT_TASK',
             payload: selectedTask as Task,

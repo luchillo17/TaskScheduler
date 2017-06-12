@@ -6,9 +6,9 @@ import {
 import { Location } from '@angular/common';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from "@ngrx/store";
-import { Observable, Subscription } from "rxjs";
-import { SelectItem } from "primeng/primeng";
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { SelectItem } from 'primeng/primeng';
 
 // @Component({
 //   selector: 'base-task',
@@ -16,9 +16,9 @@ import { SelectItem } from "primeng/primeng";
 //   styleUrls: ['base.task.scss'],
 // })
 
-export abstract class BaseTaskComponent implements OnInit {
+export abstract class BaseTaskComponent implements OnInit, OnDestroy {
 
-  public static taskName: string = "Tarea base";
+  public static taskName: string = 'Tarea base';
 
   public taskName: string;
   public taskForm: FormGroup;
@@ -30,7 +30,7 @@ export abstract class BaseTaskComponent implements OnInit {
     public store: Store<RXState>,
     public location: Location,
   ) {
-    this.taskName = (<typeof BaseTaskComponent>this.constructor).taskName;
+    this.taskName = (this.constructor as typeof BaseTaskComponent).taskName;
 
     this.taskSchedules = store
       .select<TaskSchedule[]>('taskSchedules')
@@ -42,11 +42,11 @@ export abstract class BaseTaskComponent implements OnInit {
       ))
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.currentTaskSub && this.currentTaskSub.unsubscribe()
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     console.log('Init base task.');
   }
 
@@ -56,7 +56,7 @@ export abstract class BaseTaskComponent implements OnInit {
 
   public isFormInvalid() {
     if (this.taskForm.invalid) {
-      for(let control of Object.values(this.taskForm.controls)) {
+      for (const control of Object.values(this.taskForm.controls)) {
         control.markAsDirty()
         control.markAsTouched()
       }

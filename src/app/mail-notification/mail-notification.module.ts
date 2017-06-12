@@ -4,7 +4,7 @@ import { MailNotificationComponent } from './mail-notification.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 
-let routes: Routes = [
+const routes: Routes = [
   { path: '', component: MailNotificationComponent },
 ]
 

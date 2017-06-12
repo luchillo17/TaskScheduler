@@ -5,20 +5,22 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from "@ngrx/store";
+import { Store } from '@ngrx/store';
 
-import { BaseTaskComponent, ApiTaskData } from "..";
-import { Observable, Subscription } from "rxjs";
-import { SelectItem } from "primeng/primeng";
-import { ApiValidators } from "./api.validators";
+import { BaseTaskComponent, ApiTaskData } from '..';
+import { Observable, Subscription } from 'rxjs';
+import { SelectItem } from 'primeng/primeng';
+import { ApiValidators } from './api.validators';
 
 @Component({
   selector: 'api-task',
   templateUrl: 'api.task.html',
-  styleUrls: ['api.task.scss']
+  styleUrls: ['api.task.scss'],
 })
 
-export class ApiTaskComponent extends BaseTaskComponent {
+export class ApiTaskComponent
+  extends BaseTaskComponent
+  implements OnInit {
 
   public static taskName: string = 'Tarea tipo API'
 
@@ -43,7 +45,7 @@ export class ApiTaskComponent extends BaseTaskComponent {
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        let {
+        const {
           url,
           method,
           authorization,
@@ -66,7 +68,7 @@ export class ApiTaskComponent extends BaseTaskComponent {
         });
       });
   }
-  ngOnInit() {
+  public ngOnInit() {
     console.log('Init api task.');
   }
 
@@ -76,8 +78,8 @@ export class ApiTaskComponent extends BaseTaskComponent {
     }
 
     this.goBack()
-    let { crudMethod, ...currentTask } = this.currentTask;
-    let {
+    const { crudMethod, ...currentTask } = this.currentTask;
+    const {
       url,
       method,
       requestData,
@@ -86,7 +88,7 @@ export class ApiTaskComponent extends BaseTaskComponent {
     } = this.taskForm.value;
 
     this.store.dispatch({
-      type: crudMethod == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
+      type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
         ...currentTask,
         ...value,
@@ -106,6 +108,4 @@ export class ApiTaskComponent extends BaseTaskComponent {
       });
     }, 300)
   }
-
-
 }

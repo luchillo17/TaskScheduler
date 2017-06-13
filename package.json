@@ -78,7 +78,7 @@
     "setimmediate": "1.0.5",
     "uuid": "3.0.1",
     "web-animations-js": "2.2.5",
-    "zone.js": "0.8.5"
+    "zone.js": "^0.8.5"
   },
   "devDependencies": {
     "@angular/cli": "^1.1.1",

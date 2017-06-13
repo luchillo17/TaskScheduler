@@ -1589,12 +1589,9 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-cron-parser@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-2.4.0.tgz#7c6be0693b90c92c3914fecdae16f88dcef2f437"
-  dependencies:
-    is-nan "^1.2.1"
-    moment-timezone "^0.5.0"
+cron-parser@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-1.1.0.tgz#075b84c459c155e8c482ab4d56aff99dae58352e"
 
 cross-env@5.0.1:
   version "5.0.1"
@@ -1910,7 +1907,7 @@ default-require-extensions@^1.0.0:
   dependencies:
     strip-bom "^2.0.0"
 
-define-properties@^1.1.1, define-properties@^1.1.2:
+define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
   dependencies:
@@ -3419,12 +3416,6 @@ is-glob@^3.1.0:
   dependencies:
     is-extglob "^2.1.0"
 
-is-nan@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/is-nan/-/is-nan-1.2.1.tgz#9faf65b6fb6db24b7f5c0628475ea71f988401e2"
-  dependencies:
-    define-properties "^1.1.1"
-
 is-npm@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-npm/-/is-npm-1.0.0.tgz#f2fb63a65e4905b406c86072765a1a4dc793b9f4"
@@ -4485,16 +4476,6 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
-moment-timezone@^0.5.0:
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.13.tgz#99ce5c7d827262eb0f1f702044177f60745d7b90"
-  dependencies:
-    moment ">= 2.9.0"
-
-"moment@>= 2.9.0":
-  version "2.18.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
-
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -4669,11 +4650,11 @@ node-sass@^4.3.0, node-sass@^4.5.3:
     sass-graph "^2.1.1"
     stdout-stream "^1.4.0"
 
-node-schedule@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/node-schedule/-/node-schedule-1.2.3.tgz#8026f99bd9441dbcc89c765a629e76bc0a5fe79d"
+node-schedule@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/node-schedule/-/node-schedule-1.2.1.tgz#8800b34d0cceb0ff0318432ef9f20b2499630e36"
   dependencies:
-    cron-parser "^2.4.0"
+    cron-parser "1.1.0"
     long-timeout "0.1.1"
     sorted-array-functions "^1.0.0"
 

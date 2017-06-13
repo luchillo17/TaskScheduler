@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { ApiTaskData } from "./index";
-import { BaseTaskExecutor } from "../index";
+import { ApiTaskData } from './index';
+import { BaseTaskExecutor } from '../index';
 
 @Injectable()
 export class ApiTaskExecutor implements BaseTaskExecutor {
 
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
-    let {
+    const {
       url,
       method,
       authorization,
@@ -17,7 +17,7 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
     } = task.data as ApiTaskData;
     console.log('Api task data: ', task.data);
 
-    let response = await fetch(url, {
+    const response = await fetch(url, {
       headers: new Headers({
         authorization,
         'accept': 'application/json',
@@ -34,6 +34,6 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
 
     data.push(await response.json())
 
-    console.log('ApiTask response: ', response)
+    console.log('ApiTask response: ', response, data)
   }
 }

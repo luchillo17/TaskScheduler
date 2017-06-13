@@ -89,7 +89,7 @@ export class ScheduleService implements OnDestroy {
           ${taskSchedule.month || '*'}
           ${taskSchedule.dayOfWeek || '*'}
         `);
-        const ruleObj = {rule};
+        const ruleObj = { rule } as schedule.RecurrenceSpecDateRange;
 
         // Add date range if defined in the taskSchedule
         if (taskSchedule.useDateRange) {

@@ -35,4 +35,17 @@ export class WebNotificationService {
       setTimeout(() => notification.close(), duration)
     }
   }
+  public async createErrorNotification({
+    title = 'Error',
+    icon = 'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-128.png',
+    duration,
+    ...options
+  }: NotificationParams) {
+    return this.createNotification({
+      title,
+      icon,
+      duration,
+      ...options,
+    })
+  }
 }

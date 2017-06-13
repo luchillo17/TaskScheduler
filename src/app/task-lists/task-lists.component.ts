@@ -25,7 +25,7 @@ import { CustomTaskListsValidators } from '.';
   templateUrl: './task-lists.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class TaskListsComponent implements AfterViewInit, OnDestroy {
+export class TaskListsComponent implements OnDestroy {
   @HostBinding('id') private id = 'task-lists-panel';
 
   @ViewChild('taskScheduleListAutocomplete') private taskScheduleListAutocomplete: AutoComplete;
@@ -57,6 +57,8 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
         CustomTaskListsValidators.ScheduleListDropdownValidator
       ]],
       active: [true, Validators.required],
+      mailNotify: [true, Validators.required],
+      mailAddress: [''],
       useDateRange: [true, Validators.required],
       start: [new Date()],
       end: [new Date()],
@@ -93,9 +95,6 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
       .subscribe(({ selectedTaskSchedule }) => {
         this.selectedTaskScheduleId = selectedTaskSchedule;
       });
-  }
-
-  public ngAfterViewInit() {
     this.taskScheduleDialogState$ = this.store
       .select<DialogState>('taskScheduleDialogState')
       .subscribe((taskScheduleDialogState) => {
@@ -135,7 +134,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
       case 'UPDATE':
         if (this.selectedTaskScheduleId === '') return;
         // Extract scheduleListId of selectedTaskSchedule
-        let { scheduleListId, ...selectedTaskSchedule} = this.taskSchedules
+        const { scheduleListId, ...selectedTaskSchedule} = this.taskSchedules
           .find((taskList) => taskList.id === this.selectedTaskScheduleId);
 
         this.store
@@ -143,11 +142,11 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
           .take(1)
           .subscribe((scheduleLists) => {
             // Get taskScheduleList object and assign it to the selectedTaskSchedule
-            let taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === scheduleListId);
+            const taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === scheduleListId);
             selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
 
             // Parse start & end dates to JS Date type
-            let [start, end] = [new Date(selectedTaskSchedule.start), new Date(selectedTaskSchedule.end)]
+            const [start, end] = [new Date(selectedTaskSchedule.start), new Date(selectedTaskSchedule.end)]
               .map(date => {
                 date.setSeconds(0, 0);
                 return date;
@@ -163,7 +162,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
       case 'DELETE':
         if (this.selectedTaskScheduleId === '') return;
 
-        let taskScheduleToDelete = this.taskSchedules
+        const taskScheduleToDelete = this.taskSchedules
           .find((taskList) => taskList.id === this.selectedTaskScheduleId);
 
         this.confirmDialogService.confirm({
@@ -182,7 +181,7 @@ export class TaskListsComponent implements AfterViewInit, OnDestroy {
 
       case 'NEW':
       default:
-        let currentDate = new Date();
+        const currentDate = new Date();
         currentDate.setSeconds(0);
 
         this.taskScheduleForm.reset({

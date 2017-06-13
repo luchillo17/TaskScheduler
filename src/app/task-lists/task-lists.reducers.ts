@@ -2,16 +2,17 @@ import { ActionReducer } from '@ngrx/store';
 
 const initialTaskScheduleDialogState = { show: false, type: 'NEW' }
 
-export const taskScheduleDialogStateReducer: ActionReducer<DialogState> = (state = initialTaskScheduleDialogState, action) => {
-  switch (action.type) {
-    case 'SHOW_TASK_SCHEDULE_DIALOG':
-      return Object.assign({}, state, { show: true, type: action.payload, });
-    case 'HIDE_TASK_SCHEDULE_DIALOG':
-      return Object.assign({}, state, { show: false });
-    default:
-      return state;
+export const taskScheduleDialogStateReducer: ActionReducer<DialogState> =
+  (state = initialTaskScheduleDialogState, action) => {
+    switch (action.type) {
+      case 'SHOW_TASK_SCHEDULE_DIALOG':
+        return Object.assign({}, state, { show: true, type: action.payload, });
+      case 'HIDE_TASK_SCHEDULE_DIALOG':
+        return Object.assign({}, state, { show: false });
+      default:
+        return state;
+    }
   }
-}
 
 const initialTaskScheduleState: TaskSchedule[] = [
   {
@@ -21,7 +22,7 @@ const initialTaskScheduleState: TaskSchedule[] = [
 ];
 
 export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = initialTaskScheduleState, action) => {
-  let defaults = {
+  const defaults = {
     id: '',
     name: '',
     scheduleListId: '',
@@ -32,6 +33,8 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
     month: '*',
     dayOfWeek: '*',
     active: true,
+    mailNotify: false,
+    mailAddress: '',
   } as TaskSchedule;
 
   let selectedTaskScedule: TaskSchedule;

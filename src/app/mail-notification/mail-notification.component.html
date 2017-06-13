@@ -1,0 +1,95 @@
+<md-toolbar color="primary">
+  <div>
+    Configurar email
+  </div>
+</md-toolbar>
+
+<p-panel>
+  <form
+    id='mailForm'
+    class='ui-g'
+    [formGroup]='mailForm'
+    (ngSubmit)='saveMailConfig()'
+  >
+    <div class='ui-g-12'>
+      <div class="ui-g">
+        <label class='ui-g-4'>Servicio:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='service'
+          [class.errors]='service.hasError("*",["touched", "dirty"])'
+        >
+        <div
+          #service='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='service'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de servicio es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+        <label class='ui-g-4'>Usuario:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='user'
+          [class.errors]='user.hasError("*",["touched", "dirty"])'
+        >
+        <div
+          #user='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='user'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de usuario es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+        <label class='ui-g-4'>Contraseña:</label>
+        <input class='ui-g-8'
+          type='password'
+          pInputText
+          formControlName='pass'
+          [class.errors]='pass.hasError("*",["touched", "dirty"])'
+        >
+        <div
+          #pass='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='pass'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de contraseña es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='taskActions ui-g-12'>
+      <button pButton
+        label='Guardar'
+        type='submit'
+        icon='fa-check'
+        class='ui-button-success'
+        form='mailForm'>
+      </button>
+      <button pButton
+        label='Regresar a la lista'
+        type='button'
+        icon='fa-times'
+        class='ui-button-danger'
+        (click)="goBack()">
+      </button>
+    </div>
+  </form>
+</p-panel>

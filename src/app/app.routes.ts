@@ -10,5 +10,6 @@ export const ROUTES: Routes = [
   { path: '',      component: ScheduleComponent },
   { path: 'schedule',  component: ScheduleComponent },
   { path: 'task',  component: TaskComponent },
+  { path: 'mailConfig', loadChildren: './mail-notification/mail-notification.module#MailNotificationModule' },
   { path: '**',    component: NoContentComponent },
 ];

@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
@@ -13,8 +12,11 @@ import {
 } from '@angularclass/hmr';
 import {
   RouterModule,
-  PreloadAllModules
+  PreloadAllModules,
 } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { Subscription } from 'rxjs';
 import {
@@ -43,14 +45,12 @@ import {
 } from './app.service';
 
 import {
-  SharedModule,
-  AppReducers,
   TaskModule,
-} from '.';
+  SharedModule,
 
-import {
-  ScheduleComponent,
+  AppReducers,
   ScheduleListComponent,
+  ScheduleComponent,
   TaskListsComponent,
   TaskListComponent,
 } from './';
@@ -97,12 +97,15 @@ export function rootReducer(state, action) {
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
+    BrowserModule,
     SharedModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreLogMonitorModule,
+    BrowserAnimationsModule,
+
 
     TaskModule.forRoot(),
   ],

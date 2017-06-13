@@ -13,7 +13,8 @@ import * as schedule from 'node-schedule';
 
 import {
   UtilService,
-  WebNotificationService
+  WebNotificationService,
+  MailNotificationService,
 } from './';
 
 import { tasksTypes } from '../index';
@@ -31,6 +32,7 @@ export class ScheduleService implements OnDestroy {
     public util: UtilService,
     public injector: Injector,
     public notificationService: WebNotificationService,
+    public mailNotificationService: MailNotificationService,
   ) {
     // Combine the result of all the observables into the last method.
     Observable.combineLatest(
@@ -79,7 +81,7 @@ export class ScheduleService implements OnDestroy {
     this.jobs = [
       ...taskSchedules.map((taskSchedule) => {
         // Extract recurrence rule from taskSchedule using Util method 'templateStringSingleLine'.
-        let rule = this.util.templateStringSingleLine(`
+        const rule = this.util.templateStringSingleLine(`
           ${taskSchedule.second || '*'}
           ${taskSchedule.minute || '*'}
           ${taskSchedule.hour || '*'}
@@ -87,7 +89,7 @@ export class ScheduleService implements OnDestroy {
           ${taskSchedule.month || '*'}
           ${taskSchedule.dayOfWeek || '*'}
         `);
-        let ruleObj = {rule};
+        const ruleObj = { rule } as schedule.RecurrenceSpecDateRange;
 
         // Add date range if defined in the taskSchedule
         if (taskSchedule.useDateRange) {
@@ -124,23 +126,31 @@ export class ScheduleService implements OnDestroy {
       .subscribe(async (tasks) => {
         try {
 
-          let taskData = [];
-          for (let [taskIndex, task] of Array.from(tasks.entries())) {
+          const taskData = [];
+          for (const [taskIndex, task] of Array.from(tasks.entries())) {
 
-            let taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
-            let taskExecutor = this.injector.get(taskType.executor)
+            const taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
+            const taskExecutor = this.injector.get(taskType.executor)
 
-            let result = await taskExecutor.executeTask(task, taskData, taskIndex)
+            const result = await taskExecutor.executeTask(task, taskData, taskIndex)
 
           }
         } catch (error) {
-          this.notificationService.createNotification({
+          console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
+          this.notificationService.createErrorNotification({
             title: 'Error executing task schedule',
             body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
-            icon: 'https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-128.png',
             tag: 'ScheduleService-taskExecutor-error',
           })
-          console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
+          if (!taskSchedule.mailNotify) return;
+
+          this.mailNotificationService.sendMail({
+            to: taskSchedule.mailAddress,
+            html: `
+              Task schedule: ${ JSON.stringify(taskSchedule, null, 2) }<br>
+              Error: ${error.message} ${JSON.stringify(error)}
+            `,
+          })
         }
       })
   }

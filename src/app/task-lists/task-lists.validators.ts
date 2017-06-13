@@ -2,7 +2,7 @@ import { ValidatorFn, FormControl } from "@angular/forms";
 
 
 export class CustomTaskListsValidators {
-  static ScheduleListDropdownValidator: ValidatorFn = (control: FormControl): {[key: string]: any} => {
+  public static ScheduleListDropdownValidator: ValidatorFn = (control: FormControl): {[key: string]: any} => {
     console.log();
 
     if (

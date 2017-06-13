@@ -43,7 +43,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   private selectedTask$: Subscription;
   private taskDialogState$: Subscription;
 
-  private taskTypeSelected: TaskType;
+  public taskTypeSelected: TaskType;
 
   constructor(
     private confirmDialogService: ConfirmationService,
@@ -112,7 +112,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     return tasks.filter((task) => filteredTaskSchedulesIds.includes(task.taskScheduleId));
   }
 
-  private setSelectedTask(task: Task) {
+  public setSelectedTask(task: Task) {
     console.log('SetSelected: ', task);
     this.store.dispatch({
       type: 'SHOW_TASK',
@@ -120,7 +120,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private openTaskDialog(type: string) {
+  public openTaskDialog(type: string) {
     switch (type) {
       case 'UPDATE':
         this.gotoTask({
@@ -157,20 +157,20 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private toggleTaskDialog(isShow: boolean) {
+  public toggleTaskDialog(isShow: boolean) {
     this.store.dispatch({
       type: isShow ? 'SHOW_TASK_DIALOG' : 'HIDE_TASK_DIALOG',
     });
   }
 
-  private newTask() {
+  public newTask() {
     this.gotoTask({
       method: 'NEW',
       type: this.taskTypeSelected,
     })
   }
 
-  private gotoTask({method, id, type}: {method: CrudMethod, id?: string, type?: TaskType}) {
+  public gotoTask({method, id, type}: {method: CrudMethod, id?: string, type?: TaskType}) {
     this.router.navigate(['/task', {
       method,
       type: type && JSON.stringify(type),

@@ -1,5 +1,6 @@
 declare module '*';
 declare var ENV;
+declare var IS_NODE;
 
 declare var mainBrowserUrl: string;
 
@@ -7,6 +8,20 @@ declare var mainBrowserUrl: string;
 interface NotificationParams extends NotificationOptions{
   title: string;
   duration?: number;
+}
+
+interface MailConfig {
+  service: string;
+  user: string;
+  pass: string;
+}
+
+interface MailMessage {
+  to: string
+  html: string
+  text?: string
+  from?: string
+  subject?: string
 }
 
 interface ListsState {
@@ -47,6 +62,9 @@ interface TaskSchedule {
   dayOfWeek: String;
   active: Boolean;
 
+  mailNotify: boolean;
+  mailAddress: string;
+
   job?: any;
 }
 
@@ -82,6 +100,8 @@ interface TaskExecutor {
 }
 
 interface RXState {
+  mailConfig: MailConfig;
+
   tasks        : Task[];
   listsState   : ListsState;
   currentTask  : Task;

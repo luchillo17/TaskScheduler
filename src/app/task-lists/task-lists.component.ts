@@ -71,6 +71,8 @@ export class TaskListsComponent implements OnDestroy {
       dayOfWeek: ['*', Validators.required],
     });
 
+    // global['taskScheduleForm'] = this.taskScheduleForm
+
     this.scheduleLists = this.store
       .select<ScheduleList[]>('scheduleLists')
       .map((scheduleLists) => {
@@ -186,12 +188,15 @@ export class TaskListsComponent implements OnDestroy {
 
         this.taskScheduleForm.reset({
           id: uuidV1(),
+          scheduleListId: null,
           name: '',
           active: true,
           scheduleList: null,
           useDateRange: true,
           start: currentDate,
           end: currentDate,
+          mailNotify: false,
+          mailAddress: null,
 
           second: '*',
           minute: '*',
@@ -199,7 +204,7 @@ export class TaskListsComponent implements OnDestroy {
           dayOfMonth: '*',
           month: '*',
           dayOfWeek: '*',
-        });
+        } as TaskSchedule);
         break;
     }
     this.store.dispatch({

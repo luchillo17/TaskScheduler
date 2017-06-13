@@ -127,7 +127,7 @@
         formControlName='mailNotify'
       ></p-toggleButton>
     </div>
-    <p-fieldset *ngIf="taskScheduleForm.controls['mailNotify'].value" class="ui-g-12">
+    <p-fieldset [hidden]="!taskScheduleForm.controls['mailNotify'].value" class="ui-g-12">
       <p-header>Correo a notificar:</p-header>
       <div class="ui-g-6">Correo: </div>
       <input

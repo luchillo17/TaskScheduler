@@ -12,7 +12,6 @@ import { saveMailConfig } from '.';
   templateUrl: 'mail-notification.component.html',
   styleUrls: ['mail-notification.component.scss'],
 })
-
 export class MailNotificationComponent implements OnDestroy {
 
   public mailConfigSub: Subscription

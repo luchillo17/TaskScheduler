@@ -150,6 +150,8 @@ const format: MapFormat = {
         children: {
           c_order_id: { to: '_attributes.movimientoId' },
           created: { to: '_attributes.fecha' },
+          documentno: { to: '_attributes.remision' },
+          // Lack vendedor, usuario, ciudad, direccion
           orderLines: {
             to: 'movimientoDetalle',
             type: 'array',

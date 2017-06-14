@@ -112,3 +112,19 @@ interface RXState {
   listDialogState: DialogState;
   taskScheduleDialogState: DialogState;
 }
+
+interface MapFormat {
+  type?: 'array' | 'map'
+  from?: string
+  to?: string
+  isPick?: boolean
+
+  array?: MapFormat
+  addChild?: string;
+  children?: MapChild
+  childrenArray?: MapFormat
+}
+
+interface MapChild {
+  [key: string]: MapFormat
+}

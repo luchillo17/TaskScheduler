@@ -110,7 +110,10 @@ const a = {
           'percentage': 0,
           'name': null,
           'value': null,
-          'discount': 0
+          'discount': 0,
+          'order': {
+            'fechaentrega': '2017-06-12T05:00:00.000Z'
+          }
         },
         {
           'c_orderline_id': 1342,
@@ -131,7 +134,10 @@ const a = {
           'percentage': 0,
           'name': null,
           'value': null,
-          'discount': 0
+          'discount': 0,
+          'order': {
+            'fechaentrega': '2017-06-12T05:00:00.000Z'
+          }
         }
       ]
     }
@@ -158,8 +164,10 @@ const format: MapFormat = {
             childrenArray: {
               type: 'map',
               isPick: true,
+              removeChild: 'order',
               children: {
-                c_orderline_id: { to: '_attributes.orderLineId' }
+                c_orderline_id: { to: '_attributes.orderLineId' },
+                'order.fechaentrega': { to: '_attributes.fechaentrega'}
               }
             }
           }
@@ -177,8 +185,9 @@ result.movimientos.movimiento = result.movimientos.movimiento.map((mov) => ({
     fuente: 'PA',
     moneda: 'PESOS',
     trm: 0,
-}}))/*?*/
+}}))
 JSON.stringify(result, null, 2)/*?*/
 const xml = xmljs.js2xml(result, {
   compact: true,
-})/*?*/
+})
+console.log(xml)

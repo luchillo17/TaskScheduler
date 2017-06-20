@@ -35,7 +35,13 @@ export class UtilService {
           set(obj, formatObj.addChild, '')
         }
         if (formatObj.removeChild) {
-          delete obj[formatObj.removeChild]
+          if (typeof formatObj.removeChild === 'string') {
+            delete obj[formatObj.removeChild]
+          } else {
+            for (const child of formatObj.removeChild) {
+              delete obj[child];
+            }
+          }
         }
 
         return obj

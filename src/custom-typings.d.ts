@@ -121,7 +121,7 @@ interface MapFormat {
 
   array?: MapFormat
   addChild?: string;
-  removeChild?: string;
+  removeChild?: string | string[];
   children?: MapChild
   childrenArray?: MapFormat
 }

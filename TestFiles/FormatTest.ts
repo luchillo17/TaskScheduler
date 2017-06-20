@@ -18,7 +18,7 @@ const a = {
       'updatedby': null,
       'documentno': 'ICP1001',
       'description': '',
-      'fechaentrega': '2017-06-12T05:00:00.000Z',
+      'fechaentrega': '2017-06-12',
       'c_bpartner_vendor_id': 1004,
       'concept_discount': null,
       'discount': null,
@@ -52,44 +52,27 @@ const a = {
       'lat': null,
       'lng': null,
       'ordered': false,
-      'device_info': {
-        'device': {
-          'name': 'mac',
-          'version': -1,
-          'fullVersion': '-1',
-          'mac': -1
-        },
-        'os': {
-          'name': 'macosx',
-          'version': 10.12,
-          'fullVersion': '10.12.3',
-          'macosx': 10.12
-        },
-        'engine': {
-          'name': 'blink',
-          'version': 537.36,
-          'fullVersion': '537.36',
-          'mode': 537.36,
-          'fullMode': '537.36',
-          'compatible': false,
-          'blink': 537.36
-        },
-        'browser': {
-          'name': 'chrome',
-          'version': 58,
-          'fullVersion': '58.0.3029.110',
-          'mode': 58,
-          'fullMode': '58.0.3029.110',
-          'compatible': false,
-          'chrome': 58
-        }
-      },
       'document_uuid': 1497117299621,
       'c_order_quotation_id': null,
       'bankaccount': null,
       'workingdays': null,
       'currentnext': 1001,
       'year': 2017,
+      'user': {
+        'nameuser': 'african84'
+      },
+      'customer': {
+        'value': '21516489'
+      },
+      'seller': {
+        'value': '12022708'
+      },
+      'location': {
+        'address': '12345',
+        'city': {
+          'name': 'MEDELLÍN'
+        }
+      },
       'orderLines': [
         {
           'c_orderline_id': 1341,
@@ -112,7 +95,7 @@ const a = {
           'value': null,
           'discount': 0,
           'order': {
-            'fechaentrega': '2017-06-12T05:00:00.000Z'
+            'fechaentrega': '2017-06-12'
           }
         },
         {
@@ -136,7 +119,7 @@ const a = {
           'value': null,
           'discount': 0,
           'order': {
-            'fechaentrega': '2017-06-12T05:00:00.000Z'
+            'fechaentrega': '2017-06-12'
           }
         }
       ]
@@ -153,18 +136,28 @@ const format: MapFormat = {
       childrenArray: {
         type: 'map',
         isPick: true,
+        removeChild: [
+          'seller',
+          'customer',
+          'user',
+          'location',
+        ],
         children: {
           c_order_id: { to: '_attributes.movimientoId' },
           created: { to: '_attributes.fecha' },
           documentno: { to: '_attributes.remision' },
-          // Lack vendedor, usuario, ciudad, direccion
+          'seller.value': { to: '_attributes.vendedor' },
+          'customer.value': { to: '_attributes.cliente' },
+          'user.nameuser': { to: '_attributes.usuario' },
+          'location.address': { to: '_attributes.direccionEntrega' },
+          'location.city.name': { to: '_attributes.ciudadEntrega' },
           orderLines: {
             to: 'movimientoDetalle',
             type: 'array',
             childrenArray: {
               type: 'map',
               isPick: true,
-              removeChild: 'order',
+              removeChild: ['order'],
               children: {
                 c_orderline_id: { to: '_attributes.orderLineId' },
                 'order.fechaentrega': { to: '_attributes.fechaentrega'}

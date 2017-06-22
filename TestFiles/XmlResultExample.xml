@@ -1,18 +1,32 @@
+​​​​​
 <movimientos>
   <movimiento
     movimientoId="1261"
     fecha="2017-06-10T18:55:33.489Z"
     remision="ICP1001"
     vendedor="12022708"
-    cliente="21516489"
+    nit="21516489"
     usuario="african84"
     direccionEntrega="12345"
     ciudadEntrega="MEDELLÍN"
     fuente="PA"
     moneda="PESOS"
     trm="0">
-    <movimientoDetalle orderLineId="1341" fechaentrega="2017-06-12"/>
-    <movimientoDetalle orderLineId="1342" fechaentrega="2017-06-12"/>
+    <movimientoDetalle
+      cantidad="4"
+      valorUnitario="2000"
+      descuento="0"
+      codigoArticulo="7702007034455"
+      fechaentrega="2017-06-12"
+      bodega=""
+      iva="0"/>
+    <movimientoDetalle
+      cantidad="4"
+      valorUnitario="8000"
+      descuento="0"
+      codigoArticulo="10316"
+      fechaentrega="2017-06-12"
+      bodega=""
+      iva="0"/>
   </movimiento>
-</movimientos>​
-​​​​
+</movimientos>

@@ -117,10 +117,11 @@ interface MapFormat {
   type?: 'array' | 'map'
   from?: string
   to?: string
+  defaultVal?: any
   isPick?: boolean
 
   array?: MapFormat
-  addChild?: string;
+  addChildren?: MapFormat[];
   removeChild?: string | string[];
   children?: MapChild
   childrenArray?: MapFormat

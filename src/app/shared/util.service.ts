@@ -27,12 +27,16 @@ export class UtilService {
           const value = get(obj, key)
           const child = formatObj.children[key]/*?*/
           if (child && child.to) {
-            set(obj, child.to, value)
+            const defaultVal = child.defaultVal === 0 ? 0 : ''
+            const newValue = !value && value !== 0 ? defaultVal : value
+            set(obj, child.to, newValue)
             delete obj[key]
           }
         }
-        if (formatObj.addChild) {
-          set(obj, formatObj.addChild, '')
+        if (formatObj.addChildren) {
+          for (const child of formatObj.addChildren) {
+            set(obj, child.to, child.defaultVal)
+          }
         }
         if (formatObj.removeChild) {
           if (typeof formatObj.removeChild === 'string') {

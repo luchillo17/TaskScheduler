@@ -11,10 +11,11 @@ export class UtilService {
       .join(' ');
   }
 
-  public static formatJson(obj: any, formatObj: MapFormat) {
-
+  public static formatJson(objArg: any, formatObj: MapFormat) {
+    let obj
     switch (formatObj.type) {
       case 'map':
+        obj = {...objArg}
         if (formatObj.isPick) {
           obj = pick(obj, Object.keys(formatObj.children))
         }
@@ -50,13 +51,13 @@ export class UtilService {
         return obj
 
       case 'array':
-        obj = map(obj, (item) => {
+        obj = map(objArg, (item) => {
           return this.formatJson(item, formatObj.childrenArray)
         })
         return obj
 
       default:
-        return obj
+        return objArg
     }
   }
 }

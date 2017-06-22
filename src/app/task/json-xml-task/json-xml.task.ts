@@ -11,18 +11,19 @@ import { BaseTaskComponent, JsonTaskData } from '..';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
 import { TaskFormValidators } from '../task.validators';
+import { JsonXmlTaskData } from "./index";
 
 @Component({
-  selector: 'json-task',
-  templateUrl: 'json.task.html',
-  styleUrls: ['json.task.scss'],
+  selector: 'json-xml-task',
+  templateUrl: 'json-xml.task.html',
+  styleUrls: ['json-xml.task.scss'],
 })
 
-export class JsonTaskComponent
+export class JsonXmlTaskComponent
   extends BaseTaskComponent
   implements OnInit {
 
-  public static taskName: string = 'Tarea tipo JSON'
+  public static taskName: string = 'Tarea tipo JSON-XML'
 
   public currentTask: Task
 
@@ -33,7 +34,7 @@ export class JsonTaskComponent
   ) {
     super(store, location)
 
-    global['jsonTask'] = this
+    global['jsonXmlTask'] = this
 
     this.currentTaskSub = store
       .select<Task>('currentTask')
@@ -41,24 +42,22 @@ export class JsonTaskComponent
         this.currentTask = task;
         const {
           from,
-          format
-        } = (task.data || {}) as JsonTaskData;
-
-        const formatString = JSON.stringify(format, null, 2)
+          path,
+        } = (task.data || {}) as JsonXmlTaskData;
 
         this.taskForm = formBuilder.group({
-          id       : [task.id,   Validators.required],
-          name     : [task.name, Validators.required],
+          id  : [task.id,   Validators.required],
+          name: [task.name, Validators.required],
           taskScheduleId: [task.taskScheduleId, Validators.required],
 
           // Api task specific
-          from    : [from, Validators.required],
-          format  : [formatString, TaskFormValidators.validateJson],
+          from: [from, Validators.required],
+          path: [path, Validators.required],
         });
       });
   }
   public ngOnInit() {
-    console.log('Init Json task.');
+    console.log('Init Json-Xml task.');
   }
 
   public saveTask() {
@@ -70,7 +69,7 @@ export class JsonTaskComponent
     const { crudMethod, ...currentTask } = this.currentTask;
     const {
       from,
-      format,
+      path,
       ...value,
     } = this.taskForm.value;
 
@@ -83,8 +82,8 @@ export class JsonTaskComponent
         // Api task specific
         data: {
           from,
-          format: JSON.parse(format),
-        } as JsonTaskData,
+          path,
+        } as JsonXmlTaskData,
       },
     });
     setTimeout(() => {

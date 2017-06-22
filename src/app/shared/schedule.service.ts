@@ -29,7 +29,6 @@ export class ScheduleService implements OnDestroy {
 
   constructor(
     public store: Store<RXState>,
-    public util: UtilService,
     public injector: Injector,
     public notificationService: WebNotificationService,
     public mailNotificationService: MailNotificationService,
@@ -81,7 +80,7 @@ export class ScheduleService implements OnDestroy {
     this.jobs = [
       ...taskSchedules.map((taskSchedule) => {
         // Extract recurrence rule from taskSchedule using Util method 'templateStringSingleLine'.
-        const rule = this.util.templateStringSingleLine(`
+        const rule = UtilService.templateStringSingleLine(`
           ${taskSchedule.second || '*'}
           ${taskSchedule.minute || '*'}
           ${taskSchedule.hour || '*'}
@@ -132,7 +131,7 @@ export class ScheduleService implements OnDestroy {
             const taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
             const taskExecutor = this.injector.get(taskType.executor)
 
-            const result = await taskExecutor.executeTask(task, taskData, taskIndex)
+            await taskExecutor.executeTask(task, taskData, taskIndex)
 
           }
         } catch (error) {

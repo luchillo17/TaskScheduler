@@ -25,7 +25,6 @@ export abstract class BaseTaskComponent implements OnInit, OnDestroy {
   public taskSchedules: Observable<SelectItem[]>;
   public currentTaskSub: Subscription;
 
-
   constructor(
     public store: Store<RXState>,
     public location: Location,

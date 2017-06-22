@@ -7,25 +7,24 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { BaseTaskComponent, ApiTaskData } from '..';
+import { BaseTaskComponent, JsonTaskData } from '..';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
-import { ApiValidators } from './api.validators';
+import { TaskFormValidators } from '../task.validators';
 
 @Component({
-  selector: 'api-task',
-  templateUrl: 'api.task.html',
-  styleUrls: ['api.task.scss'],
+  selector: 'json-task',
+  templateUrl: 'json.task.html',
+  styleUrls: ['json.task.scss'],
 })
 
-export class ApiTaskComponent
+export class JsonTaskComponent
   extends BaseTaskComponent
   implements OnInit {
 
-  public static taskName: string = 'Tarea tipo API'
+  public static taskName: string = 'Tarea tipo JSON'
 
   public currentTask: Task
-  public apiMethods: SelectItem[]
 
   constructor(
     public store: Store<RXState>,
@@ -34,23 +33,18 @@ export class ApiTaskComponent
   ) {
     super(store, location)
 
-    global['apitask'] = this
-
-    this.apiMethods = ['GET', 'POST'].map((apiMethod) => ({
-      label: apiMethod,
-      value: apiMethod,
-    }))
+    global['jsonTask'] = this
 
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
         const {
-          url,
-          method,
-          authorization,
-          requestData,
-        } = (task.data || {}) as ApiTaskData;
+          from,
+          format
+        } = (task.data || {}) as JsonTaskData;
+
+        const formatString = JSON.stringify(format, null, 2)
 
         this.taskForm = formBuilder.group({
           id       : [task.id,   Validators.required],
@@ -58,17 +52,13 @@ export class ApiTaskComponent
           taskScheduleId: [task.taskScheduleId, Validators.required],
 
           // Api task specific
-          url          : [url, Validators.required],
-          method       : [method, Validators.required],
-          requestData  : [requestData, ApiValidators.validateJson],
-          authorization: [authorization, Validators.required],
-        }, {
-          validator: ApiValidators.requestDataByMethod,
+          from    : [from, Validators.required],
+          format  : [formatString, TaskFormValidators.validateJson],
         });
       });
   }
   public ngOnInit() {
-    console.log('Init api task.');
+    console.log('Init Json task.');
   }
 
   public saveTask() {
@@ -79,10 +69,8 @@ export class ApiTaskComponent
     this.goBack()
     const { crudMethod, ...currentTask } = this.currentTask;
     const {
-      url,
-      method,
-      requestData,
-      authorization,
+      from,
+      format,
       ...value,
     } = this.taskForm.value;
 
@@ -94,11 +82,9 @@ export class ApiTaskComponent
 
         // Api task specific
         data: {
-          url,
-          method,
-          requestData,
-          authorization,
-        } as ApiTaskData,
+          from,
+          format: JSON.parse(format),
+        } as JsonTaskData,
       },
     });
     setTimeout(() => {

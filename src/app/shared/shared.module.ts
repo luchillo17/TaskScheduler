@@ -1,8 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { HttpModule }    from '@angular/http';
-import { FormsModule }   from '@angular/forms';
-import { CommonModule }  from '@angular/common';
-import { RouterModule }  from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
@@ -20,12 +20,12 @@ import {
   InputSwitchModule,
   AutoCompleteModule,
   ToggleButtonModule,
+  InputTextareaModule,
   ConfirmDialogModule,
   ConfirmationService,
 } from 'primeng/primeng';
 
 import {
-  UtilService,
   ScheduleService,
   WebNotificationService,
   MailNotificationService,
@@ -36,7 +36,6 @@ const sharedProviders = [
   WebNotificationService,
   ConfirmationService,
   ScheduleService,
-  UtilService,
 ];
 
 // Components
@@ -65,6 +64,7 @@ const sharedProviders = [
     InputSwitchModule,
     AutoCompleteModule,
     ToggleButtonModule,
+    InputTextareaModule,
     ConfirmDialogModule,
   ],
 })

@@ -56,7 +56,6 @@ describe(`Home`, () => {
     spyOn(console, 'log');
     expect(console.log).not.toHaveBeenCalled();
 
-    comp.ngAfterViewInit();
     expect(console.log).toHaveBeenCalled();
   });
 

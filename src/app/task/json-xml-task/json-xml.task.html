@@ -72,101 +72,49 @@
     <div class='ui-g-12'>
       <div class="ui-g">
 
-        <label class='ui-g-4'>Url:</label>
+        <label class='ui-g-4'>Posicion origen:</label>
         <input class='ui-g-8'
-          type='text'
+          type='number'
           pInputText
-          formControlName='url'
-          [class.errors]='url.hasError("*",["touched", "dirty"])'
-        >
-        <div
-          #url='ngxErrors'
-          class='ew-og-4 ui-g-8'
-          ngxErrors='url'
-        >
-          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
-            El campo de url es requerido
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class='ui-g-12'>
-      <div class="ui-g">
-
-      <label class='ui-g-4'>Metodo:</label>
-
-        <p-dropdown
-          class='ui-g-8'
-          formControlName='method'
-          [filter]="true"
-          [options]="apiMethods"
-          [class.errors]='method.hasError("*",["touched", "dirty"])'
-        ></p-dropdown>
-        <div
-          #method='ngxErrors'
-          class='ew-og-4 ui-g-8'
-          ngxErrors='method'
-        >
-          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
-            El campo de metodo es requerido
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class='ui-g-12'>
-      <div class="ui-g">
-
-        <label class='ui-g-4'>Autorización:</label>
-        <input class='ui-g-8'
-          type='text'
-          pInputText
-          formControlName='authorization'
-          [class.errors]='authorization.hasError("*",["touched", "dirty"])'
-        >
-        <div
-          #authorization='ngxErrors'
-          class='ew-og-4 ui-g-8'
-          ngxErrors='authorization'
-        >
-          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
-            El campo de autorización es requerido
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class='ui-g-12'
-      *ngIf="taskForm.controls['authorization'].value != 'GET'">
-      <div class="ui-g">
-
-        <label class='ui-g-4'>Datos peticion (Json):</label>
-        <input class='ui-g-8'
-          type='text'
-          pInputText
-          formControlName='requestData'
+          formControlName='from'
           [class.errors]='
-            requestData.hasError(
+            from.hasError(
               "required", ["touched", "dirty"]
-            ) ||
-            requestData.hasError(
-              "invalidJson",["touched", "dirty"]
             )'
         >
         <div
-          #requestData='ngxErrors'
+          #from='ngxErrors'
           class='ew-og-4 ui-g-8'
-          ngxErrors='requestData'
+          ngxErrors='from'
         >
           <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
-            El campo de datos de peticion o json es requerido
+            El campo de posicion origen es requerido
           </div>
-          <div class='error' ngxError='invalidJson' [when]='["touched", "dirty"]'>
-            El campo de datos de peticion o json es invalido, recuerde que debe ser un objeto Json valido.
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-4'>Path propiedad a transformar:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='path'
+          [class.errors]='
+            path.hasError(
+              "required", ["touched", "dirty"]
+            )'
+        >
+        <div
+          #path='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='path'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de path de propiedad a convertir es requerido
           </div>
         </div>
 

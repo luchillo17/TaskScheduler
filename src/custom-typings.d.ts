@@ -82,7 +82,6 @@ interface Task {
 
   crudMethod?: CrudMethod;
   direction?: Direction;
-  mapFormat?: JSON;
   data?: any;
 
   [key: string]: any;
@@ -111,4 +110,22 @@ interface RXState {
   taskDialogState: DialogState
   listDialogState: DialogState;
   taskScheduleDialogState: DialogState;
+}
+
+interface MapFormat {
+  type?: 'array' | 'map'
+  from?: string
+  to?: string
+  defaultVal?: any
+  isPick?: boolean
+
+  array?: MapFormat
+  addChildren?: MapFormat[];
+  removeChildren?: string | string[];
+  children?: MapChild
+  childrenArray?: MapFormat
+}
+
+interface MapChild {
+  [key: string]: MapFormat
 }

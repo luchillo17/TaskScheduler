@@ -3,11 +3,17 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import {
   TaskComponent,
+  TaskSelectorComponent,
+
   LogTaskExecutor,
   ApiTaskExecutor,
+  JsonTaskExecutor,
+  JsonXmlTaskExecutor,
+
   LogTaskComponent,
   ApiTaskComponent,
-  TaskSelectorComponent,
+  JsonTaskComponent,
+  JsonXmlTaskComponent,
 } from '.';
 
 @NgModule({
@@ -19,11 +25,15 @@ import {
     TaskComponent,
     LogTaskComponent,
     ApiTaskComponent,
+    JsonTaskComponent,
+    JsonXmlTaskComponent,
     TaskSelectorComponent,
   ],
   entryComponents: [
     LogTaskComponent,
     ApiTaskComponent,
+    JsonTaskComponent,
+    JsonXmlTaskComponent,
   ],
   providers: [],
 })
@@ -34,6 +44,8 @@ export class TaskModule {
       providers: [
         LogTaskExecutor,
         ApiTaskExecutor,
+        JsonTaskExecutor,
+        JsonXmlTaskExecutor,
       ],
     };
   }

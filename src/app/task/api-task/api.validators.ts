@@ -1,6 +1,7 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { TaskFormValidators } from '../task.validators';
 
-export class ApiValidators {
+export class ApiValidators extends TaskFormValidators {
 
   public static requestDataByMethod(group: FormGroup): { [key: string]: any} {
     const requestControl = group.controls['requestData'] as AbstractControl;
@@ -21,22 +22,5 @@ export class ApiValidators {
     }
 
     return null
-  }
-
-  public static validateJson(control: AbstractControl) {
-    if (control.value === '') {
-      return null
-    }
-
-    try {
-      const o: object = JSON.parse(control.value)
-      if (o !== undefined && typeof o === 'object') {
-        return null;
-      }
-
-      return { invalidJson: true }
-    } catch (error) {
-      return { invalidJson: true }
-    }
   }
 }

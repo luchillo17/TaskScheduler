@@ -2,9 +2,8 @@ import 'reflect-metadata';
 import { UtilService } from '../src/app/shared/util.service';
 import xmljs = require('xml-js')
 
-const util = new UtilService()
-
 const a = {
+  data: {
   'orders': [
     {
       'c_order_id': 1261,
@@ -63,17 +62,21 @@ const a = {
     }
   ]
 }
+}
 
 const format: MapFormat = {
   type: 'map',
+  removeChildren: [
+    'data',
+  ],
   children: {
-    orders: {
-      to: 'movimientos.movimiento',
+    'data.orders': {
+      to: 'Movimientos.movimiento',
       type: 'array',
       childrenArray: {
         type: 'map',
         isPick: true,
-        removeChild: [
+        removeChildren: [
           'seller',
           'customer',
           'user',
@@ -87,7 +90,7 @@ const format: MapFormat = {
         children: {
           c_order_id: { to: '_attributes.movimientoId' },
           created: { to: '_attributes.fecha' },
-          documentno: { to: '_attributes.remision' },
+          documentno: { to: '_attributes.pedido' },
           'seller.value': { to: '_attributes.vendedor' },
           'customer.value': { to: '_attributes.nit' },
           'user.nameuser': { to: '_attributes.usuario' },
@@ -99,7 +102,7 @@ const format: MapFormat = {
             childrenArray: {
               type: 'map',
               isPick: true,
-              removeChild: [
+              removeChildren: [
                 'order',
                 'product',
               ],
@@ -120,7 +123,7 @@ const format: MapFormat = {
   }
 }
 
-const result = util.formatJson(a, format)
+const result = UtilService.formatJson(a, format)
 JSON.stringify(result, null, 2)/*?*/
 const xml = xmljs.js2xml(result, {
   compact: true,

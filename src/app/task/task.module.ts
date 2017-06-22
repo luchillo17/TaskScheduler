@@ -8,6 +8,8 @@ import {
   LogTaskComponent,
   ApiTaskComponent,
   TaskSelectorComponent,
+  JsonTaskComponent,
+  JsonTaskExecutor,
 } from '.';
 
 @NgModule({
@@ -19,11 +21,13 @@ import {
     TaskComponent,
     LogTaskComponent,
     ApiTaskComponent,
+    JsonTaskComponent,
     TaskSelectorComponent,
   ],
   entryComponents: [
     LogTaskComponent,
     ApiTaskComponent,
+    JsonTaskComponent,
   ],
   providers: [],
 })
@@ -34,6 +38,7 @@ export class TaskModule {
       providers: [
         LogTaskExecutor,
         ApiTaskExecutor,
+        JsonTaskExecutor,
       ],
     };
   }

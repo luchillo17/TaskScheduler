@@ -3,15 +3,18 @@
 export * from './base-task'
 export * from './log-task'
 export * from './api-task'
+export * from './json-task'
 
 import {
   LogTaskType,
   ApiTaskType,
+  JsonTaskType,
 } from '.';
 
 export const tasksTypes: TaskType[] = [
   LogTaskType,
   ApiTaskType,
+  JsonTaskType,
 ];
 
 // This ones are fixed

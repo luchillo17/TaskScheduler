@@ -17,7 +17,6 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import { Subscription } from 'rxjs';
 import {
   Store,
@@ -64,7 +63,7 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
 ];
 
-type StoreType = {
+interface StoreType {
   state: RXState,
   restoreInputValues: () => void,
   disposeOldHosts: () => void
@@ -106,7 +105,6 @@ export function rootReducer(state, action) {
     StoreLogMonitorModule,
     BrowserAnimationsModule,
 
-
     TaskModule.forRoot(),
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -127,7 +125,7 @@ export class AppModule {
     public appRef: ApplicationRef,
     public store: Store<any>,
   ) {
-    let state = localStorage.getItem('state');
+    const state = localStorage.getItem('state');
 
     if (state) {
       store.dispatch({
@@ -177,8 +175,7 @@ export class AppModule {
     }
     // set input values
     if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
-      setTimeout(restoreInputValues);
+      setTimeout(store.restoreInputValues);
     }
 
     this.appRef.tick();

@@ -82,7 +82,6 @@ interface Task {
 
   crudMethod?: CrudMethod;
   direction?: Direction;
-  mapFormat?: JSON;
   data?: any;
 
   [key: string]: any;
@@ -122,7 +121,7 @@ interface MapFormat {
 
   array?: MapFormat
   addChildren?: MapFormat[];
-  removeChild?: string | string[];
+  removeChildren?: string | string[];
   children?: MapChild
   childrenArray?: MapFormat
 }

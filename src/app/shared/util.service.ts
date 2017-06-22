@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { map, mapValues, mapKeys, pick, set, get } from 'lodash'
 
-@Injectable()
 export class UtilService {
 
-  public templateStringSingleLine(str: string) {
+  public static templateStringSingleLine(str: string) {
     return str
       .trim()
       .split(/(?:\r\n|\n|\r)/)
@@ -12,7 +11,7 @@ export class UtilService {
       .join(' ');
   }
 
-  public formatJson(obj: any, formatObj: MapFormat) {
+  public static formatJson(obj: any, formatObj: MapFormat) {
 
     switch (formatObj.type) {
       case 'map':
@@ -38,11 +37,11 @@ export class UtilService {
             set(obj, child.to, child.defaultVal)
           }
         }
-        if (formatObj.removeChild) {
-          if (typeof formatObj.removeChild === 'string') {
-            delete obj[formatObj.removeChild]
+        if (formatObj.removeChildren) {
+          if (typeof formatObj.removeChildren === 'string') {
+            delete obj[formatObj.removeChildren]
           } else {
-            for (const child of formatObj.removeChild) {
+            for (const child of formatObj.removeChildren) {
               delete obj[child];
             }
           }

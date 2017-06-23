@@ -1,8 +1,8 @@
 import { ActionReducer } from '@ngrx/store';
 
-import { tasksTypes } from ".";
+import { tasksTypes } from '.';
 
-const LogTaskType: TaskType = tasksTypes.find((taskType) => taskType.type == 'LogTaskComponent');
+const LogTaskType: TaskType = tasksTypes.find((taskType) => taskType.type === 'LogTaskComponent');
 
 const taskDefaults: Task = {
   id: '',

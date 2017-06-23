@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
+import { Router } from '@angular/router';
 
 // @Component({
 //   selector: 'base-task',
@@ -27,7 +28,7 @@ export abstract class BaseTaskComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
   ) {
     this.taskName = (this.constructor as typeof BaseTaskComponent).taskName;
 
@@ -50,7 +51,7 @@ export abstract class BaseTaskComponent implements OnInit, OnDestroy {
   }
 
   public goBack() {
-    this.location.back();
+    this.router.navigate(['/']);
   }
 
   public isFormInvalid() {

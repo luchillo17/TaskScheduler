@@ -12,15 +12,25 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
     const {
       url,
       method,
+      authPath,
+      authInBody,
       authorization,
-      requestData: body,
+      dataFromMemory,
+      requestPath,
+      requestData,
     } = task.data as ApiTaskData;
     console.log('Api task data: ', task.data);
+    const body = dataFromMemory ? data[requestPath] : requestData
 
+    if (authInBody) {
+      body[authPath] = authorization
+    }
+
+    // Try Angular's http to overcome SOAP no-cors preflight issue
     const response = await fetch(url, {
       headers: new Headers({
         authorization,
-        'accept': 'application/json',
+        'accept': '*/*',
         'content-type': 'application/json',
       }),
       mode: 'cors',

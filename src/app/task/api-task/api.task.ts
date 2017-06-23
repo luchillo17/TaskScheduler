@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -29,10 +29,10 @@ export class ApiTaskComponent
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
     private formBuilder: FormBuilder,
   ) {
-    super(store, location)
+    super(store, router)
 
     global['apitask'] = this
 
@@ -48,8 +48,12 @@ export class ApiTaskComponent
         const {
           url,
           method,
+          authPath,
+          authInBody,
           authorization,
+          dataFromMemory,
           requestData,
+          requestPath,
         } = (task.data || {}) as ApiTaskData;
 
         this.taskForm = formBuilder.group({
@@ -59,9 +63,15 @@ export class ApiTaskComponent
 
           // Api task specific
           url          : [url, Validators.required],
-          method       : [method, Validators.required],
-          requestData  : [requestData, ApiValidators.validateJson],
-          authorization: [authorization, Validators.required],
+          method       : [method || 'GET', Validators.required],
+
+          authInBody   : [authInBody || false, Validators.required],
+          authPath     : [authPath],
+          authorization: [authorization],
+
+          dataFromMemory: [dataFromMemory || false, Validators.required],
+          requestPath   : [requestPath],
+          requestData   : [requestData, ApiValidators.validateJson],
         }, {
           validator: ApiValidators.requestDataByMethod,
         });
@@ -81,8 +91,12 @@ export class ApiTaskComponent
     const {
       url,
       method,
-      requestData,
+      authPath,
+      authInBody,
       authorization,
+      dataFromMemory,
+      requestData,
+      requestPath,
       ...value,
     } = this.taskForm.value;
 
@@ -96,8 +110,12 @@ export class ApiTaskComponent
         data: {
           url,
           method,
-          requestData,
+          authPath,
+          authInBody,
           authorization,
+          dataFromMemory,
+          requestData,
+          requestPath,
         } as ApiTaskData,
       },
     });

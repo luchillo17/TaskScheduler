@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -28,10 +28,10 @@ export class JsonTaskComponent
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
     private formBuilder: FormBuilder,
   ) {
-    super(store, location)
+    super(store, router)
 
     global['jsonTask'] = this
 

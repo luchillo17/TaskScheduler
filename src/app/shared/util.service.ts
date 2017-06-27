@@ -11,9 +11,37 @@ export class UtilService {
       .join(' ');
   }
 
+  public static getError(response, formatObj: ErrorFormat) {
+    if (!formatObj || !response) {
+      return false
+    }
+    let error;
+    switch (formatObj.type) {
+      case 'hasProperty':
+        error = get(response, formatObj.to) ? response : undefined
+        return formatObj.returnValue || error
+
+      case 'hasValue':
+        error = get(response, formatObj.to) === formatObj.value ? response : undefined
+        return formatObj.returnValue !== undefined ? formatObj.returnValue : error
+
+      case 'array':
+        for (const item of formatObj.children) {
+          error = this.getError(response, item)
+          if (error !== undefined) return error
+        }
+      default:
+        return;
+    }
+  }
+
   public static formatJson(objArg: any, formatObj: MapFormat) {
     let obj
     switch (formatObj.type) {
+      case 'assign':
+        obj = {}
+        set(obj, formatObj.to, objArg)
+        objArg = obj
       case 'map':
         obj = {...objArg}
         if (formatObj.isPick) {

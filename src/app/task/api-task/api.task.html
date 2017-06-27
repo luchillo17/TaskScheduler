@@ -140,36 +140,122 @@
       </div>
     </div>
 
-    <div class='ui-g-12'
-      *ngIf="taskForm.controls['authorization'].value != 'GET'">
-      <div class="ui-g">
+    <div [hidden]="taskForm.controls['method'].value === 'GET'">
+      <div class="ui-g-12">
+        <label class="ui-g-4">Autenticación en Body:</label>
+        <p-toggleButton
+          class="ui-g-8"
+          formControlName='authInBody'
+        ></p-toggleButton>
+      </div>
 
-        <label class='ui-g-4'>Datos peticion (Json):</label>
-        <input class='ui-g-8'
-          type='text'
-          pInputText
-          formControlName='requestData'
-          [class.errors]='
-            requestData.hasError(
-              "required", ["touched", "dirty"]
-            ) ||
-            requestData.hasError(
-              "invalidJson",["touched", "dirty"]
-            )'
-        >
-        <div
-          #requestData='ngxErrors'
-          class='ew-og-4 ui-g-8'
-          ngxErrors='requestData'
-        >
-          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
-            El campo de datos de peticion o json es requerido
+      <div class='ui-g-12' *ngIf="taskForm.controls['authInBody'].value === true">
+        <div class="ui-g">
+
+          <label class='ui-g-4'>Path autorización body:</label>
+          <input class='ui-g-8'
+            type='text'
+            pInputText
+            formControlName='authPath'
+            [class.errors]='authPath.hasError("*",["touched", "dirty"])'
+          >
+          <div
+            #authPath='ngxErrors'
+            class='ew-og-4 ui-g-8'
+            ngxErrors='authPath'
+          >
+            <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+              El campo de autorización es requerido
+            </div>
           </div>
-          <div class='error' ngxError='invalidJson' [when]='["touched", "dirty"]'>
-            El campo de datos de peticion o json es invalido, recuerde que debe ser un objeto Json valido.
-          </div>
+
         </div>
+      </div>
 
+      <div class="ui-g-12">
+        <label class="ui-g-4">Datos desde memoria:</label>
+        <p-toggleButton
+          class="ui-g-8"
+          formControlName='dataFromMemory'
+        ></p-toggleButton>
+      </div>
+
+      <div class='ui-g-12' [hidden]="taskForm.controls['dataFromMemory'].value !== true">
+        <div class="ui-g">
+
+          <label class='ui-g-4'>Path datos memoria:</label>
+          <input class='ui-g-8'
+            type='text'
+            pInputText
+            formControlName='requestPath'
+          >
+            <!--[class.errors]='requestPath.hasError("*",["touched", "dirty"])'-->
+          <!--<div
+            #requestPath='ngxErrors'
+            class='ew-og-4 ui-g-8'
+            ngxErrors='requestPath'
+          >
+            <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+              El campo de path datos memoria es requerido
+            </div>
+          </div>-->
+
+        </div>
+      </div>
+
+      <div class='ui-g-12' [hidden]="taskForm.controls['dataFromMemory'].value !== false">
+        <div class="ui-g">
+
+          <label class='ui-g-12'>Datos peticion (Json):</label>
+          <textarea class='ui-g-12'
+            type='text'
+            pInputTextarea
+            autoResize='true'
+            formControlName='requestData'
+            [class.errors]='requestData.hasError("*", ["touched", "dirty"])'
+          ></textarea>
+
+          <div
+            #requestData='ngxErrors'
+            class='ew-og-4 ui-g-8'
+            ngxErrors='requestData'
+          >
+            <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+              El campo de datos de peticion o json es requerido
+            </div>
+            <div class='error' ngxError='invalidJson' [when]='["touched", "dirty"]'>
+              El campo de datos de peticion o json es invalido, recuerde que debe ser un objeto Json valido.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class='ui-g-12'>
+        <div class="ui-g">
+
+          <label class='ui-g-12'>Formato Errores (Json):</label>
+          <textarea class='ui-g-12'
+            type='text'
+            pInputTextarea
+            autoResize='true'
+            formControlName='errorFormat'
+            [class.errors]='errorFormat.hasError("*", ["touched", "dirty"])'
+          ></textarea>
+          <div
+            #errorFormat='ngxErrors'
+            class='ew-og-4 ui-g-8'
+            ngxErrors='errorFormat'
+          >
+            <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+              El campo de datos de peticion o json es requerido
+            </div>
+            <div class='error' ngxError='invalidJson' [when]='["touched", "dirty"]'>
+              El campo de datos de peticion o json es invalido, recuerde que debe ser un objeto Json valido.
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 

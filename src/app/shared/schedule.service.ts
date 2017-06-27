@@ -135,6 +135,7 @@ export class ScheduleService implements OnDestroy {
 
           }
         } catch (error) {
+          if (error === false) return;
           console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
           this.notificationService.createErrorNotification({
             title: 'Error executing task schedule',

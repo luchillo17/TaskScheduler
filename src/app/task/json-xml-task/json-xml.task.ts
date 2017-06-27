@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -11,7 +11,7 @@ import { BaseTaskComponent, JsonTaskData } from '..';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
 import { TaskFormValidators } from '../task.validators';
-import { JsonXmlTaskData } from "./index";
+import { JsonXmlTaskData } from './index';
 
 @Component({
   selector: 'json-xml-task',
@@ -29,10 +29,10 @@ export class JsonXmlTaskComponent
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
     private formBuilder: FormBuilder,
   ) {
-    super(store, location)
+    super(store, router)
 
     global['jsonXmlTask'] = this
 

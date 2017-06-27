@@ -112,8 +112,16 @@ interface RXState {
   taskScheduleDialogState: DialogState;
 }
 
+interface ErrorFormat {
+  type: 'hasProperty' | 'hasValue' | 'array'
+  to?: string
+  value?: any
+  returnValue?: any
+  children?: ErrorFormat[]
+}
+
 interface MapFormat {
-  type?: 'array' | 'map'
+  type?: 'array' | 'map' | 'assign'
   from?: string
   to?: string
   defaultVal?: any

@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -29,10 +29,10 @@ export class ApiTaskComponent
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
     private formBuilder: FormBuilder,
   ) {
-    super(store, location)
+    super(store, router)
 
     global['apitask'] = this
 
@@ -41,6 +41,8 @@ export class ApiTaskComponent
       value: apiMethod,
     }))
 
+    const defaultErrorFormat = JSON.stringify(ApiValidators.defaultErrorFormat, null, 2)
+
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
@@ -48,9 +50,16 @@ export class ApiTaskComponent
         const {
           url,
           method,
+          authPath,
+          authInBody,
           authorization,
+          dataFromMemory,
           requestData,
+          requestPath,
+          errorFormat,
         } = (task.data || {}) as ApiTaskData;
+
+        const errorFormatString = JSON.stringify(errorFormat, null, 2)
 
         this.taskForm = formBuilder.group({
           id       : [task.id,   Validators.required],
@@ -59,9 +68,16 @@ export class ApiTaskComponent
 
           // Api task specific
           url          : [url, Validators.required],
-          method       : [method, Validators.required],
-          requestData  : [requestData, ApiValidators.validateJson],
-          authorization: [authorization, Validators.required],
+          method       : [method || 'GET', Validators.required],
+
+          authInBody   : [authInBody || false, Validators.required],
+          authPath     : [authPath],
+          authorization: [authorization],
+
+          dataFromMemory: [dataFromMemory || false, Validators.required],
+          requestPath   : [requestPath],
+          requestData   : [requestData, ApiValidators.validateJson],
+          errorFormat   : [errorFormatString || defaultErrorFormat, ApiValidators.validateJson],
         }, {
           validator: ApiValidators.requestDataByMethod,
         });
@@ -81,10 +97,17 @@ export class ApiTaskComponent
     const {
       url,
       method,
-      requestData,
+      authPath,
+      authInBody,
       authorization,
+      dataFromMemory,
+      requestData,
+      requestPath,
+      errorFormat: errorFormatString,
       ...value,
-    } = this.taskForm.value;
+    } = this.taskForm.value as ApiTaskData & Task;
+
+    const errorFormat = errorFormatString ? JSON.parse(errorFormatString as any) as ErrorFormat : null
 
     this.store.dispatch({
       type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
@@ -96,8 +119,13 @@ export class ApiTaskComponent
         data: {
           url,
           method,
-          requestData,
+          authPath,
+          authInBody,
           authorization,
+          dataFromMemory,
+          requestData,
+          requestPath,
+          errorFormat: errorFormat || ApiValidators.defaultErrorFormat,
         } as ApiTaskData,
       },
     });

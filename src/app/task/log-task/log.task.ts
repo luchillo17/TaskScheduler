@@ -4,12 +4,13 @@ import {
   Input,
 } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from "@ngrx/store";
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { SelectItem } from 'primeng/primeng';
 
-import { BaseTaskComponent } from "..";
-import { Observable, Subscription } from "rxjs";
-import { SelectItem } from "primeng/primeng";
+import { BaseTaskComponent } from '..';
 
 @Component({
   selector: 'log-task',
@@ -25,16 +26,16 @@ export class LogTaskComponent extends BaseTaskComponent {
 
   constructor(
     public store: Store<RXState>,
-    public location: Location,
+    public router: Router,
     private formBuilder: FormBuilder,
   ) {
-    super(store, location)
+    super(store, router)
 
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        let {text, logTasksData} = task.data || {} as any;
+        const {text, logTasksData} = task.data || {} as any;
         this.taskForm = formBuilder.group({
           id:   [task.id,    Validators.required],
           name: [task.name,  Validators.required],
@@ -46,9 +47,6 @@ export class LogTaskComponent extends BaseTaskComponent {
         });
       });
   }
-  ngOnInit() {
-    console.log('Init log task.');
-  }
 
   public saveTask() {
     if (this.isFormInvalid()) {
@@ -56,10 +54,10 @@ export class LogTaskComponent extends BaseTaskComponent {
     }
 
     this.goBack()
-    let { crudMethod, ...currentTask } = this.currentTask;
-    let { text, logTasksData, ...value } = this.taskForm.value;
+    const { crudMethod, ...currentTask } = this.currentTask;
+    const { text, logTasksData, ...value } = this.taskForm.value;
     this.store.dispatch({
-      type: crudMethod == 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
+      type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
         ...currentTask,
         ...value,
@@ -77,6 +75,4 @@ export class LogTaskComponent extends BaseTaskComponent {
       });
     }, 300)
   }
-
-
 }

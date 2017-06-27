@@ -109,49 +109,47 @@ export class ScheduleService implements OnDestroy {
   /**
    * Execute active tasks associated to taskSchedule
    *
-   * @private
    * @param {TaskSchedule} taskSchedule taskSchedule to be executed.
    *
    * @memberOf ScheduleService
    */
-  private executeTasks(taskSchedule: TaskSchedule) {
+  public async executeTasks(taskSchedule: TaskSchedule) {
     console.log('Executing TaskSchedule: ', taskSchedule.name);
-    this.tasks$
-      .map((tasks) =>
-        tasks.filter(task =>
+    const tasks = await this.tasks$
+      .map((tasksArr) =>
+        tasksArr.filter(task =>
           task.taskScheduleId === taskSchedule.id
       ))
       .take(1)
-      .subscribe(async (tasks) => {
-        try {
+      .toPromise()
 
-          const taskData = [];
-          for (const [taskIndex, task] of Array.from(tasks.entries())) {
+    try {
 
-            const taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
-            const taskExecutor = this.injector.get(taskType.executor)
+      const taskData = [];
+      for (const [taskIndex, task] of Array.from(tasks.entries())) {
 
-            await taskExecutor.executeTask(task, taskData, taskIndex)
+        const taskType = tasksTypes.find(taskTypeItem => taskTypeItem.type === task.type.type)
+        const taskExecutor = this.injector.get(taskType.executor)
 
-          }
-        } catch (error) {
-          if (error === false) return;
-          console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
-          this.notificationService.createErrorNotification({
-            title: 'Error executing task schedule',
-            body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
-            tag: 'ScheduleService-taskExecutor-error',
-          })
-          if (!taskSchedule.mailNotify) return;
-
-          this.mailNotificationService.sendMail({
-            to: taskSchedule.mailAddress,
-            html: `
-              Task schedule: ${ JSON.stringify(taskSchedule, null, 2) }<br>
-              Error: ${error.message} ${JSON.stringify(error)}
-            `,
-          })
-        }
+        await taskExecutor.executeTask(task, taskData, taskIndex)
+      }
+    } catch (error) {
+      if (error === false) return;
+      console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);
+      this.notificationService.createErrorNotification({
+        title: 'Error executing task schedule',
+        body: `Task schedule: ${taskSchedule.name}\nError: ${JSON.stringify(error)}`,
+        tag: 'ScheduleService-taskExecutor-error',
       })
+      if (!taskSchedule.mailNotify) return;
+
+      this.mailNotificationService.sendMail({
+        to: taskSchedule.mailAddress,
+        html: `
+          Task schedule: ${ JSON.stringify(taskSchedule, null, 2) }<br>
+          Error: ${error.message} ${JSON.stringify(error)}
+        `,
+      })
+    }
   }
 }

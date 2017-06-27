@@ -11,11 +11,17 @@
       (click)='setSelectedTaskSchedule(taskSchedule)'
     >
       <div *ngIf="taskSchedule.id !== ''; else showAll">
-        <div class="name">
-          <b>Nombre:</b> {{ taskSchedule.name }}
+        <div>
+          <div class="name">
+            <b>Nombre:</b> {{ taskSchedule.name }}
+          </div>
+          <div class="isListActive">
+            <b>Activo:</b> {{ taskSchedule.active }}
+          </div>
         </div>
-        <div class="isListActive">
-          <b>Activo:</b> {{ taskSchedule.active }}
+        <div>
+          <button pButton #taskExecButton
+            (click)="executeTaskSchedule(taskExecButton, taskSchedule)" type="button" icon="fa-play" class='ui-button-success' iconPos="left"></button>
         </div>
       </div>
       <ng-template #showAll>

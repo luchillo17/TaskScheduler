@@ -23,7 +23,7 @@ export class UtilService {
 
       case 'hasValue':
         error = get(response, formatObj.to) === formatObj.value ? response : undefined
-        return formatObj.returnValue !== undefined ? formatObj.returnValue : error
+        return error === undefined ? error : formatObj.returnValue
 
       case 'array':
         for (const item of formatObj.children) {

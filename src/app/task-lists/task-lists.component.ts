@@ -16,6 +16,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { v1 as uuidV1 } from 'uuid';
 
+import { ScheduleService } from '../shared';
 import { CustomTaskListsValidators } from '.';
 
 @Component({
@@ -46,6 +47,7 @@ export class TaskListsComponent implements OnDestroy {
 
   constructor(
     private confirmDialogService: ConfirmationService,
+    private scheduleService: ScheduleService,
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
@@ -108,6 +110,12 @@ export class TaskListsComponent implements OnDestroy {
     this.taskSchedules$ && this.taskSchedules$.unsubscribe();
     this.selectedTaskSchedule$ && this.selectedTaskSchedule$.unsubscribe();
     this.taskScheduleDialogState$ && this.taskScheduleDialogState$.unsubscribe();
+  }
+
+  public async executeTaskSchedule(taskExecButton: HTMLButtonElement, taskSchedule: TaskSchedule) {
+    taskExecButton.disabled = true
+    await this.scheduleService.executeTasks(taskSchedule)
+    taskExecButton.disabled = false
   }
 
   public setSelectedTaskSchedule(taskSchedule: TaskSchedule) {

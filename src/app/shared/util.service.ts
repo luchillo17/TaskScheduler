@@ -14,6 +14,10 @@ export class UtilService {
   public static formatJson(objArg: any, formatObj: MapFormat) {
     let obj
     switch (formatObj.type) {
+      case 'assign':
+        obj = {}
+        set(obj, formatObj.to, objArg)
+        objArg = obj
       case 'map':
         obj = {...objArg}
         if (formatObj.isPick) {

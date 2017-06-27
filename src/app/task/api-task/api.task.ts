@@ -98,7 +98,7 @@ export class ApiTaskComponent
       requestData,
       requestPath,
       ...value,
-    } = this.taskForm.value;
+    } = this.taskForm.value as ApiTaskData & Task;
 
     this.store.dispatch({
       type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',

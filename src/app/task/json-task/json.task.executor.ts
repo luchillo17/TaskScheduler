@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { cloneDeep } from 'lodash'
 
 import { JsonTaskData } from './index';
 import { BaseTaskExecutor } from '../index';
@@ -16,7 +17,7 @@ export class JsonTaskExecutor implements BaseTaskExecutor {
     } = task.data as JsonTaskData;
     console.log('Json task data: ', task.data);
 
-    const newJson = UtilService.formatJson(data[from], format);
+    const newJson = UtilService.formatJson(data[from], cloneDeep(format));
 
     data.push(newJson)
 

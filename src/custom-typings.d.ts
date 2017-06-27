@@ -113,7 +113,7 @@ interface RXState {
 }
 
 interface MapFormat {
-  type?: 'array' | 'map'
+  type?: 'array' | 'map' | 'assign'
   from?: string
   to?: string
   defaultVal?: any

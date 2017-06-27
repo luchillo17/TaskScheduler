@@ -36,6 +36,9 @@
       (click)="openTaskScheduleDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
     <button pButton
       [disabled]="selectedTaskScheduleId === ''"
+      (click)="exportTaskSchedule()" type="button" icon="fa-download" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
+      [disabled]="selectedTaskScheduleId === ''"
       (click)="openTaskScheduleDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
     <button pButton
       [disabled]="selectedTaskScheduleId === ''"

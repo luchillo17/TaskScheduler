@@ -118,6 +118,25 @@ export class TaskListsComponent implements OnDestroy {
     taskExecButton.disabled = false
   }
 
+  public async exportTaskSchedule() {
+    const selectedTaskSchedule = this.taskSchedules
+      .find((taskSchedule) => taskSchedule.id === this.selectedTaskScheduleId)
+
+    const tasks = await this.store.select<Task[]>('tasks')
+      .map((taskItems) => taskItems.filter(task => task.taskScheduleId === selectedTaskSchedule.id))
+      .take(1)
+      .toPromise()
+
+    const anchor = document.createElement('a')
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
+      selectedTaskSchedule,
+      tasks,
+    }));
+    anchor.setAttribute('href', dataStr)
+    anchor.setAttribute('download', selectedTaskSchedule.name + '.json')
+    anchor.click()
+  }
+
   public setSelectedTaskSchedule(taskSchedule: TaskSchedule) {
     console.log('SetSelected: ', taskSchedule);
     this.store.dispatch({

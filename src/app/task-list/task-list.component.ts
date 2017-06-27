@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import {
   FormGroup,
@@ -93,7 +93,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
       return tasks;
     }
 
-    let filteredTaskSchedulesIds = taskSchedules
+    const filteredTaskSchedulesIds = taskSchedules
       .filter((taskSchedule) =>
         taskSchedule.id !== '' &&
         // Filter by selectedScheduleList if any selected
@@ -132,7 +132,7 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
       case 'DELETE':
         if (this.selectedTaskId === '') return;
 
-        let taskToDelete = this.tasks
+        const taskToDelete = this.tasks
           .find((task) => task.id === this.selectedTaskId)
 
         this.confirmDialogService.confirm({

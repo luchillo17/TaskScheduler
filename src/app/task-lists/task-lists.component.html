@@ -35,6 +35,8 @@
     <button pButton
       (click)="openTaskScheduleDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
     <button pButton
+      (click)="importTaskSchedule()" type="button" icon="fa-upload" class='ui-button-warning' iconPos="center"></button>
+    <button pButton
       [disabled]="selectedTaskScheduleId === ''"
       (click)="exportTaskSchedule()" type="button" icon="fa-download" class='ui-button-warning' iconPos="center"></button>
     <button pButton

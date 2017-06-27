@@ -118,6 +118,35 @@ export class TaskListsComponent implements OnDestroy {
     taskExecButton.disabled = false
   }
 
+  public importTaskSchedule() {
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.onchange = (event) => {
+      const fileName = input.files && input.files[0]
+      if (!fileName) return;
+      const reader = new FileReader()
+      reader.onload = (e: any) => {
+        const dataurl: string = e.target.result
+        const json = JSON.parse(atob(dataurl.split(',')[1]))
+        console.log('====================================');
+        console.log(json);
+        console.log('====================================');
+        this.store.dispatch({
+          type: 'UPDATE_TASK_SCHEDULE',
+          payload: json.selectedTaskSchedule,
+        });
+        for (const task of json.tasks) {
+          this.store.dispatch({
+            type: 'UPDATE_TASK',
+            payload: task,
+          });
+        }
+      }
+      reader.readAsDataURL(fileName)
+    }
+    input.click()
+  }
+
   public async exportTaskSchedule() {
     const selectedTaskSchedule = this.taskSchedules
       .find((taskSchedule) => taskSchedule.id === this.selectedTaskScheduleId)

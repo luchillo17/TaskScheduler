@@ -104,13 +104,7 @@
           pInputTextarea
           autoResize='true'
           formControlName='format'
-          [class.errors]='
-            format.hasError(
-              "required", ["touched", "dirty"]
-            ) ||
-            format.hasError(
-              "invalidJson",["touched", "dirty"]
-            )'
+          [class.errors]='format.hasError("*", ["touched", "dirty"])'
         ></textarea>
         <div
           #format='ngxErrors'

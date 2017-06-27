@@ -41,6 +41,8 @@ export class ApiTaskComponent
       value: apiMethod,
     }))
 
+    const defaultErrorFormat = JSON.stringify(ApiValidators.defaultErrorFormat, null, 2)
+
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
@@ -54,7 +56,10 @@ export class ApiTaskComponent
           dataFromMemory,
           requestData,
           requestPath,
+          errorFormat,
         } = (task.data || {}) as ApiTaskData;
+
+        const errorFormatString = JSON.stringify(errorFormat, null, 2)
 
         this.taskForm = formBuilder.group({
           id       : [task.id,   Validators.required],
@@ -72,6 +77,7 @@ export class ApiTaskComponent
           dataFromMemory: [dataFromMemory || false, Validators.required],
           requestPath   : [requestPath],
           requestData   : [requestData, ApiValidators.validateJson],
+          errorFormat   : [errorFormatString || defaultErrorFormat, ApiValidators.validateJson],
         }, {
           validator: ApiValidators.requestDataByMethod,
         });
@@ -97,8 +103,11 @@ export class ApiTaskComponent
       dataFromMemory,
       requestData,
       requestPath,
+      errorFormat: errorFormatString,
       ...value,
     } = this.taskForm.value as ApiTaskData & Task;
+
+    const errorFormat = errorFormatString ? JSON.parse(errorFormatString as any) as ErrorFormat : null
 
     this.store.dispatch({
       type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
@@ -116,6 +125,7 @@ export class ApiTaskComponent
           dataFromMemory,
           requestData,
           requestPath,
+          errorFormat: errorFormat || ApiValidators.defaultErrorFormat,
         } as ApiTaskData,
       },
     });

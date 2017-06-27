@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { Store } from '@ngrx/store'
+import { Observable } from 'rxjs'
 
-import { ApiTaskData } from './index';
-import { BaseTaskExecutor } from '../index';
+import { ApiTaskData } from './index'
+import { BaseTaskExecutor } from '../index'
 import {
   Http,
   // Headers,
-} from '@angular/http';
-import request = require('request-promise-native');
+} from '@angular/http'
+import request = require('request-promise-native')
+import requestDebug = require('request-debug')
+import { UtilService } from '../..';
+
+requestDebug(request)
 
 @Injectable()
 export class ApiTaskExecutor implements BaseTaskExecutor {
 
   constructor(
-    private http: Http
+    private http: Http,
   ) {}
 
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
@@ -27,6 +31,7 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
       dataFromMemory,
       requestPath,
       requestData,
+      errorFormat,
     } = task.data as ApiTaskData;
     console.log('Api task data: ', task.data);
     const headers = {
@@ -41,8 +46,8 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
       delete headers.authorization
     }
 
-    if (typeof body !== 'string') {
-      body = JSON.stringify(body)
+    if (typeof body === 'string') {
+      body = JSON.parse(body)
     }
 
     // Try Angular's http to overcome SOAP no-cors preflight issue
@@ -78,6 +83,10 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
         body
         // Todo revisar mensajes de error
     })
+
+    const error = UtilService.getError(response, errorFormat)
+
+    if (error !== undefined) { throw error; }
 
     data.push(response)
 

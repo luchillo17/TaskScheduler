@@ -12,6 +12,7 @@ export interface ApiTaskData {
   dataFromMemory: boolean;
   requestData?: JSON;
   requestPath?: string;
+  errorFormat?: ErrorFormat;
 }
 
 export const ApiTaskType: TaskType = {

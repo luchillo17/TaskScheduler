@@ -15,17 +15,7 @@ const taskDefaults: Task = {
   type: LogTaskType,
 };
 
-const initialTaskState: Task[] = [
-  {
-    id: '0',
-    name: 'Task 1',
-    order: 1,
-    active: true,
-    taskScheduleId: '2783fc70-2395-11e7-b013-756e75906f8b',
-
-    type: LogTaskType,
-  },
-];
+const initialTaskState: Task[] = [];
 
 export const currentTaskReducer: ActionReducer<Task> = (state = initialTaskState[0], action) => {
   switch (action.type) {

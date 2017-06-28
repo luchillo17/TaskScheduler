@@ -83,7 +83,7 @@ const initialScheduleListState: ScheduleList[] = [
 
 export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
   (state = initialScheduleListState, action) => {
-    let defaults = {
+    const defaults = {
       id: '',
       name: '',
       active: true,

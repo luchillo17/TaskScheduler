@@ -61,6 +61,14 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
       .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));
 
+    case 'DELETE_TASK_BY_TASK_SCHEDULE_ID':
+      if (!action.payload) return state;
+      return [
+          ...state.filter((scheduleList) => scheduleList.taskScheduleId !== action.payload),
+      ]
+      .sort((a, b) => a.order - b.order)
+      .map((task, index) => ({...task, order: index}));
+
     default:
       return state;
   }

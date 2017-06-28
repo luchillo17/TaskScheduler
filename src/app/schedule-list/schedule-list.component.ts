@@ -96,7 +96,7 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
     switch (type) {
       case 'UPDATE':
         if (this.selectedListId === '') return;
-        let selectedList = this.scheduleLists
+        const selectedList = this.scheduleLists
           .find((scheduleList) => scheduleList.id === this.selectedListId);
 
         this.listDialogForm.reset({
@@ -108,7 +108,7 @@ export class ScheduleListComponent implements AfterViewInit, OnDestroy {
       case 'DELETE':
         if (this.selectedListId === '') return;
 
-        let scheduleListToDelete = this.scheduleLists
+        const scheduleListToDelete = this.scheduleLists
           .find((scheduleList) => scheduleList.id === this.selectedListId);
 
         this.confirmDialogService.confirm({

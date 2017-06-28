@@ -229,6 +229,10 @@ export class TaskListsComponent implements OnDestroy {
           icon: 'fa fa-trash',
           accept: () => {
             this.store.dispatch({
+              type: 'DELETE_TASK_BY_TASK_SCHEDULE_ID',
+              payload: taskScheduleToDelete.id,
+            });
+            this.store.dispatch({
               type: 'DELETE_TASK_SCHEDULE',
               payload: taskScheduleToDelete,
             });

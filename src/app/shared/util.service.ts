@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, mapValues, mapKeys, pick, set, get } from 'lodash'
+import { map, mapValues, mapKeys, filter, pick, set, get } from 'lodash'
 
 export class UtilService {
 
@@ -79,6 +79,10 @@ export class UtilService {
         return obj
 
       case 'array':
+        if (formatObj.filterBy) {
+          objArg = filter(objArg, (item) =>
+            get(item, formatObj.filterBy.to) === formatObj.filterBy.value)
+        }
         obj = map(objArg, (item) => {
           return this.formatJson(item, formatObj.childrenArray)
         })

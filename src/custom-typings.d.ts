@@ -128,10 +128,16 @@ interface MapFormat {
   isPick?: boolean
 
   array?: MapFormat
+  filterBy?: FilterChild
   addChildren?: MapFormat[];
   removeChildren?: string | string[];
   children?: MapChild
   childrenArray?: MapFormat
+}
+
+interface FilterChild {
+  to: string
+  value: any
 }
 
 interface MapChild {

@@ -9,8 +9,8 @@ import { saveMailConfig } from '.';
 
 @Component({
   selector: 'mail-notification',
-  templateUrl: 'mail-notification.component.html',
-  styleUrls: ['mail-notification.component.scss'],
+  templateUrl: './mail-notification.component.html',
+  styleUrls: ['./mail-notification.component.scss'],
 })
 export class MailNotificationComponent implements OnDestroy {
 

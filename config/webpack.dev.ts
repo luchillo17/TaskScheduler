@@ -46,7 +46,7 @@ const HMR = hasProcessFlag('hot');
 
 // App Configuration ------------------------------------
 export let config = (options?): Configuration => {
-  return webpackMerge(commonConfig({ env: 'development' }), {
+  return webpackMerge(commonConfig({ env: ENV }), {
     devtool: 'cheap-module-source-map',
     output: {
       path: root('dist'),
@@ -100,7 +100,7 @@ export let config = (options?): Configuration => {
     },
     plugins: [
       new NormalModuleReplacementPlugin(/(.*)mail-notification\.service(.*)/, (resource) => {
-        let mailFileName = `mail-notification${ process.env.START_BROWSER ? '-mock' : '' }.service`
+        const mailFileName = `mail-notification${ process.env.START_BROWSER ? '-mock' : '' }.service`
         resource.request = resource.request.replace(/mail-notification\.service/, mailFileName)
       }),
       new LoaderOptionsPlugin({

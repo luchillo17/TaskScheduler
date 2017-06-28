@@ -47,57 +47,18 @@ const HMR = hasProcessFlag('hot');
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
 
-module.exports = function (env) {
-  return webpackMerge(commonConfig({
-    env: ENV
-  }), {
-
-    /**
-     * Developer tool to enhance debugging
-     *
-     * See: http://webpack.github.io/docs/configuration.html#devtool
-     * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
-     */
+export const config = (env): Configuration => {
+  return webpackMerge(commonConfig({ env: ENV }), {
     devtool: 'source-map',
-
-    /**
-     * Options affecting the output of the compilation.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#output
-     */
     output: {
-
-      /**
-       * The output directory as absolute path (required).
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-path
-       */
       path: root('dist'),
-
-      /**
-       * Specifies the name of each output file on disk.
-       * IMPORTANT: You must not specify an absolute path here!
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-filename
-       */
-      filename: '[name].[chunkhash].bundle.js',
-
-      /**
-       * The filename of the SourceMaps for the JavaScript files.
-       * They are inside the output.path directory.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-       */
-      sourceMapFilename: '[name].[chunkhash].bundle.map',
-
-      /**
-       * The filename of non-entry chunks as relative path
-       * inside the output.path directory.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-       */
-      chunkFilename: '[id].[chunkhash].chunk.js'
-
+      filename: '[name].bundle.js',
+      sourceMapFilename: '[name].map',
+      chunkFilename: '[id].chunk.js',
+      publicPath: 'dist/'
+      // filename: '[name].[chunkhash].bundle.js',
+      // sourceMapFilename: '[name].[chunkhash].bundle.map',
+      // chunkFilename: '[id].[chunkhash].chunk.js',
     },
 
     module: {
@@ -145,59 +106,19 @@ module.exports = function (env) {
       ]
 
     },
-
-    /**
-     * Add additional plugins to the compiler.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#plugins
-     */
     plugins: [
-
-      /**
-       * Webpack plugin to optimize a JavaScript file for faster initial load
-       * by wrapping eagerly-invoked functions.
-       *
-       * See: https://github.com/vigneshshanmugam/optimize-js-plugin
-       */
-
       new OptimizeJsPlugin({
         sourceMap: false
       }),
-
-      /**
-       * Plugin: ExtractTextPlugin
-       * Description: Extracts imported CSS files into external stylesheet
-       *
-       * See: https://github.com/webpack/extract-text-webpack-plugin
-       */
       new ExtractTextPlugin('[name].[contenthash].css'),
-
-      /**
-       * Plugin: DefinePlugin
-       * Description: Define free variables.
-       * Useful for having development builds with debug logging or adding global constants.
-       *
-       * Environment helpers
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-       */
-      // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
       new DefinePlugin({
-        'ENV': JSON.stringify(ENV),
         HMR,
+        IS_NODE: process.env.START_BROWSER ? true : false,
+        'ENV': JSON.stringify(ENV),
         'process.env.ENV': JSON.stringify(ENV),
         'process.env.NODE_ENV': JSON.stringify(ENV),
         'process.env.HMR': HMR,
       }),
-
-      /**
-       * Plugin: UglifyJsPlugin
-       * Description: Minimize all JavaScript output of chunks.
-       * Loaders are switched into minimizing mode.
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-       */
-      // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
       new UglifyJsPlugin({
         // beautify: true, //debug
         // mangle: false, //debug
@@ -212,14 +133,13 @@ module.exports = function (env) {
         // }, // debug
         // comments: true, //debug
 
-
-        beautify: false, //prod
+        beautify: false, // prod
         output: {
           comments: false
-        }, //prod
+        }, // prod
         mangle: {
           screw_ie8: true
-        }, //prod
+        }, // prod
         compress: {
           screw_ie8: true,
           warnings: false,
@@ -251,7 +171,6 @@ module.exports = function (env) {
         /zone\.js(\\|\/)dist(\\|\/)long-stack-trace-zone/,
         root('config/empty.js')
       ),
-
 
       // AoT
       // new NormalModuleReplacementPlugin(
@@ -338,6 +257,7 @@ module.exports = function (env) {
        */
 
     ],
+    target: process.env.START_BROWSER ? 'web' : 'electron-renderer',
 
     /*
      * Include polyfills or mocks for various node stuff
@@ -356,3 +276,5 @@ module.exports = function (env) {
 
   });
 }
+
+export default config

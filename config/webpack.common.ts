@@ -42,8 +42,8 @@ const METADATA = {
 };
 
 // App Configuration ------------------------------------
-export let config = (options): Configuration => {
-  let isProd = options.env === 'production';
+export const config = (options): Configuration => {
+  const isProd = options.env === 'production';
   return {
     entry: {
       polyfills: './src/polyfills.browser.ts',

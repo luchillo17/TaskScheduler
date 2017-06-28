@@ -7494,9 +7494,9 @@ webdriver-manager@^12.0.6:
     semver "^5.3.0"
     xml2js "^0.4.17"
 
-webpack-build-notifier@0.1.13:
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/webpack-build-notifier/-/webpack-build-notifier-0.1.13.tgz#fbd9de3d7041f00cba4e6d8c04b71e9e34dd78d2"
+webpack-build-notifier@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/webpack-build-notifier/-/webpack-build-notifier-0.1.14.tgz#455b3e693081b092b1582632e47b4c0fb0d44f69"
   dependencies:
     ansi-regex "^2.0.0"
     node-notifier "^4.1.0"
@@ -7610,7 +7610,7 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^2.6.1:
+webpack@2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.6.1.tgz#2e0457f0abb1ac5df3ab106c69c672f236785f07"
   dependencies:

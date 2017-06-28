@@ -2,7 +2,7 @@
   "name": "electron-webpack",
   "version": "2.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "main.js",
   "author": "Carlos Esteban Lopez Jaramillo",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "build:dev": "webpack --config config/webpack.dev.ts --progress --profile --colors",
     "build:main": "cross-env NODE_ENV=development webpack --config ./config/webpack.electron.ts --progress --profile --colors",
     "build": "npm-run-all -pr build:main build:dev",
-    "deploy:mac": " node_modules/.bin/electron-packager . TaskSchedule --out=./binary --platform=darwin --arch=x64 --overwrite",
+    "deploy:mac": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=darwin --arch=x64 --overwrite",
     "clean:dll": "npm run rimraf -- dll",
     "clean:aot": "npm run rimraf -- compiled",
     "clean:dist": "npm run rimraf -- 'dist/!(main.js|main.js.map)'",

@@ -14,7 +14,6 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 // Load the implementations that should be tested
-import { AppState } from '../app.service';
 import { ScheduleListComponent } from './schedule-list.component';
 
 describe(`Home`, () => {
@@ -36,7 +35,6 @@ describe(`Home`, () => {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
-        AppState,
       ]
     })
     .compileComponents(); // compile template and css
@@ -50,15 +48,15 @@ describe(`Home`, () => {
     fixture.detectChanges(); // trigger initial data binding
   });
 
-  it('should have default data', () => {
-    expect(comp.localState).toEqual({ value: '' });
-  });
+  // it('should have default data', () => {
+  //   expect(comp.localState).toEqual({ value: '' });
+  // });
 
   it('should log ngOnInit', () => {
     spyOn(console, 'log');
     expect(console.log).not.toHaveBeenCalled();
 
-    comp.ngOnInit();
+    comp.ngAfterViewInit();
     expect(console.log).toHaveBeenCalled();
   });
 

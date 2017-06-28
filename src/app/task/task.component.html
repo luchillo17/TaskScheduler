@@ -1,0 +1,13 @@
+<md-toolbar color="primary">
+  <div *ngIf="method === 'NEW';else editTaskTitle">
+    Crear tarea
+  </div>
+  <ng-template #editTaskTitle>
+    Editar tarea {{ name }}
+  </ng-template>
+
+</md-toolbar>
+
+<ng-container
+  *ngComponentOutlet="type && type.component"
+></ng-container>

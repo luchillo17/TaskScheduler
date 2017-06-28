@@ -1,0 +1,143 @@
+<p-panel>
+  <p-header>
+    {{taskName}}
+  </p-header>
+
+  <form
+    id='taskForm'
+    class='ui-g'
+    [formGroup]='taskForm'
+    (ngSubmit)='saveTask()'
+  >
+    <div class='ui-g-12'>
+      <div class="ui-g">
+        <label class='ui-g-4'>Id:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='id'
+          disabled
+        >
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-4'>Nombre:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='name'
+          [class.errors]='name.hasError("*",["touched", "dirty"])'
+        >
+        <div
+          #name='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='name'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de nombre es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+      <label class='ui-g-4'>Calendario de tareas:</label>
+
+        <p-dropdown
+          class='ui-g-8'
+          formControlName='taskScheduleId'
+          [filter]="true"
+          [options]="taskSchedules | async"
+          [class.errors]='taskScheduleId.hasError("*",["touched", "dirty"])'
+        ></p-dropdown>
+        <div
+          #taskScheduleId='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='taskScheduleId'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de calendario de tareas es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-4'>Posicion origen:</label>
+        <input class='ui-g-8'
+          type='number'
+          pInputText
+          formControlName='from'
+          [class.errors]='
+            from.hasError(
+              "required", ["touched", "dirty"]
+            )'
+        >
+        <div
+          #from='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='from'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de posicion origen es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-4'>Path propiedad a transformar:</label>
+        <input class='ui-g-8'
+          type='text'
+          pInputText
+          formControlName='path'
+          [class.errors]='
+            path.hasError(
+              "required", ["touched", "dirty"]
+            )'
+        >
+        <div
+          #path='ngxErrors'
+          class='ew-og-4 ui-g-8'
+          ngxErrors='path'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de path de propiedad a convertir es requerido
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='taskActions ui-g-12'>
+      <button pButton
+        label='Guardar'
+        type='submit'
+        icon='fa-check'
+        class='ui-button-success'
+        form='taskForm'>
+      </button>
+      <button pButton
+        label='Regresar a la lista'
+        type='button'
+        icon='fa-times'
+        class='ui-button-danger'
+        (click)="goBack()">
+      </button>
+    </div>
+  </form>
+
+</p-panel>
+

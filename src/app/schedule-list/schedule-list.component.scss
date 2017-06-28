@@ -1,25 +1,15 @@
-#schedule-list-container {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  justify-content: center;
-  align-content: stretch;
-  align-items: stretch;
+@import '../../styles/variables';
+
+:host {
+  flex: 1;
 }
-#schedule-list-panel, #schedule-queue-panel {
-  flex: 1 1 200px;
-}
-#schedule-list-panel {
-  md-list-item div {
-    padding-left: 10px;
-    // list-style-type: none;
+
+.schedule-list-container {
+  padding: 10px;
+  &.selected {
+    background: $selectedColor;
   }
-}
-
-#schedule-item-panel {
-  flex: 10 1 200px
-}
-
-#schedule-queue-panel {
-
+  &:hover {
+    background: $hoverColor;
+  }
 }

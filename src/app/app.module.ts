@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
@@ -13,11 +12,22 @@ import {
 } from '@angularclass/hmr';
 import {
   RouterModule,
-  PreloadAllModules
+  PreloadAllModules,
 } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {
+  Store,
+  StoreModule,
+  ActionReducer,
+  combineReducers,
+} from '@ngrx/store';
+import { compose } from '@ngrx/core/compose'
+import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/debounceTime';
 
@@ -30,13 +40,20 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import {
-  AppState,
   InternalStateType
 } from './app.service';
 
-import { ScheduleListComponent } from './schedule-list';
+import {
+  TaskModule,
+  SharedModule,
+
+  AppReducers,
+  ScheduleListComponent,
+  ScheduleComponent,
+  TaskListsComponent,
+  TaskListComponent,
+} from './';
 import { NoContentComponent } from './no-content';
-import { SharedModule } from './shared';
 
 import '../styles/core.scss';
 // import '../styles/headings.css';
@@ -44,14 +61,26 @@ import '../styles/core.scss';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
 ];
 
-type StoreType = {
-  state: InternalStateType,
+interface StoreType {
+  state: RXState,
   restoreInputValues: () => void,
   disposeOldHosts: () => void
 };
+
+/**
+ * Store reducers config
+ */
+export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state, action) =>
+    action.type === 'SET_ROOT_STATE' ? Object.assign({}, state, action.payload) : reducer(state, action)
+}
+
+export function rootReducer(state, action) {
+  const reducer = compose(stateSetter, combineReducers)(AppReducers)
+  return reducer(state, action)
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -60,12 +89,23 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
+    ScheduleComponent,
     ScheduleListComponent,
+    TaskListsComponent,
+    TaskListComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules
-    SharedModule,
+    BrowserModule,
+    SharedModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    StoreModule.provideStore(rootReducer),
+    RouterStoreModule.connectRouter(),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreLogMonitorModule,
+    BrowserAnimationsModule,
+
+    TaskModule.forRoot(),
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -85,7 +125,7 @@ export class AppModule {
     public appRef: ApplicationRef,
     public store: Store<any>,
   ) {
-    let state = localStorage.getItem('state');
+    const state = localStorage.getItem('state');
 
     if (state) {
       store.dispatch({
@@ -96,7 +136,7 @@ export class AppModule {
 
     this.storeSubscription = store
       .debounceTime(3500)
-      .subscribe((state) => localStorage.setItem('state', JSON.stringify(state)));
+      .subscribe(() => this.setStateToDB());
 
     // window.onbeforeunload = ($event) => {
     //   console.log('onBeforeUnload')
@@ -105,7 +145,7 @@ export class AppModule {
 
     // Save state before reload, close
     window.addEventListener('beforeunload', ($event) => {
-      this.setStateToDB()
+      this.setStateToDB();
     });
   }
 
@@ -115,7 +155,9 @@ export class AppModule {
 
   public setStateToDB() {
     this.store.take(1).subscribe((state) => {
-      localStorage.setItem('state', JSON.stringify(state));
+      if (state) {
+        localStorage.setItem('state', JSON.stringify(state));
+      }
     });
   }
 
@@ -123,7 +165,7 @@ export class AppModule {
     if (!store || !store.state) {
       return;
     }
-    console.log('HMR store', JSON.stringify(store, null, 2));
+    // console.log('HMR store', JSON.stringify(store, null, 2));
     // set state
     if (store.state) {
       this.store.dispatch({
@@ -133,8 +175,7 @@ export class AppModule {
     }
     // set input values
     if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
-      setTimeout(restoreInputValues);
+      setTimeout(store.restoreInputValues);
     }
 
     this.appRef.tick();

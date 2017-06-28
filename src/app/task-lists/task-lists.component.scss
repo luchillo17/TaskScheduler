@@ -1,0 +1,20 @@
+@import '../../styles/variables';
+
+:host {
+  flex: 1;
+}
+
+.task-schedule-container {
+  padding: 10px;
+  &.selected {
+    background: $selectedColor;
+  }
+  &:hover {
+    background: $hoverColor;
+  }
+  > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

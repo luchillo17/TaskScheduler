@@ -1,0 +1,43 @@
+{
+  orders {
+    c_order_id
+    created
+    documentno
+    description
+    number_key
+    document_uuid
+    user {
+      nameuser
+    }
+    customer {
+      value
+    }
+    seller {
+      value
+    }
+    location {
+      address
+      city {
+        name
+      }
+    }
+    orderLines {
+      product {
+        value
+      }
+      tax {
+        percentage
+      }
+      c_tax_id
+      quantity: qtyentered
+      price
+      discount
+      order {
+        fechaentrega
+        warehouse {
+          value
+        }
+      }
+    }
+  }
+}

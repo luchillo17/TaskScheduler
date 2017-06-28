@@ -68,11 +68,7 @@ export class Main {
 
   private static async installExtensions() {
     if (process.env.NODE_ENV === 'development') {
-      try {
 
-      } catch (error) {
-
-      }
       // tslint:disable-next-line global-require
       const installer = require('electron-devtools-installer');
 

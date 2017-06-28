@@ -1,10 +1,77 @@
-// @import '~primeui/themes/afterdark/theme';
-// @import '~primeui/primeui-ng-all.min';
+@import '~normalize.css/normalize';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-@import '~@angular/material/core/theming/prebuilt/indigo-pink';
+@import '~primeng/resources/themes/darkness/theme';
+@import '~primeng/resources/primeng.min.css';
+
+@import './grid-offsets';
+
 // @import '~@angular/material/core/theming/all-theme';
 // @include mat-core();
 // $primary: mat-palette($mat-orange, 800);
 // $accent: mat-palette($mat-light-blue, 600, A100, A400);
 // $theme: mat-light-theme($primary, $accent);
 // @include angular-material-theme($theme);
+
+* {
+  box-sizing: border-box;
+}
+
+html, body{
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+  Angular specific
+*/
+
+.errors {
+  border: 1px solid $stateErrorBorderColor!important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &+[ngxErrors] {
+    padding: 0;
+  }
+}
+
+.error {
+  color: $stateErrorTextColor;
+  background: $stateErrorBgColor;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/*
+  PrimeNG specific
+*/
+
+p-datalist,
+p-datalist > div
+{
+  display: flex!important;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: stretch;
+  justify-content: center;
+}
+
+p-datalist,
+p-datalist > div,
+p-datalist > div > .ui-datalist-content {
+  flex: 1;
+}
+
+p-datalist {
+  > div {
+    flex-direction: column;
+  }
+}
+
+/*
+  App specific
+*/
+.ui-dialog .ui-dialog-content { height: calc(100% - 38px - 65.8px); }

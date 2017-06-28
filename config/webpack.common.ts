@@ -42,8 +42,8 @@ const METADATA = {
 };
 
 // App Configuration ------------------------------------
-export let config = (options): Configuration => {
-  let isProd = options.env === 'production';
+export const config = (options): Configuration => {
+  const isProd = options.env === 'production';
   return {
     entry: {
       polyfills: './src/polyfills.browser.ts',
@@ -58,12 +58,22 @@ export let config = (options): Configuration => {
         {
           test: /\.ts$/,
           use: [
-            {
-              loader: '@angularclass/hmr-loader',
+            // {
+            //   loader: '@angularclass/hmr-loader',
+            //   options: {
+            //     pretty: !isProd,
+            //     prod: isProd
+            //   }
+            // },
+            /**
+             * Temporal fix for lazy loading not working,
+             * see https://github.com/angular/angular-cli/issues/4431
+             */
+            { // MAKE SURE TO CHAIN VANILLA JS CODE, I.E. TS COMPILATION OUTPUT.
+              loader: 'ng-router-loader',
               options: {
-                pretty: !isProd,
-                prod: isProd
-              }
+                aot: AOT,
+              },
             },
             '@ngtools/webpack',
           ],
@@ -110,7 +120,7 @@ export let config = (options): Configuration => {
         },
         {
           test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
-          use: 'file-loader'
+          use: 'url-loader?limit=100000'
         },
       ],
     },
@@ -130,7 +140,7 @@ export let config = (options): Configuration => {
       }),
       // This enables tree shaking of the vendor modules
       new CommonsChunkPlugin({
-        name: 'vendor',
+        name: ['vendor'],
         chunks: ['main'],
         minChunks: module => /node_modules/.test(module.resource)
       }),
@@ -143,7 +153,7 @@ export let config = (options): Configuration => {
         title: METADATA.title,
         metadata: METADATA,
         chunksSortMode: 'dependency',
-      }),
+      } as any),
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'defer'
       }),
@@ -170,7 +180,7 @@ export let config = (options): Configuration => {
       ),
       new AotPlugin({
         mainPath: root('src', 'main.browser.ts'),
-        tsConfigPath: "tsconfig.json",
+        tsConfigPath: 'tsconfig.json',
         skipCodeGeneration: !AOT,
       }),
       new WebpackBuildNotifier({

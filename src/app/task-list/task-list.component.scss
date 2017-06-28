@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+
+:host {
+  flex: 1;
+}
+
+.task-schedule-container {
+  padding: 10px;
+  &.selected {
+    background: $selectedColor;
+  }
+  &:hover {
+    background: $hoverColor;
+  }
+
+  #new-task-dialog /deep/ .ui-dialog-content {
+    overflow: visible;
+  }
+}

@@ -38,9 +38,9 @@ export class ScheduleService implements OnDestroy {
 
       // Get scheduleLists, filter them by active and remove the 'Show all' one.
       this.store
-        .select<ScheduleList[]>('scheduleLists')
-        .map(scheduleLists => scheduleLists.filter(scheduleList => scheduleList.id !== '' && scheduleList.active))
-        .map(scheduleLists => scheduleLists.map(scheduleList => scheduleList.id)),
+        .select<Folder[]>('folders')
+        .map(folders => folders.filter(folder => folder.id !== '' && folder.active))
+        .map(folders => folders.map(folder => folder.id)),
 
       // Get taskSchedules, filter them by active and remove the 'Show all' one.
       this.store
@@ -48,8 +48,8 @@ export class ScheduleService implements OnDestroy {
         .map((taskSchedules) => taskSchedules.filter((taskSchedule) => taskSchedule.id !== '' && taskSchedule.active)),
 
       // Filter all taskSchedules that are included in the actives scheduleLists
-      (scheduleListsIds, taskSchedules) => {
-        return taskSchedules.filter(taskSchedule => scheduleListsIds.includes(taskSchedule.scheduleListId))
+      (folderIds, taskSchedules) => {
+        return taskSchedules.filter(taskSchedule => folderIds.includes(taskSchedule.folderId))
       }
     )
       .subscribe((taskSchedules) => {

@@ -6,5 +6,5 @@ export * from './task';
 export * from './schedule';
 export * from './task-list';
 export * from './task-lists';
-export * from './schedule-list';
+export * from './folder';
 export * from './app.module';

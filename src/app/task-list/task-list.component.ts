@@ -84,10 +84,10 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
   public filterTasks(
     tasks: Task[],
     taskSchedules: TaskSchedule[],
-    { selectedScheduleList, selectedTaskSchedule }: ListsState
+    { selectedFolder, selectedTaskSchedule }: ListsState
   ) {
     if (
-      selectedScheduleList === '' &&
+      selectedFolder === '' &&
       selectedTaskSchedule === ''
     ) {
       return tasks;
@@ -98,8 +98,8 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
         taskSchedule.id !== '' &&
         // Filter by selectedScheduleList if any selected
         (
-          selectedScheduleList === '' ||
-          taskSchedule.scheduleListId === selectedScheduleList
+          selectedFolder === '' ||
+          taskSchedule.folderId === selectedFolder
         ) &&
         // Filter by selectedScheduleList if any selected
         (

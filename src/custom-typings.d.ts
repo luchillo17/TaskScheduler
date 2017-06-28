@@ -25,7 +25,7 @@ interface MailMessage {
 }
 
 interface ListsState {
-  selectedScheduleList: string;
+  selectedFolder: string;
   selectedTaskSchedule: string;
   selectedTask        : string;
 }
@@ -35,7 +35,7 @@ interface DialogState {
   type?: string;
 }
 
-interface ScheduleList {
+interface Folder {
   id: string;
   name: String;
   active?: Boolean;
@@ -43,13 +43,13 @@ interface ScheduleList {
 }
 
 interface ScheduleListFilter {
-  (scheduleLists: ScheduleList[]): ScheduleList[];
+  (scheduleLists: Folder[]): Folder[];
 }
 
 interface TaskSchedule {
   id: string;
   name: string;
-  scheduleListId: string;
+  folderId: string;
   useDateRange: boolean;
   start?: Date;
   end?: Date;
@@ -105,7 +105,7 @@ interface RXState {
   listsState   : ListsState;
   currentTask  : Task;
   TaskSchedules: TaskSchedule[];
-  scheduleLists: ScheduleList[];
+  scheduleLists: Folder[];
 
   taskDialogState: DialogState
   listDialogState: DialogState;

@@ -29,7 +29,7 @@ import { CustomTaskListsValidators } from '.';
 export class TaskListsComponent implements OnDestroy {
   @HostBinding('id') private id = 'task-lists-panel';
 
-  @ViewChild('taskScheduleListAutocomplete') private taskScheduleListAutocomplete: AutoComplete;
+  @ViewChild('taskFolderAutocomplete') private taskFolderAutocomplete: AutoComplete;
 
   private taskSchedules$: Subscription;
   private selectedTaskSchedule$: Subscription;
@@ -39,7 +39,7 @@ export class TaskListsComponent implements OnDestroy {
 
   public taskScheduleDialogState: DialogState = { show: false, type: 'NEW' };
 
-  public scheduleLists: Observable<ScheduleList[]>;
+  public folders: Observable<Folder[]>;
   public taskSchedules: TaskSchedule[] = [];
 
   // NewListDialog
@@ -54,7 +54,7 @@ export class TaskListsComponent implements OnDestroy {
     this.taskScheduleForm = this.fb.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
-      scheduleList: [null, [
+      folder: [null, [
         Validators.required,
         CustomTaskListsValidators.ScheduleListDropdownValidator
       ]],
@@ -75,20 +75,20 @@ export class TaskListsComponent implements OnDestroy {
 
     // global['taskScheduleForm'] = this.taskScheduleForm
 
-    this.scheduleLists = this.store
-      .select<ScheduleList[]>('scheduleLists')
-      .map((scheduleLists) => {
-        return scheduleLists.filter((scheduleList) => scheduleList.id !== '');
+    this.folders = this.store
+      .select<Folder[]>('folders')
+      .map((folders) => {
+        return folders.filter((folder) => folder.id !== '');
       });
 
     this.taskSchedules$ = Observable.combineLatest(
       this.store.select<TaskSchedule[]>('taskSchedules'),
       this.store.select<ListsState>('listsState'),
-      (taskSchedules, { selectedScheduleList }) => {
+      (taskSchedules, { selectedFolder }) => {
         return taskSchedules.filter((taskSchedule) => {
-          return selectedScheduleList === '' ||
+          return selectedFolder === '' ||
             taskSchedule.id === '' ||
-            taskSchedule.scheduleListId === selectedScheduleList;
+            taskSchedule.folderId === selectedFolder;
         });
       })
       .subscribe((taskSchedules) => {
@@ -128,9 +128,6 @@ export class TaskListsComponent implements OnDestroy {
       reader.onload = (e: any) => {
         const dataurl: string = e.target.result
         const json = JSON.parse(atob(dataurl.split(',')[1]))
-        console.log('====================================');
-        console.log(json);
-        console.log('====================================');
         this.store.dispatch({
           type: 'UPDATE_TASK_SCHEDULE',
           payload: json.selectedTaskSchedule,
@@ -177,7 +174,7 @@ export class TaskListsComponent implements OnDestroy {
   public toggleTaskScheduleDialog(isShow: boolean) {
     this.taskScheduleForm.reset({
       id: uuidV1(),
-      scheduleList: null,
+      folder: null,
       name: '',
       active: true,
       useDateRange: false,
@@ -191,17 +188,17 @@ export class TaskListsComponent implements OnDestroy {
     switch (type) {
       case 'UPDATE':
         if (this.selectedTaskScheduleId === '') return;
-        // Extract scheduleListId of selectedTaskSchedule
-        const { scheduleListId, ...selectedTaskSchedule} = this.taskSchedules
+        // Extract folderId of selectedTaskSchedule
+        const { folderId, ...selectedTaskSchedule} = this.taskSchedules
           .find((taskList) => taskList.id === this.selectedTaskScheduleId);
 
         this.store
-          .select<ScheduleList[]>('scheduleLists')
+          .select<Folder[]>('folders')
           .take(1)
-          .subscribe((scheduleLists) => {
+          .subscribe((folders) => {
             // Get taskScheduleList object and assign it to the selectedTaskSchedule
-            const taskScheduleList = scheduleLists.find((scheduleList) => scheduleList.id === scheduleListId);
-            selectedTaskSchedule['scheduleList'] = taskScheduleList || null;
+            const taskFolder = folders.find((folder) => folder.id === folderId);
+            selectedTaskSchedule['folder'] = taskFolder || null;
 
             // Parse start & end dates to JS Date type
             const [start, end] = [new Date(selectedTaskSchedule.start), new Date(selectedTaskSchedule.end)]
@@ -248,10 +245,10 @@ export class TaskListsComponent implements OnDestroy {
 
         this.taskScheduleForm.reset({
           id: uuidV1(),
-          scheduleListId: null,
+          folderId: null,
           name: '',
           active: true,
-          scheduleList: null,
+          folder: null,
           useDateRange: true,
           start: currentDate,
           end: currentDate,
@@ -281,8 +278,8 @@ export class TaskListsComponent implements OnDestroy {
           return;
         }
         formValue = this.taskScheduleForm.value;
-        formValue.scheduleListId = formValue.scheduleList.id;
-        delete formValue.scheduleList;
+        formValue.folderId = formValue.folder.id;
+        delete formValue.folder;
 
         this.store.dispatch({
           type: 'UPDATE_TASK_SCHEDULE',
@@ -297,8 +294,8 @@ export class TaskListsComponent implements OnDestroy {
           return;
         }
         formValue = this.taskScheduleForm.value;
-        formValue.scheduleListId = formValue.scheduleList.id;
-        delete formValue.scheduleList;
+        formValue.folderId = formValue.folder.id;
+        delete formValue.folder;
 
         this.store.dispatch({
           type: 'ADD_TASK_SCHEDULE',
@@ -314,7 +311,7 @@ export class TaskListsComponent implements OnDestroy {
         type: 'FILTER_SCHEDULE_LIST_BY_NAME',
         payload: $event.query,
       });
-      this.taskScheduleListAutocomplete.show();
+      this.taskFolderAutocomplete.show();
     });
   }
   public handleDropdownClick($event) {
@@ -322,7 +319,7 @@ export class TaskListsComponent implements OnDestroy {
       this.store.dispatch({
         type: 'FILTER_SCHEDULE_LIST_NONE',
       });
-      this.taskScheduleListAutocomplete.show();
+      this.taskFolderAutocomplete.show();
     });
   }
 }

@@ -73,3 +73,5 @@ dll/
 *.shim.ngstyle.ts
 
 src/app/task/api-task/basic-api-request\.txt
+
+binary

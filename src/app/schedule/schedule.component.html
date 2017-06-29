@@ -1,14 +1,19 @@
 <md-toolbar color="primary">
   Calendarios y tareas
-  <a [routerLink]="[ '/mailConfig' ]">
-    Configuracion email
-  </a>
+  <button pButton
+    type="button"
+    icon="fa-envelope"
+    label="Configuración email"
+    iconPos="left"
+    class='ui-button-info'
+    (click)="router.navigate(['/mailConfig'])"
+  ></button>
 </md-toolbar>
 
 <div id="schedule-list-container">
-  <schedule-list></schedule-list>
+  <folder></folder>
 
-  <task-lists></task-lists>
+  <task-schedule></task-schedule>
 
   <task-list></task-list>
 </div>

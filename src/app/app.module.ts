@@ -48,9 +48,9 @@ import {
   SharedModule,
 
   AppReducers,
-  ScheduleListComponent,
+  FolderComponent,
   ScheduleComponent,
-  TaskListsComponent,
+  TaskScheduleComponent,
   TaskListComponent,
 } from './';
 import { NoContentComponent } from './no-content';
@@ -90,8 +90,8 @@ export function rootReducer(state, action) {
   declarations: [
     AppComponent,
     ScheduleComponent,
-    ScheduleListComponent,
-    TaskListsComponent,
+    FolderComponent,
+    TaskScheduleComponent,
     TaskListComponent,
     NoContentComponent,
   ],

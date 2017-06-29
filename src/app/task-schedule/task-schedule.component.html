@@ -73,30 +73,30 @@
     <div class="ui-g-12">
       <label class="ui-g-4">Lista calendario:</label>
       <p-autoComplete
-        #taskScheduleListAutocomplete
+        #taskFolderAutocomplete
         class="ui-g-8"
-        formControlName='scheduleList'
+        formControlName='folder'
         placeholder="Empiece a escribir para buscar"
         field="name"
         [size]="10"
         [minLength]="1"
         [dropdown]="true"
         [autoHighlight]="true"
-        [suggestions]="scheduleLists | async"
+        [suggestions]="folders | async"
         (completeMethod)="filterLists($event)"
         (onDropdownClick)="handleDropdownClick($event)"
       ></p-autoComplete>
         <!--[readonly]="true"-->
       <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
         *ngIf="
-          taskScheduleForm.controls['scheduleList'].invalid &&
-          taskScheduleForm.controls['scheduleList'].dirty
+          taskScheduleForm.controls['folder'].invalid &&
+          taskScheduleForm.controls['folder'].dirty
         ">
-        <div *ngIf="taskScheduleForm.controls['scheduleList'].hasError('required');">
+        <div *ngIf="taskScheduleForm.controls['folder'].hasError('required');">
           <i class="fa fa-close"></i>
           Lista de calendario es requerido
         </div>
-        <div *ngIf="taskScheduleForm.controls['scheduleList'].hasError('selection')">
+        <div *ngIf="taskScheduleForm.controls['folder'].hasError('selection')">
           <i class="fa fa-close"></i>
           Debe seleccionar una lista de las opciones de la lista desplegable
         </div>

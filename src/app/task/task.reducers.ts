@@ -15,17 +15,7 @@ const taskDefaults: Task = {
   type: LogTaskType,
 };
 
-const initialTaskState: Task[] = [
-  {
-    id: '0',
-    name: 'Task 1',
-    order: 1,
-    active: true,
-    taskScheduleId: '2783fc70-2395-11e7-b013-756e75906f8b',
-
-    type: LogTaskType,
-  },
-];
+const initialTaskState: Task[] = [];
 
 export const currentTaskReducer: ActionReducer<Task> = (state = initialTaskState[0], action) => {
   switch (action.type) {
@@ -67,6 +57,14 @@ export const tasksReducer: ActionReducer<Task[]> = (state = initialTaskState, ac
       selectedTask = action.payload
       return [
           ...state.filter((scheduleList) => scheduleList.id !== selectedTask.id),
+      ]
+      .sort((a, b) => a.order - b.order)
+      .map((task, index) => ({...task, order: index}));
+
+    case 'DELETE_TASK_BY_TASK_SCHEDULE_ID':
+      if (!action.payload) return state;
+      return [
+          ...state.filter((scheduleList) => scheduleList.taskScheduleId !== action.payload),
       ]
       .sort((a, b) => a.order - b.order)
       .map((task, index) => ({...task, order: index}));

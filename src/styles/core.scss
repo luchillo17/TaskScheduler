@@ -68,6 +68,7 @@ p-datalist > div > .ui-datalist-content {
 p-datalist {
   > div {
     flex-direction: column;
+    overflow-y: auto;
   }
 }
 

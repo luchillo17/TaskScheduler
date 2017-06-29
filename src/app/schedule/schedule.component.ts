@@ -7,13 +7,17 @@ import {
 import { Store } from '@ngrx/store';
 
 import { v1 as uuidV1 } from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'schedule',
-  providers: [
-  ],
+  providers: [],
   styleUrls: [ './schedule.component.scss' ],
   templateUrl: './schedule.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class ScheduleComponent {}
+export class ScheduleComponent {
+  constructor(
+    public router: Router,
+  ) {}
+}

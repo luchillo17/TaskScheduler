@@ -1,5 +1,5 @@
-// @flow
-import { app, BrowserWindow } from 'electron';
+import { app, Tray, BrowserWindow } from 'electron';
+import path = require('path')
 
 if (process.env.NODE_ENV === 'production') {
   // tslint:disable-next-line
@@ -10,13 +10,13 @@ if (process.env.NODE_ENV === 'production') {
 if (process.env.NODE_ENV === 'development') {
   // tslint:disable
   require('electron-debug')(); // global-require
-  const path = require('path');
   const p = path.join(__dirname, '..', 'node_modules');
   require('module').globalPaths.push(p);
   // tslint:enable
 }
 
 export class Main {
+  private static tray: Electron.Tray;
   private static application: Electron.App;
   private static browserWindow: Electron.BrowserWindow;
 
@@ -34,24 +34,46 @@ export class Main {
     try {
       await Main.installExtensions();
 
+      const iconPath = path.resolve(__dirname, 'TaskScheduleIcon.png')
+
       Main.browserWindow = new BrowserWindow({
         show: false,
         width: 1024,
-        height: 728
+        height: 728,
+        icon: iconPath,
       });
 
-      Main.browserWindow.loadURL(mainBrowserUrl);
+      Main.browserWindow.loadURL(mainBrowserUrl)
 
-      Main.browserWindow.webContents.on('did-finish-load', Main.onWindowDidFinishLoad);
-      Main.browserWindow.on('closed', Main.onWindowClosed);
+      Main.browserWindow.webContents.on('did-finish-load', Main.onWindowDidFinishLoad)
+      Main.browserWindow.on('minimize', Main.onMinimized)
+      Main.browserWindow.on('closed', Main.onWindowClosed)
+
+      this.tray = new Tray(iconPath)
+      this.tray.setToolTip('TaskScheduler, double click to show')
+
+      if (process.platform === 'linux') {
+        this.tray.on('click', Main.onTrayClick)
+      } else {
+        this.tray.on('double-click', Main.onTrayClick)
+      }
     } catch (error) {
       console.error('OnReady error: ', error);
     }
   }
 
+  private static onTrayClick(event: Event) {
+    Main.browserWindow.show()
+  }
+
   private static onWindowAllClosed() {
     if (process.platform !== 'darwin')
-      Main.application.quit();
+      Main.application.quit()
+  }
+
+  private static onMinimized(event: Event) {
+    event.preventDefault()
+    Main.browserWindow.hide()
   }
 
   private static onWindowDidFinishLoad() {
@@ -63,7 +85,7 @@ export class Main {
   }
 
   private static onWindowClosed() {
-    Main.browserWindow = null;
+    Main.application.quit()
   }
 
   private static async installExtensions() {

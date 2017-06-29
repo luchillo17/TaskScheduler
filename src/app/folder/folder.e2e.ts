@@ -8,18 +8,18 @@ describe('App', () => {
   });
 
   it('should have a title', (done) => {
-    let subject = browser.getTitle()
+    const subject = browser.getTitle()
       .then((title) => {
-        let result  = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
+        const result  = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
         expect(title).toEqual(result);
         done();
       });
   });
 
   it('should have `your content here` x-large', () => {
-    let subject = element(by.css('[x-large]')).getText()
+    const subject = element(by.css('[x-large]')).getText()
       .then((text) => {
-        let result  = 'Your Content Here';
+        const result  = 'Your Content Here';
         expect(text).toEqual(result);
       });
   });

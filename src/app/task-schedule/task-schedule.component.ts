@@ -20,14 +20,14 @@ import { ScheduleService } from '../shared';
 import { CustomTaskListsValidators } from '.';
 
 @Component({
-  selector: 'task-lists',
+  selector: 'task-schedule',
 
-  styleUrls: [ './task-lists.component.scss' ],
-  templateUrl: './task-lists.component.html',
+  styleUrls: [ './task-schedule.component.scss' ],
+  templateUrl: './task-schedule.component.html',
   // encapsulation: ViewEncapsulation.None,
 })
-export class TaskListsComponent implements OnDestroy {
-  @HostBinding('id') private id = 'task-lists-panel';
+export class TaskScheduleComponent implements OnDestroy {
+  @HostBinding('id') private id = 'task-schedule-panel';
 
   @ViewChild('taskFolderAutocomplete') private taskFolderAutocomplete: AutoComplete;
 

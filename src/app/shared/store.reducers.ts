@@ -15,7 +15,7 @@ import {
 import {
   taskSchedulesReducer,
   taskScheduleDialogStateReducer
-} from '../task-lists';
+} from '../task-schedule';
 
 import { mailConfigReducer } from '../mail-notification';
 

@@ -50,7 +50,7 @@ import {
   AppReducers,
   FolderComponent,
   ScheduleComponent,
-  TaskListsComponent,
+  TaskScheduleComponent,
   TaskListComponent,
 } from './';
 import { NoContentComponent } from './no-content';
@@ -91,7 +91,7 @@ export function rootReducer(state, action) {
     AppComponent,
     ScheduleComponent,
     FolderComponent,
-    TaskListsComponent,
+    TaskScheduleComponent,
     TaskListComponent,
     NoContentComponent,
   ],

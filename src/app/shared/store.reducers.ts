@@ -15,7 +15,7 @@ import {
 import {
   taskSchedulesReducer,
   taskScheduleDialogStateReducer
-} from '../task-lists';
+} from '../task-schedule';
 
 import { mailConfigReducer } from '../mail-notification';
 
@@ -23,7 +23,7 @@ import { mailConfigReducer } from '../mail-notification';
  * ScheduleList reducers
  */
 const initialListsState: ListsState = {
-  selectedScheduleList: '',
+  selectedFolder: '',
   selectedTaskSchedule: '',
   selectedTask: '',
 };
@@ -32,14 +32,14 @@ export const listsStateReducer: ActionReducer<ListsState> = (state = initialList
   switch (action.type) {
     case 'SHOW_ALL':
       return Object.assign({}, state, {
-        selectedScheduleList: '',
+        selectedFolder: '',
         selectedTaskSchedule: '',
         selectedTask: '',
       } as ListsState);
 
     case 'SHOW_LIST':
       return Object.assign({}, state, {
-        selectedScheduleList: action.payload,
+        selectedFolder: action.payload,
         selectedTaskSchedule: '',
         selectedTask: '',
       } as ListsState);
@@ -60,10 +60,10 @@ export const listsStateReducer: ActionReducer<ListsState> = (state = initialList
   }
 };
 
-const initialListDialogState = { show: false, type: 'NEW' };
+const initialFolderDialogState = { show: false, type: 'NEW' };
 
-export const listDialogStateReducer: ActionReducer<DialogState> =
-  (state = initialListDialogState, action) => {
+export const folderDialogStateReducer: ActionReducer<DialogState> =
+  (state = initialFolderDialogState, action) => {
     switch (action.type) {
       case 'SHOW_LIST_DIALOG':
         return Object.assign({}, state, { show: true, type: action.payload, });
@@ -74,23 +74,23 @@ export const listDialogStateReducer: ActionReducer<DialogState> =
     }
   };
 
-const initialScheduleListState: ScheduleList[] = [
+const initialFolderState: Folder[] = [
   {
     id: '',
     name: 'Mostrar todas',
   }
 ];
 
-export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
-  (state = initialScheduleListState, action) => {
+export const foldersReducer: ActionReducer<Folder[]> =
+  (state = initialFolderState, action) => {
     const defaults = {
       id: '',
       name: '',
       active: true,
       taskScheduleIds: [],
-    } as ScheduleList;
+    } as Folder;
 
-    let selectedScheduleList: ScheduleList;
+    let selectedFolder: Folder;
 
     switch (action.type) {
       case 'ADD_LIST':
@@ -99,15 +99,15 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
             Object.assign({}, defaults, action.payload),
         ];
       case 'UPDATE_LIST':
-        selectedScheduleList = action.payload;
+        selectedFolder = action.payload;
         return [
-            ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
-            selectedScheduleList,
+            ...state.filter((scheduleList) => scheduleList.id !== selectedFolder.id),
+            selectedFolder,
         ];
       case 'DELETE_LIST':
-        selectedScheduleList = action.payload;
+        selectedFolder = action.payload;
         return [
-            ...state.filter((scheduleList) => scheduleList.id !== selectedScheduleList.id),
+            ...state.filter((scheduleList) => scheduleList.id !== selectedFolder.id),
         ];
 
       default:
@@ -118,8 +118,8 @@ export const scheduleListsReducer: ActionReducer<ScheduleList[]> =
 export const AppReducers = {
   listsState     : listsStateReducer,
 
-  scheduleLists  : scheduleListsReducer,
-  listDialogState: listDialogStateReducer,
+  folders  : foldersReducer,
+  folderDialogState: folderDialogStateReducer,
 
   taskSchedules          : taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,

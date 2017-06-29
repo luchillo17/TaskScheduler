@@ -3,19 +3,17 @@
  */
 import {
   Component,
-  OnInit,
-  ViewEncapsulation
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import {
   ScheduleService,
   WebNotificationService,
-} from "./shared";
+} from './shared';
 
 import {
   MailNotificationService,
-} from "./shared/mail-notification-service";
+} from './shared/mail-notification-service';
 
 /*
  * App Component
@@ -33,7 +31,7 @@ import {
     <p-confirmDialog></p-confirmDialog>
   `
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
 
@@ -43,10 +41,6 @@ export class AppComponent implements OnInit {
     private mailService: MailNotificationService,
   ) {
   }
-
-  public ngOnInit() {
-  }
-
 }
 
 /*

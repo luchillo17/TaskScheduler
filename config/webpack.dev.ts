@@ -163,9 +163,6 @@ export let config = (options?): Configuration => {
       },
       // publicPath: '/',
       async setup() {
-        console.log('====================================');
-        console.log('Start hot: ', process.env.START_HOT);
-        console.log('====================================');
         if (process.env.START_HOT) {
           await delay(3000);
           spawn('npm', ['run', 'start-hot'], {

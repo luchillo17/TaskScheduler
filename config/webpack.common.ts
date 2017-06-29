@@ -13,12 +13,12 @@ import {
 // Plugins
 import { AotPlugin } from '@ngtools/webpack';
 import { CheckerPlugin } from 'awesome-typescript-loader';
-import * as WebpackBuildNotifier from 'webpack-build-notifier';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
-import * as CommonsChunkPlugin from 'webpack/lib/optimize/CommonsChunkPlugin';
-import * as NormalModuleReplacementPlugin from 'webpack/lib/NormalModuleReplacementPlugin';
-
+import HtmlWebpackPlugin = require('html-webpack-plugin');
+import CopyWebpackPlugin = require('copy-webpack-plugin')
+import CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+import WebpackBuildNotifier = require('webpack-build-notifier');
+import ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+import NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 // Custom imports
 import {
   root,
@@ -36,7 +36,7 @@ const HMR = hasProcessFlag('hot');
 const AOT = hasNpmFlag('aot');
 
 const METADATA = {
-  title: 'Electron webpack',
+  title: 'Calendario de tareas',
   // baseUrl: './',
   isDevServer: isWebpackDevServer()
 };
@@ -126,6 +126,9 @@ export const config = (options): Configuration => {
     },
     plugins: [
       new CheckerPlugin(),
+      new CopyWebpackPlugin([
+        { from: 'src/styles/images', to: 'dist/images'}
+      ]),
       new LoaderOptionsPlugin({
         options: {
           context: root('src'),

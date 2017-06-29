@@ -25,7 +25,7 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
   const defaults = {
     id: '',
     name: '',
-    scheduleListId: '',
+    folderId: '',
     useDateRange: false,
     minute: '*',
     hour: '*',
@@ -56,10 +56,10 @@ export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = init
       return [
           ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskScedule.id),
       ];
-    case 'DELETE_TASK_SCHEDULES_BY_SCHEDULE_LIST_ID':
+    case 'DELETE_TASK_SCHEDULES_BY_FOLDER_ID':
       if (!action.payload) return state;
       return [
-          ...state.filter((taskSchedule) => taskSchedule.scheduleListId !== action.payload),
+          ...state.filter((taskSchedule) => taskSchedule.folderId !== action.payload),
       ];
 
     default:

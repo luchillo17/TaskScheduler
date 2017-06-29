@@ -1,52 +1,52 @@
-<p-dataList [value]='scheduleLists'>
-  <p-header>Lista calendarios</p-header>
+<p-dataList [value]='folders'>
+  <p-header>Carpeta</p-header>
   <ng-template
-    let-scheduleList
+    let-folder
     let-i='index'
     pTemplate="item"
   >
     <div
-      class="schedule-list-container"
-      [ngClass]="{selected: selectedListId === scheduleList.id}"
-      (click)='setSelectedList(scheduleList)'
+      class="folder-container"
+      [ngClass]="{selected: selectedFolderId === folder.id}"
+      (click)='setSelectedFolder(folder)'
     >
-      <div *ngIf="scheduleList.id !== ''; else showAll">
+      <div *ngIf="folder.id !== ''; else showAll">
         <div class="name">
-          <b>Nombre:</b> {{ scheduleList.name }}
+          <b>Nombre:</b> {{ folder.name }}
         </div>
-        <div class="isListActive">
-          <b>Activo:</b> {{ scheduleList.active }}
+        <div class="isFolderActive">
+          <b>Activo:</b> {{ folder.active }}
         </div>
       </div>
       <ng-template #showAll>
         <div class="name">
-          <b>{{ scheduleList.name }}</b>
+          <b>{{ folder.name }}</b>
         </div>
       </ng-template>
     </div>
   </ng-template>
   <p-footer>
     <button pButton
-      (click)="openListDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
+      (click)="openFolderDialog('NEW')"    type="button" icon="fa-plus" class='ui-button-success' iconPos="left"></button>
     <button pButton
-      [disabled]="selectedListId === ''"
-      (click)="openListDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
+      [disabled]="selectedFolderId === ''"
+      (click)="openFolderDialog('UPDATE')" type="button" icon="fa-edit" class='ui-button-warning' iconPos="center"></button>
     <button pButton
-      [disabled]="selectedListId === ''"
-      (click)="openListDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
+      [disabled]="selectedFolderId === ''"
+      (click)="openFolderDialog('DELETE')" type="button" icon="fa-trash" class='ui-button-danger' iconPos="right"></button>
   </p-footer>
 </p-dataList>
 
 <!-- NewListDialog from here down-->
 <p-dialog
   appendTo='body'
-  [header]="listDialogState.type == 'NEW' ? 'Nueva lista de calendarios' : 'Editar lista de calendarios'"
+  [header]="folderDialogState.type == 'NEW' ? 'Nueva carpeta' : 'Editar carpeta'"
   [modal]='true'
   [closable]='true'
   [dismissableMask]='false'
-  [visible]="listDialogState.show && listDialogState.type !== 'DELETE'"
-  (visibleChange)="toggleListDialog($event)">
-  <form class="ui-g" [formGroup]='listDialogForm'>
+  [visible]="folderDialogState.show && folderDialogState.type !== 'DELETE'"
+  (visibleChange)="toggleFolderDialog($event)">
+  <form class="ui-g" [formGroup]='folderDialogForm'>
     <div class="ui-g-12">
       <label class="ui-g-4">Id:</label>
       <input
@@ -67,15 +67,15 @@
       >
       <div class="ui-g-12 ui-message ui-messages-error ui-corner-all"
         *ngIf="
-          listDialogForm.controls['name'].invalid &&
-          listDialogForm.controls['name'].dirty
+          folderDialogForm.controls['name'].invalid &&
+          folderDialogForm.controls['name'].dirty
         "
       >
-        <div *ngIf="listDialogForm.controls['name'].hasError('required'); else listNameErrorLength">
+        <div *ngIf="folderDialogForm.controls['name'].hasError('required'); else folderNameErrorLength">
           <i class="fa fa-close"></i>
           Nombre es requerido
         </div>
-        <ng-template #listNameErrorLength>
+        <ng-template #folderNameErrorLength>
           <i class="fa fa-close"></i>
           Nombre minimo 4 caracteres
         </ng-template>
@@ -97,15 +97,15 @@
         type="button"
         icon='fa-times'
         class="ui-button-danger"
-        (click)="toggleListDialog(false)"
+        (click)="toggleFolderDialog(false)"
       ></button>
       <button pButton
         label='Guardar'
         type="button"
         icon='fa-check'
         class="ui-button-success"
-        [disabled]="listDialogForm.invalid"
-        (click)="saveListDialog()"
+        [disabled]="folderDialogForm.invalid"
+        (click)="saveFolderDialog()"
       ></button>
     </div>
   </p-footer>

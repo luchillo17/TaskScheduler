@@ -11,7 +11,8 @@ import {
 
 // Plugins
 import { CheckerPlugin } from 'awesome-typescript-loader';
-import * as WebpackBuildNotifier from 'webpack-build-notifier';
+import CopyWebpackPlugin = require('copy-webpack-plugin')
+import WebpackBuildNotifier = require('webpack-build-notifier');
 
 // Custom imports
 import {
@@ -60,6 +61,9 @@ export let config: Configuration = {
         '`http://localhost:3000/index.html`' :
         '`file://${__dirname}/index.html`',
     }),
+    new CopyWebpackPlugin([
+      { from: 'src/TaskScheduleIcon.png', to: '.'}
+    ]),
     new LoaderOptionsPlugin({}),
     new WebpackBuildNotifier({
       title: 'Electron Main',

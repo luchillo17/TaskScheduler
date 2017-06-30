@@ -41,13 +41,13 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
 
     let body = dataFromMemory ? data[requestPath] : requestData
 
+    if (typeof body === 'string') {
+      body = JSON.parse(body)
+    }
+
     if (authInBody) {
       body[authPath] = authorization
       delete headers.authorization
-    }
-
-    if (typeof body === 'string') {
-      body = JSON.parse(body)
     }
 
     // Try Angular's http to overcome SOAP no-cors preflight issue

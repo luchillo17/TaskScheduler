@@ -113,15 +113,21 @@ interface RXState {
 }
 
 interface ErrorFormat {
-  type: 'hasProperty' | 'hasValue' | 'array'
+  type: 'hasProperty' | 'hasValue' | 'lacksValue' | 'array' | 'map'
   to?: string
   value?: any
-  returnValue?: any
-  children?: ErrorFormat[]
+  mapSelf?: boolean
+  returnValue?: any | undefined
+  children?: ErrorChild
+  childrenArray?: ErrorFormat
+}
+
+interface ErrorChild{
+  [key: string]: ErrorFormat
 }
 
 interface MapFormat {
-  type?: 'array' | 'map' | 'assign'
+  type?: 'array' | 'map' | 'assign' | 'parse'
   from?: string
   to?: string
   defaultVal?: any

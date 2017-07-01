@@ -18,26 +18,53 @@ export class UtilService {
     let error;
     switch (formatObj.type) {
       case 'hasProperty':
-        error = get(response, formatObj.to) ? response : undefined
-        return formatObj.returnValue || error
+        error = get(response, formatObj.to) !== undefined ? response : undefined
+        return this.getErrorReturnValue(error, formatObj.returnValue)
 
       case 'hasValue':
         error = get(response, formatObj.to) === formatObj.value ? response : undefined
-        return error === undefined ? error : formatObj.returnValue
+        return this.getErrorReturnValue(error, formatObj.returnValue)
+
+      case 'lacksValue':
+        error = get(response, formatObj.to) !== formatObj.value ? response : undefined
+        return this.getErrorReturnValue(error, formatObj.returnValue)
+
+      case 'map':
+        for (const [key, format] of Object.entries(formatObj.children)) {
+          const objValue = formatObj.mapSelf ? response : get(response, key)
+          const errorItem = this.getError(objValue, format)
+          if (errorItem !== undefined) {
+            return format.returnValue !== undefined ? errorItem : response
+          }
+        }
+        return;
 
       case 'array':
-        for (const item of formatObj.children) {
-          error = this.getError(response, item)
-          if (error !== undefined) return error
-        }
+        const errors = filter(response, (item) => {
+          return this.getError(item, formatObj.childrenArray)
+        })
+        return errors.length !== 0 ? errors : undefined
+
       default:
         return;
     }
   }
 
+  public static getErrorReturnValue(error, returnValue) {
+    return returnValue !== undefined ? returnValue : error
+  }
+
   public static formatJson(objArg: any, formatObj: MapFormat) {
     let obj
+    if (!formatObj) {
+      return objArg;
+    }
     switch (formatObj.type) {
+      case 'parse':
+        objArg = JSON.parse(objArg);
+        const type = objArg instanceof Array ? 'array' : 'map'
+        return this.formatJson(objArg, {...formatObj, type})
+
       case 'assign':
         obj = {}
         set(obj, formatObj.to, objArg)
@@ -82,6 +109,9 @@ export class UtilService {
         if (formatObj.filterBy) {
           objArg = filter(objArg, (item) =>
             get(item, formatObj.filterBy.to) === formatObj.filterBy.value)
+        }
+        if (!formatObj.childrenArray) {
+          return objArg
         }
         obj = map(objArg, (item) => {
           return this.formatJson(item, formatObj.childrenArray)

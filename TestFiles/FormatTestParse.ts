@@ -1,16 +1,25 @@
 import 'reflect-metadata';
 import { UtilService } from '../src/app/shared/util.service';
-import xmljs = require('xml-js')
 
-const a = `[{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117075,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1420952400000)\/","Valor_Fact":1717728.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117468,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1426050000000)\/","Valor_Fact":244992.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":116582,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1415941200000)\/","Valor_Fact":2596080.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117340,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1424926800000)\/","Valor_Fact":975096.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117341,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1424926800000)\/","Valor_Fact":949344.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":116986,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1420088400000)\/","Valor_Fact":1653000.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":33449254,"Cod_Sucursal":"!10545","Numero_Fact":119140,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1443157200000)\/","Valor_Fact":9920.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":13541134},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":116836,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1418878800000)\/","Valor_Fact":787872.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117465,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1426050000000)\/","Valor_Fact":122496.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":33449254,"Cod_Sucursal":"!10545","Numero_Fact":118423,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1435813200000)\/","Valor_Fact":85098.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":13541134}]`
+const a = `[{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":116581,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1415941200000)\/","Valor_Fact":1741392.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117076,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1420952400000)\/","Valor_Fact":450312.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117140,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1421816400000)\/","Valor_Fact":1273680.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831}]`
 
 const format: MapFormat = {
-  type: 'parse'
+  type: 'parse',
+  childrenArray: {
+    type: 'map',
+    isPick: true,
+    children: {
+      Abono: { to: 'payment' },
+      Numero_Fact: { to: 'documentno' },
+      Valor_Fact: { to: 'total' },
+      Fecha_Fact: { to: 'date_invoice' },
+      Fecha_venc: { to: 'due_date' },
+      NIT: { to: 'customer.value' },
+      Cedula_Vendedor: { to: 'seller.value' },
+      Cod_Sucursal: { to: 'location.code' },
+    },
+  },
 }
-
+// JSON.stringify(format)/*?*/
 const result = UtilService.formatJson(a, format)
 JSON.stringify(result, null, 2)/*?*/
-// const xml = xmljs.js2xml(result, {
-//   compact: true,
-// })
-// console.log(xml)

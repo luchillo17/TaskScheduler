@@ -20,6 +20,23 @@ const format: MapFormat = {
     },
   },
 }
-// JSON.stringify(format)/*?*/
-const result = UtilService.formatJson(a, format)
-JSON.stringify(result, null, 2)/*?*/
+
+const format2: MapFormat = {
+  to: 'pendingInvoices',
+  type: 'assign',
+  addChildren: [{
+    to: 'query',
+    defaultVal: `mutation ($pendingInvoices: [addPendingInvoicesArgs]) {
+      addPendingInvoices(pendingInvoices: $pendingInvoices) { c_pending_invoice_id }
+    }`,
+  }],
+  children: {
+    pendingInvoices: {
+      to: 'variables.pendingInvoices'
+    }
+  }
+}
+JSON.stringify(format2)/*?*/
+const result = UtilService.formatJson(a, format)/*?*/
+const result2 = UtilService.formatJson(result, format2)/*?*/
+JSON.stringify(result2, null, 2)/*?*/

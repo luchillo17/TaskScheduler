@@ -51,7 +51,7 @@ export class UtilService {
   }
 
   public static getErrorReturnValue(error, returnValue) {
-    return returnValue !== undefined ? returnValue : error
+    return error !== undefined && returnValue !== undefined ? returnValue : error
   }
 
   public static formatJson(objArg: any, formatObj: MapFormat) {

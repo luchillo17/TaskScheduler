@@ -4,8 +4,8 @@ export * from './schedule-data.task'
 import { ScheduleDataTaskComponent, ScheduleDataTaskExecutor } from '.';
 
 export interface ScheduleDataTaskData {
-  text: string;
-  logTasksData: boolean;
+  path: string;
+  getDataFromScheduleId: boolean;
 }
 
 export const ScheduleDataTaskType: TaskType = {

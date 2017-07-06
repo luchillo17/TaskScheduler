@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
 
-import { BaseTaskComponent } from '..';
+import { BaseTaskComponent, ScheduleDataTaskData } from '..';
 
 @Component({
   selector: 'schedule-data-task',
@@ -36,15 +36,15 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        const {text, logTasksData} = task.data || {} as any;
+        const {path, getDataFromScheduleId} = (task.data || {}) as ScheduleDataTaskData;
         this.taskForm = formBuilder.group({
           id:   [task.id,    Validators.required],
           name: [task.name,  Validators.required],
           taskScheduleId: [task.taskScheduleId, Validators.required],
 
           // Log task specific
-          text: [text || '', Validators.required],
-          logTasksData: [logTasksData || false, Validators.required],
+          path: [path],
+          getDataFromScheduleId: [getDataFromScheduleId, Validators.required],
         });
       });
   }
@@ -56,7 +56,7 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
 
     this.goBack()
     const { crudMethod, ...currentTask } = this.currentTask;
-    const { text, logTasksData, ...value } = this.taskForm.value;
+    const { path, getDataFromScheduleId, ...value } = this.taskForm.value as Task & ScheduleDataTaskData;
     this.store.dispatch({
       type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
@@ -65,8 +65,8 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
 
         // Log task specific
         data: {
-          text,
-          logTasksData,
+          path,
+          getDataFromScheduleId
         }
       },
     });

@@ -34,7 +34,7 @@ export class ApiTaskComponent
   ) {
     super(store, router)
 
-    global['apitask'] = this
+    global['apiTask'] = this
 
     this.apiMethods = ['GET', 'POST'].map((apiMethod) => ({
       label: apiMethod,

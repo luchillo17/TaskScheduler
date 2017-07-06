@@ -1,5 +1,6 @@
 // App
 export * from './no-content';
+export * from './drag-n-drop';
 export * from './shared';
 export * from './mail-notification';
 export * from './task';

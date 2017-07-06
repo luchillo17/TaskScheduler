@@ -7,6 +7,9 @@
   >
     <div
       class="task-schedule-container"
+      NgDroppable
+      (ngDrop)='onNgDrop($event, task)'
+      [ngDraggable]='task'
       [ngClass]="{selected: selectedTaskId === task.id}"
       (click)='setSelectedTask(task)'
     >

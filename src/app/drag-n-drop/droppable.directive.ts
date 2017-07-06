@@ -41,6 +41,9 @@ export class DroppableDirective {
   @HostListener('drop', ['$event'])
   private ondrop(event: DragEvent) {
     event.stopPropagation()
+    this.border = undefined
+    this.setPointerEvents(true)
+
     const data = event.dataTransfer.getData('Text')
     if (data === 'undefined') {
       return;
@@ -59,7 +62,7 @@ export class DroppableDirective {
 
   /**
    * This fix issue with mouse triggering `dragleave` event on hover over child
-   * HTMLElements, should be called on `dragenter` and `dragleave`
+   * HTMLElements, should be called on `dragenter`, `dragleave` and `drop`
    *
    * @private
    * @param {boolean} [shouldAdd] Decides if child nodes should receive the pointerEvents 'auto' or 'none'

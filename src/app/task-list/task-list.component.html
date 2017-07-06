@@ -7,7 +7,7 @@
   >
     <div
       class="task-schedule-container"
-      NgDroppable
+      ngDroppable
       (ngDrop)='onNgDrop($event, task)'
       [ngDraggable]='task'
       [ngClass]="{selected: selectedTaskId === task.id}"

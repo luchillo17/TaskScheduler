@@ -1,7 +1,16 @@
-import { Directive, Output, EventEmitter, HostListener, HostBinding, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import {
+  Directive,
+  Output,
+  EventEmitter,
+  HostListener,
+  HostBinding,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+} from '@angular/core';
 
 @Directive({
-  selector: '[NgDroppable]',
+  selector: '[ngDroppable]',
 })
 export class DroppableDirective {
   @ViewChildren('div') private children: QueryList<HTMLDivElement>;

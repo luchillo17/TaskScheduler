@@ -21,46 +21,64 @@ const initialTaskScheduleState: TaskSchedule[] = [
   } as TaskSchedule,
 ];
 
-export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = initialTaskScheduleState, action) => {
-  const defaults = {
-    id: '',
-    name: '',
-    folderId: '',
-    useDateRange: false,
-    minute: '*',
-    hour: '*',
-    dayOfMonth: '*',
-    month: '*',
-    dayOfWeek: '*',
-    active: true,
-    mailNotify: false,
-    mailAddress: '',
-  } as TaskSchedule;
+const taskScheduleDefaults = {
+  id: '',
+  name: '',
+  folderId: '',
+  useDateRange: false,
+  minute: '*',
+  hour: '*',
+  dayOfMonth: '*',
+  month: '*',
+  dayOfWeek: '*',
+  active: true,
+  mailNotify: false,
+  mailAddress: '',
+} as TaskSchedule;
 
-  let selectedTaskScedule: TaskSchedule;
+export const taskSchedulesReducer: ActionReducer<TaskSchedule[]> = (state = initialTaskScheduleState, action) => {
+
+  let selectedTaskSchedule: TaskSchedule;
 
   switch (action.type) {
     case 'ADD_TASK_SCHEDULE':
       return [
           ...state,
-          Object.assign({}, defaults, action.payload),
+          Object.assign({}, taskScheduleDefaults, action.payload),
       ];
     case 'UPDATE_TASK_SCHEDULE':
-      selectedTaskScedule = action.payload
+      selectedTaskSchedule = action.payload
       return [
-          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskScedule.id),
-          selectedTaskScedule,
+          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskSchedule.id),
+          selectedTaskSchedule,
       ];
     case 'DELETE_TASK_SCHEDULE':
-      selectedTaskScedule = action.payload
+      selectedTaskSchedule = action.payload
       return [
-          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskScedule.id),
+          ...state.filter((taskSchedule) => taskSchedule.id !== selectedTaskSchedule.id),
       ];
     case 'DELETE_TASK_SCHEDULES_BY_FOLDER_ID':
       if (!action.payload) return state;
       return [
           ...state.filter((taskSchedule) => taskSchedule.folderId !== action.payload),
       ];
+
+    default:
+      return state;
+  }
+}
+
+export const taskSchedulesExecutedAtReducer: ActionReducer<TaskSchedulesExecutedState> = (state = {}, action) => {
+  switch (action.type) {
+    case 'RESET_TASK_SCHEDULE_EXECUTED_AT':
+     return {}
+
+    case 'SET_TASK_SCHEDULE_EXECUTED_AT':
+      const { id } = action.payload;
+      return {
+        ...state,
+        [id]: action.payload,
+      }
 
     default:
       return state;

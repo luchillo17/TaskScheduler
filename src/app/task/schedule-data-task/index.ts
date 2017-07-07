@@ -5,7 +5,6 @@ import { ScheduleDataTaskComponent, ScheduleDataTaskExecutor } from '.';
 
 export interface ScheduleDataTaskData {
   path: string;
-  getDataFromScheduleId: boolean;
 }
 
 export const ScheduleDataTaskType: TaskType = {

@@ -36,7 +36,7 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
-        const {path, getDataFromScheduleId} = (task.data || {}) as ScheduleDataTaskData;
+        const {path} = (task.data || {}) as ScheduleDataTaskData;
         this.taskForm = formBuilder.group({
           id:   [task.id,    Validators.required],
           name: [task.name,  Validators.required],
@@ -55,7 +55,7 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
 
     this.goBack()
     const { crudMethod, ...currentTask } = this.currentTask;
-    const { path, getDataFromScheduleId, ...value } = this.taskForm.value as Task & ScheduleDataTaskData;
+    const { path, ...value } = this.taskForm.value as Task & ScheduleDataTaskData;
     this.store.dispatch({
       type: crudMethod === 'NEW' ? 'ADD_TASK' : 'UPDATE_TASK',
       payload: {
@@ -65,7 +65,6 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
         // Log task specific
         data: {
           path,
-          getDataFromScheduleId
         }
       },
     });

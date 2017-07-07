@@ -68,6 +68,15 @@ interface TaskSchedule {
   job?: any;
 }
 
+interface TaskSchedulesExecutedState {
+  [key: string]: TaskScheduleExecutedAt;
+}
+
+interface TaskScheduleExecutedAt {
+  id: string;
+  executedAt: Date;
+}
+
 type CrudMethod = 'NEW' | 'UPDATE';
 type Direction = 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
 
@@ -104,8 +113,9 @@ interface RXState {
   tasks        : Task[];
   listsState   : ListsState;
   currentTask  : Task;
-  TaskSchedules: TaskSchedule[];
+  taskSchedules: TaskSchedule[];
   scheduleLists: Folder[];
+  taskSchedulesExecutedState: TaskSchedulesExecutedState;
 
   taskDialogState: DialogState
   listDialogState: DialogState;

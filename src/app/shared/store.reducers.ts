@@ -14,7 +14,8 @@ import {
 
 import {
   taskSchedulesReducer,
-  taskScheduleDialogStateReducer
+  taskSchedulesExecutedAtReducer,
+  taskScheduleDialogStateReducer,
 } from '../task-schedule';
 
 import { mailConfigReducer } from '../mail-notification';
@@ -116,13 +117,14 @@ export const foldersReducer: ActionReducer<Folder[]> =
   };
 
 export const AppReducers = {
-  listsState     : listsStateReducer,
+  listsState: listsStateReducer,
 
   folders  : foldersReducer,
   folderDialogState: folderDialogStateReducer,
 
   taskSchedules          : taskSchedulesReducer,
   taskScheduleDialogState: taskScheduleDialogStateReducer,
+  taskSchedulesExecutedState: taskSchedulesExecutedAtReducer,
 
   taskDialogState: taskDialogStateReducer,
 

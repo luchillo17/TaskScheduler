@@ -14,8 +14,6 @@ export class ScheduleDataTaskExecutor implements BaseTaskExecutor {
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
     const {path, getDataFromScheduleId} = task.data as ScheduleDataTaskData;
 
-    if (!getDataFromScheduleId) return;
-
     const taskSchedule = await this.store.select<TaskSchedule[]>('taskSchedules')
       .map((taskSchedules) => taskSchedules
         .find((taskScheduleItem) => taskScheduleItem.id === task.taskScheduleId
@@ -24,6 +22,9 @@ export class ScheduleDataTaskExecutor implements BaseTaskExecutor {
       .toPromise()
 
     const taskData = path ? get(taskSchedule, path) : taskSchedule
+
     data.push(taskData)
+
+    console.log('TaskSchedule data: ', taskData);
   }
 }

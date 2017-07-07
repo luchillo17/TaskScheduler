@@ -44,7 +44,6 @@ export class ScheduleDataTaskComponent extends BaseTaskComponent {
 
           // Log task specific
           path: [path],
-          getDataFromScheduleId: [getDataFromScheduleId, Validators.required],
         });
       });
   }

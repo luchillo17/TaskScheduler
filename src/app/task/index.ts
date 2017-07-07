@@ -5,12 +5,14 @@ export * from './log-task'
 export * from './api-task'
 export * from './json-task'
 export * from './json-xml-task'
+export * from './schedule-data-task'
 
 import {
   LogTaskType,
   ApiTaskType,
   JsonTaskType,
   JsonXmlTaskType,
+  ScheduleDataTaskType,
 } from '.';
 
 export const tasksTypes: TaskType[] = [
@@ -18,6 +20,7 @@ export const tasksTypes: TaskType[] = [
   ApiTaskType,
   JsonTaskType,
   JsonXmlTaskType,
+  ScheduleDataTaskType,
 ];
 
 // This ones are fixed

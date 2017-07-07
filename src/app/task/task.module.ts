@@ -9,11 +9,13 @@ import {
   ApiTaskExecutor,
   JsonTaskExecutor,
   JsonXmlTaskExecutor,
+  ScheduleDataTaskExecutor,
 
   LogTaskComponent,
   ApiTaskComponent,
   JsonTaskComponent,
   JsonXmlTaskComponent,
+  ScheduleDataTaskComponent,
 } from '.';
 
 @NgModule({
@@ -28,12 +30,14 @@ import {
     JsonTaskComponent,
     JsonXmlTaskComponent,
     TaskSelectorComponent,
+    ScheduleDataTaskComponent,
   ],
   entryComponents: [
     LogTaskComponent,
     ApiTaskComponent,
     JsonTaskComponent,
     JsonXmlTaskComponent,
+    ScheduleDataTaskComponent,
   ],
   providers: [],
 })
@@ -46,6 +50,7 @@ export class TaskModule {
         ApiTaskExecutor,
         JsonTaskExecutor,
         JsonXmlTaskExecutor,
+        ScheduleDataTaskExecutor,
       ],
     };
   }

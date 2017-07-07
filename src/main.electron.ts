@@ -1,18 +1,16 @@
 import { app, Tray, BrowserWindow } from 'electron';
 import path = require('path')
 
+// tslint:disable
+require('electron-debug')(); // global-require
+const p = path.join(__dirname, '..', 'node_modules');
+require('module').globalPaths.push(p);
+// tslint:enable
+
 if (process.env.NODE_ENV === 'production') {
   // tslint:disable-next-line
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
-}
-
-if (process.env.NODE_ENV === 'development') {
-  // tslint:disable
-  require('electron-debug')(); // global-require
-  const p = path.join(__dirname, '..', 'node_modules');
-  require('module').globalPaths.push(p);
-  // tslint:enable
 }
 
 export class Main {
@@ -80,7 +78,9 @@ export class Main {
     if (!Main.browserWindow) {
       throw new Error('"browserWindow" is not defined');
     }
-    Main.browserWindow.show();
+    if (process.env.NODE_ENV === 'development') {
+      Main.browserWindow.show();
+    }
     Main.browserWindow.focus();
   }
 

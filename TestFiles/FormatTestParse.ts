@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { UtilService } from '../src/app/shared/util.service';
 
-const a = `[{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":116581,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1415941200000)\/","Valor_Fact":1741392.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117076,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1420952400000)\/","Valor_Fact":450312.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831},{"NIT":891100024,"Cod_Sucursal":"!12019","Numero_Fact":117140,"Fecha_Fact":"\/Date(1451538000000)\/","Fecha_venc":"\/Date(1421816400000)\/","Valor_Fact":1273680.00,"Abono":0.00000000000000000000,"k_sc_codigo_fuente":"S3","sc_nombre_fuente":"SALDOS INICIALES C X C","Cedula_Vendedor":79237831}]`
+const a = `[{"sc_tipo_dcto":"NIT","n_nit":10766527,"sc_nombre":"JAIRO ANDRES USME  BUELVAS","ss_nombre1":"JAIRO","ss_nombre2":"ANDRES","ss_apellido1":"USME ","ss_apellido2":"BUELVAS","ka_nl_tipo_cliente":100,"sc_tipo_tercero":"Persona Natural"},{"sc_tipo_dcto":"NIT","n_nit":800004599,"sc_nombre":"COMERCIALIZADORA MARDEN LTDA.","ss_nombre1":null,"ss_nombre2":null,"ss_apellido1":null,"ss_apellido2":null,"ka_nl_tipo_cliente":120,"sc_tipo_tercero":"Regimen Comun"}]`
 
 const format: MapFormat = {
   type: 'parse',
@@ -9,20 +9,20 @@ const format: MapFormat = {
     type: 'map',
     isPick: true,
     children: {
-      Abono: { to: 'payment' },
-      Numero_Fact: { to: 'documentno' },
-      Valor_Fact: { to: 'total' },
-      Fecha_Fact: { to: 'date_invoice' },
-      Fecha_venc: { to: 'due_date' },
-      NIT: { to: 'customer.value' },
-      Cedula_Vendedor: { to: 'seller.value' },
-      Cod_Sucursal: { to: 'location.code' },
+      sc_tipo_dcto: { to: 'document.name' },
+      n_nit: { to: ['value', 'where.value'] },
+      sc_nombre: { to: 'name' },
+      ss_nombre1: { to: 'firstname1' },
+      ss_nombre2: { to: 'firstname2' },
+      ss_apellido1: { to: 'lastname1' },
+      ss_apellido2: { to: 'lastname2' },
+      sc_tipo_tercero: { to: 'regimen' },
     },
   },
 }
 
 const format2: MapFormat = {
-  to: 'pendingInvoices',
+  to: 'customers',
   type: 'assign',
   addChildren: [{
     to: 'query',
@@ -31,12 +31,13 @@ const format2: MapFormat = {
     }`,
   }],
   children: {
-    pendingInvoices: {
-      to: 'variables.pendingInvoices'
+    customers: {
+      to: 'variables.customers'
     }
   }
 }
-JSON.stringify(format2)/*?*/
+// JSON.stringify(format)/*?*/
+// JSON.stringify(format2)/*?*/
 const result = UtilService.formatJson(a, format)/*?*/
 const result2 = UtilService.formatJson(result, format2)/*?*/
 JSON.stringify(result2, null, 2)/*?*/

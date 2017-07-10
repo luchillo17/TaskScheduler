@@ -139,7 +139,7 @@ interface ErrorChild{
 interface MapFormat {
   type?: 'array' | 'map' | 'assign' | 'parse'
   from?: string
-  to?: string
+  to?: string | string[]
   defaultVal?: any
   isPick?: boolean
 

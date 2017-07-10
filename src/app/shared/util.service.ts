@@ -84,7 +84,13 @@ export class UtilService {
           if (child && child.to) {
             const defaultVal = child.defaultVal === 0 ? 0 : ''
             const newValue = !value && value !== 0 ? defaultVal : value
-            set(obj, child.to, newValue)
+            if (child.to instanceof Array) {
+              for (const path of child.to) {
+                set(obj, path, newValue)
+              }
+            } else {
+              set(obj, child.to, newValue)
+            }
             delete obj[key]
           }
         }

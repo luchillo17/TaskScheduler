@@ -6,6 +6,7 @@ import { JsonTaskComponent, JsonTaskExecutor } from '.';
 export interface JsonTaskData {
   from: number
   format: MapFormat
+  errorFormat: ErrorFormat
 }
 
 export const JsonTaskType: TaskType = {

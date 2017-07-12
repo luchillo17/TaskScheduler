@@ -12,9 +12,8 @@ export class UtilService {
   }
 
   public static getError(response, formatObj: ErrorFormat) {
-    if (!formatObj || !response) {
-      return false
-    }
+    if (!formatObj) { return; }
+    if (!response) { return false }
     let error;
     switch (formatObj.type) {
       case 'hasProperty':

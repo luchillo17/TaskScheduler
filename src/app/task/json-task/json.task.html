@@ -122,6 +122,33 @@
       </div>
     </div>
 
+    <div class='ui-g-12'>
+      <div class="ui-g">
+
+        <label class='ui-g-12'>Formato Errores (Json):</label>
+        <textarea class='ui-g-12'
+          type='text'
+          pInputTextarea
+          autoResize='true'
+          formControlName='errorFormat'
+          [class.errors]='errorFormat.hasError("*", ["touched", "dirty"])'
+        ></textarea>
+        <div
+          #errorFormat='ngxErrors'
+          class='ui-g-12'
+          ngxErrors='errorFormat'
+        >
+          <div class='error' ngxError='required' [when]='["touched", "dirty"]'>
+            El campo de datos de formato de errores o json es requerido
+          </div>
+          <div class='error' ngxError='invalidJson' [when]='["touched", "dirty"]'>
+            El campo de datos de formato de errores o json es invalido, recuerde que debe ser un objeto Json valido.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class='taskActions ui-g-12'>
       <button pButton
         label='Guardar'

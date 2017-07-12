@@ -80,7 +80,10 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
         simple: false,
         method,
         headers,
-        body
+        body,
+        transform(responseBody) {
+          return JSON.parse(responseBody)
+        },
         // Todo revisar mensajes de error
     })
 

@@ -82,7 +82,7 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
         headers,
         body,
         transform(responseBody) {
-          return JSON.parse(responseBody)
+          return typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody
         },
         // Todo revisar mensajes de error
     })

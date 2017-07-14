@@ -3,19 +3,20 @@ import { TaskFormValidators } from '../task.validators';
 
 export class ApiValidators extends TaskFormValidators {
   public static defaultErrorFormat: ErrorFormat = {
-    type: 'array',
-    children: [
-      {
+    type: 'map',
+    mapSelf: true,
+    children: {
+      errors: {
         type: 'hasProperty',
         to: 'errors',
       },
-      {
+      data: {
         type: 'hasValue',
         to: 'data.orders.length',
         value: 0,
         returnValue: false,
       }
-    ],
+    },
   }
 
   public static requestDataByMethod(group: FormGroup): { [key: string]: any} {

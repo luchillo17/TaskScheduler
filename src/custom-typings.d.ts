@@ -68,6 +68,15 @@ interface TaskSchedule {
   job?: any;
 }
 
+interface TaskSchedulesExecutedState {
+  [key: string]: TaskScheduleExecutedAt;
+}
+
+interface TaskScheduleExecutedAt {
+  id: string;
+  executedAt: Date;
+}
+
 type CrudMethod = 'NEW' | 'UPDATE';
 type Direction = 'FROM_MEMORY' | 'TO_MEMORY' | 'MEMORY_TO_MEMORY';
 
@@ -104,8 +113,9 @@ interface RXState {
   tasks        : Task[];
   listsState   : ListsState;
   currentTask  : Task;
-  TaskSchedules: TaskSchedule[];
+  taskSchedules: TaskSchedule[];
   scheduleLists: Folder[];
+  taskSchedulesExecutedState: TaskSchedulesExecutedState;
 
   taskDialogState: DialogState
   listDialogState: DialogState;
@@ -113,17 +123,23 @@ interface RXState {
 }
 
 interface ErrorFormat {
-  type: 'hasProperty' | 'hasValue' | 'array'
+  type: 'hasProperty' | 'hasValue' | 'lacksValue' | 'array' | 'map'
   to?: string
   value?: any
-  returnValue?: any
-  children?: ErrorFormat[]
+  mapSelf?: boolean
+  returnValue?: any | undefined
+  children?: ErrorChild
+  childrenArray?: ErrorFormat
+}
+
+interface ErrorChild{
+  [key: string]: ErrorFormat
 }
 
 interface MapFormat {
-  type?: 'array' | 'map' | 'assign'
+  type?: 'array' | 'map' | 'assign' | 'parse'
   from?: string
-  to?: string
+  to?: string | string[]
   defaultVal?: any
   isPick?: boolean
 

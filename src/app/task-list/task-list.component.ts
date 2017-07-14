@@ -81,6 +81,18 @@ export class TaskListComponent implements AfterViewInit, OnDestroy {
     this.taskDialogState$ && this.taskDialogState$.unsubscribe();
   }
 
+  public onNgDrop(source: Task, target: Task) {
+    if (source.id === target.id) return;
+    const offset = source.order > target.order ? -0.5 : 0.5
+    this.store.dispatch({
+      type: 'UPDATE_TASK',
+      payload: {
+        ...source,
+        order: target.order + offset,
+      } as Task
+    })
+  }
+
   public filterTasks(
     tasks: Task[],
     taskSchedules: TaskSchedule[],

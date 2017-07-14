@@ -14,10 +14,16 @@ export class JsonTaskExecutor implements BaseTaskExecutor {
     const {
       from,
       format,
+      errorFormat,
     } = task.data as JsonTaskData;
-    console.log('Json task data: ', task.data);
 
     const newJson = UtilService.formatJson(data[from], cloneDeep(format));
+
+    console.log('Json task data: ', task.data, newJson);
+
+    const error = UtilService.getError(newJson, errorFormat)
+
+    if (error !== undefined) { throw error; }
 
     data.push(newJson)
 

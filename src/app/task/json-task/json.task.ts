@@ -11,6 +11,7 @@ import { BaseTaskComponent, JsonTaskData } from '..';
 import { Observable, Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/primeng';
 import { TaskFormValidators } from '../task.validators';
+import { JSONValidators } from './json.validators';
 
 @Component({
   selector: 'json-task',
@@ -35,16 +36,20 @@ export class JsonTaskComponent
 
     global['jsonTask'] = this
 
+    const defaultErrorFormat = JSON.stringify(JSONValidators.defaultErrorFormat, null, 2)
+
     this.currentTaskSub = store
       .select<Task>('currentTask')
       .subscribe((task) => {
         this.currentTask = task;
         const {
           from,
-          format
+          format,
+          errorFormat,
         } = (task.data || {}) as JsonTaskData;
 
         const formatString = JSON.stringify(format, null, 2)
+        const errorFormatString = JSON.stringify(errorFormat, null, 2)
 
         this.taskForm = formBuilder.group({
           id       : [task.id,   Validators.required],
@@ -53,7 +58,9 @@ export class JsonTaskComponent
 
           // Api task specific
           from    : [from, Validators.required],
-          format  : [formatString, TaskFormValidators.validateJson],
+          format  : [formatString, JSONValidators.validateJson],
+          errorFormat   : [errorFormatString || defaultErrorFormat, JSONValidators.validateJson],
+
         });
       });
   }
@@ -71,6 +78,7 @@ export class JsonTaskComponent
     const {
       from,
       format,
+      errorFormat,
       ...value,
     } = this.taskForm.value;
 
@@ -84,6 +92,7 @@ export class JsonTaskComponent
         data: {
           from,
           format: JSON.parse(format),
+          errorFormat: JSON.parse(errorFormat),
         } as JsonTaskData,
       },
     });

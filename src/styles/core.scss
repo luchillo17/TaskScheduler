@@ -63,12 +63,12 @@ p-datalist,
 p-datalist > div,
 p-datalist > div > .ui-datalist-content {
   flex: 1;
+  overflow-y: auto;
 }
 
 p-datalist {
   > div {
     flex-direction: column;
-    overflow-y: auto;
   }
 }
 

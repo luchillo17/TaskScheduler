@@ -21,12 +21,12 @@ import { tasksTypes } from '../index';
 
 @Injectable()
 export class ScheduleService implements OnDestroy {
-
   public tasks$: Observable<Task[]>;
 
   public scheduleEmitter = new Subject<TaskSchedule>();
   public jobs: schedule.Job[] = [];
 
+  private scheduleServiceSub: Subscription;
   constructor(
     public store: Store<RXState>,
     public injector: Injector,
@@ -34,7 +34,7 @@ export class ScheduleService implements OnDestroy {
     public mailNotificationService: MailNotificationService,
   ) {
     // Combine the result of all the observables into the last method.
-    Observable.combineLatest(
+    this.scheduleServiceSub = Observable.combineLatest(
 
       // Get scheduleLists, filter them by active and remove the 'Show all' one.
       this.store
@@ -67,6 +67,7 @@ export class ScheduleService implements OnDestroy {
     });
   }
   public ngOnDestroy() {
+    this.scheduleServiceSub && this.scheduleServiceSub.unsubscribe();
     this.cancelJobs();
   }
   private cancelJobs() {
@@ -133,6 +134,15 @@ export class ScheduleService implements OnDestroy {
 
         await taskExecutor.executeTask(task, taskData, taskIndex)
       }
+
+      const executedAt = new Date()
+      this.store.dispatch({
+        type: 'SET_TASK_SCHEDULE_EXECUTED_AT',
+        payload: {
+          id: taskSchedule.id,
+          executedAt,
+        } as TaskScheduleExecutedAt,
+      })
     } catch (error) {
       if (error === false) return;
       console.error('Error happened executing taskSchedule: ', taskSchedule, 'Error: ', error);

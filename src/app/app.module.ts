@@ -44,6 +44,7 @@ import {
 } from './app.service';
 
 import {
+  DragNDropModule,
   TaskModule,
   SharedModule,
 
@@ -98,6 +99,7 @@ export function rootReducer(state, action) {
   imports: [ // import Angular's modules
     BrowserModule,
     SharedModule.forRoot(),
+    DragNDropModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.provideStore(rootReducer),
     RouterStoreModule.connectRouter(),

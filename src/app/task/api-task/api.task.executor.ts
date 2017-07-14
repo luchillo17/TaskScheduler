@@ -84,7 +84,6 @@ export class ApiTaskExecutor implements BaseTaskExecutor {
         transform(responseBody) {
           return typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody
         },
-        // Todo revisar mensajes de error
     })
 
     const error = UtilService.getError(response, errorFormat)

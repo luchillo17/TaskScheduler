@@ -14,7 +14,7 @@ export class ScheduleDataTaskExecutor implements BaseTaskExecutor {
   public async executeTask(task: Task, data: any[] = [], taskIndex: number = 0) {
     const {path} = task.data as ScheduleDataTaskData;
 
-    const taskScheduleWithDateObs = Observable.combineLatest(
+    const taskScheduleWithDateObservable = Observable.combineLatest(
       // Get task parent taskSchedule
       this.store.select<TaskSchedule[]>('taskSchedules')
       .map((taskSchedules) => taskSchedules
@@ -34,11 +34,11 @@ export class ScheduleDataTaskExecutor implements BaseTaskExecutor {
       }
     )
 
-    const taskSchedule = await taskScheduleWithDateObs
+    const taskScheduleWithDate = await taskScheduleWithDateObservable
       .take(1)
       .toPromise()
 
-    const taskData = path ? get(taskSchedule, path) : taskSchedule
+    const taskData = path ? get(taskScheduleWithDate, path) : taskScheduleWithDate
 
     data.push(taskData)
 

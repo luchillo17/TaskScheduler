@@ -16,6 +16,7 @@
     "deploy:mac": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=darwin --arch=x64 --overwrite",
     "deploy:win": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=win32 --arch=ia32 --overwrite",
     "deploy:lin": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=linux --arch=ia32 --overwrite",
+    "deploy": "npm-run-all -p deploy:{mac,win,lin}",
     "clean:dll": "npm run rimraf -- dll",
     "clean:aot": "npm run rimraf -- compiled",
     "clean:dist": "npm run rimraf -- 'dist/!(main.js|main.js.map)'",

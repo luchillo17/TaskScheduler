@@ -51,6 +51,7 @@ export class TaskScheduleComponent implements OnDestroy {
     private store: Store<RXState>,
     private fb: FormBuilder,
   ) {
+    global['TaskSchedule'] = this
     this.taskScheduleForm = this.fb.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
@@ -60,7 +61,7 @@ export class TaskScheduleComponent implements OnDestroy {
       ]],
       active: [true, Validators.required],
       mailNotify: [true, Validators.required],
-      mailAddress: [''],
+      mailAddress: ['', CustomTaskListsValidators.CustomEmailValidator],
       useDateRange: [true, Validators.required],
       start: [new Date()],
       end: [new Date()],

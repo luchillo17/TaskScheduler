@@ -1,6 +1,6 @@
 {
-  "name": "electron-webpack",
-  "version": "2.1.0",
+  "name": "task-scheduler",
+  "version": "2.2.0",
   "description": "",
   "main": "main.js",
   "author": "Carlos Esteban Lopez Jaramillo",

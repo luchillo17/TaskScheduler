@@ -158,7 +158,7 @@ export class TaskScheduleComponent implements OnDestroy {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
       selectedTaskSchedule,
       tasks,
-    }));
+    }, null, 2));
     anchor.setAttribute('href', dataStr)
     anchor.setAttribute('download', selectedTaskSchedule.name + '.json')
     anchor.click()

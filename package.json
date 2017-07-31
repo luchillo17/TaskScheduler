@@ -1,6 +1,6 @@
 {
   "name": "task-scheduler",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "",
   "main": "main.js",
   "author": "Carlos Esteban Lopez Jaramillo",
@@ -13,6 +13,7 @@
     "build:main:dev": "cross-env START_HOT=1 npm run build:main",
     "build:main:prod": "cross-env NODE_ENV=production npm run build:main",
     "build": "npm-run-all -p build:main build:dev",
+    "build:all:dev": "npm-run-all -p build:main:dev build:dev",
     "deploy:mac": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=darwin --arch=x64 --overwrite",
     "deploy:win": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=win32 --arch=ia32 --overwrite",
     "deploy:lin": "cp package.json dist && node_modules/.bin/electron-packager ./dist TaskSchedule --out=./binary --platform=linux --arch=ia32 --overwrite",

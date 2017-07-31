@@ -26,6 +26,7 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
 
   private listsState$: Subscription;
   private folders$: Subscription;
+  private taskSchedules$: Subscription;
   private folderDialogState$: Subscription;
 
   public selectedFolderId = '';
@@ -33,6 +34,7 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
   public folderDialogState: DialogState = { show: false, type: 'NEW' };
 
   public folders: Folder[] = [];
+  public taskSchedules: TaskSchedule[] = [];
 
   // NewListDialog
   public folderDialogForm: FormGroup;
@@ -47,11 +49,15 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
       name: ['', [Validators.required, , Validators.minLength(4)]],
       active: [true, Validators.required],
     });
-    global['listDialogForm'] = this.folderDialogForm;
 
     this.folders$ = this.store.select<Folder[]>('folders')
       .subscribe((folders) => {
         this.folders = folders;
+      });
+
+    this.taskSchedules$ = this.store.select<TaskSchedule[]>('taskSchedules')
+      .subscribe((taskSchedules) => {
+        this.taskSchedules = taskSchedules;
       });
 
     this.listsState$ = this.store.select<ListsState>('listsState')
@@ -71,6 +77,7 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy() {
     this.listsState$.unsubscribe();
     this.folders$.unsubscribe();
+    this.taskSchedules$.unsubscribe();
     this.folderDialogState$.unsubscribe();
   }
 
@@ -96,13 +103,13 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
     switch (type) {
       case 'UPDATE':
         if (this.selectedFolderId === '') return;
-        const selectedList = this.folders
-          .find((scheduleList) => scheduleList.id === this.selectedFolderId);
+        const selectedFolder = this.folders
+          .find((folder) => folder.id === this.selectedFolderId);
 
         this.folderDialogForm.reset({
-          id: selectedList.id,
-          name: selectedList.name,
-          active: selectedList.active,
+          id: selectedFolder.id,
+          name: selectedFolder.name,
+          active: selectedFolder.active,
         });
         break;
       case 'DELETE':
@@ -116,6 +123,15 @@ export class FolderComponent implements AfterViewInit, OnDestroy {
           header: 'Confirmar borrado carpeta',
           icon: 'fa fa-trash',
           accept: () => {
+            const taskSchedulesDeletedIds = this.taskSchedules
+              .filter(taskSchedule => taskSchedule.folderId === folderToDelete.id)
+              .map(taskSchedule => taskSchedule.id)
+              .forEach(id => {
+                this.store.dispatch({
+                  type: 'DELETE_TASK_BY_TASK_SCHEDULE_ID',
+                  payload: id,
+                });
+              });
             this.store.dispatch({
               type: 'DELETE_TASK_SCHEDULES_BY_FOLDER_ID',
               payload: folderToDelete.id,

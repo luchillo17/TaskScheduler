@@ -98,6 +98,8 @@ export function rootReducer(state, action) {
   ],
   imports: [ // import Angular's modules
     BrowserModule,
+    BrowserAnimationsModule,
+
     SharedModule.forRoot(),
     DragNDropModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
@@ -105,7 +107,6 @@ export function rootReducer(state, action) {
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreLogMonitorModule,
-    BrowserAnimationsModule,
 
     TaskModule.forRoot(),
   ],

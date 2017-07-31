@@ -16,8 +16,8 @@ export class CustomTaskListsValidators {
   public static CustomEmailValidator: ValidatorFn = (control: FormControl): {[key: string]: any} => {
     const emailRegex = /^(?:,?\s{0,1}[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)+$/
     if (
-      !control.value ||
-      control.value === '' ||
+      control.value &&
+      control.value !== '' &&
       !emailRegex.test(control.value)
     ) {
       return { email: true };
